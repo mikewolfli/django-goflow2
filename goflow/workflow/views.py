@@ -8,11 +8,13 @@ from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseForbidden, HttpResponseBadRequest
+from django.utils import timezone
 
 from goflow.runtime.models import WorkItem
 from goflow.runtime.automation import run_timeout_scan
 from goflow.workflow.models import *
 from goflow.workflow.safe_expressions import normalize_condition_text
+from goflow.tenancy import apply_tenant_filter
 from django.utils.translation import gettext_lazy as _, gettext
 from django.contrib import messages
 
@@ -131,6 +133,56 @@ def workflow_designer(request, process_id):
     return render(request, "goflow/workflow_designer.html", {"process": process})
 
 
+def _validate_workflow_payload(payload):
+    errors = []
+
+    activities = payload.get('activities', [])
+    transitions = payload.get('transitions', [])
+    deleted_activity_ids = set(payload.get('deleted_activity_ids', []))
+    deleted_transition_ids = set(payload.get('deleted_transition_ids', []))
+    begin_id = payload.get('begin_id')
+    end_id = payload.get('end_id')
+
+    active_activities = [a for a in activities if a.get('client_id') not in deleted_activity_ids]
+    if not active_activities:
+        errors.append('At least one activity is required.')
+
+    titles = [a.get('title', '').strip() for a in active_activities]
+    titles = [t for t in titles if t]
+    if len(set(titles)) != len(titles):
+        errors.append('Activity titles must be unique.')
+
+    activity_ids = {str(a.get('client_id')) for a in active_activities}
+    if begin_id and str(begin_id) not in activity_ids:
+        errors.append('Begin activity must exist in the workflow.')
+    if end_id and str(end_id) not in activity_ids:
+        errors.append('End activity must exist in the workflow.')
+    if not begin_id:
+        errors.append('Begin activity is required.')
+    if not end_id:
+        errors.append('End activity is required.')
+
+    active_transitions = [t for t in transitions if t.get('client_id') not in deleted_transition_ids]
+    for transition in active_transitions:
+        input_id = str(transition.get('input_id') or '')
+        output_id = str(transition.get('output_id') or '')
+        if input_id not in activity_ids or output_id not in activity_ids:
+            errors.append('Transitions must connect valid activities.')
+        if input_id and output_id and input_id == output_id:
+            errors.append('Transitions cannot point to the same activity.')
+
+    # Identify isolated nodes (no incoming or outgoing transitions).
+    connected = set()
+    for transition in active_transitions:
+        connected.add(str(transition.get('input_id')))
+        connected.add(str(transition.get('output_id')))
+    isolated = [a for a in active_activities if str(a.get('client_id')) not in connected]
+    if isolated:
+        errors.append('All activities must be connected by at least one transition.')
+
+    return errors
+
+
 def workflow_graph(request, process_id):
     if not request.user.is_authenticated or not request.user.is_staff:
         return HttpResponseForbidden("Forbidden")
@@ -150,6 +202,8 @@ def workflow_graph(request, process_id):
                     "kind": activity.kind,
                     "autostart": activity.autostart,
                     "autofinish": activity.autofinish,
+                    "sla_duration": activity.sla_duration,
+                    "sla_warn": activity.sla_warn,
                     "position": position,
                 }
             )
@@ -187,6 +241,10 @@ def workflow_graph(request, process_id):
     deleted_transition_ids = set(data.get("deleted_transition_ids", []))
     begin_id = data.get("begin_id")
     end_id = data.get("end_id")
+
+    validation_errors = _validate_workflow_payload(data)
+    if validation_errors:
+        return JsonResponse({'status': 'error', 'errors': validation_errors}, status=400)
 
     for activity_id in deleted_activity_ids:
         Activity.objects.filter(process=process, id=activity_id).delete()
@@ -257,6 +315,110 @@ def workflow_graph(request, process_id):
     if end_id:
         process.end_id = end_id
     process.save()
+
+    return JsonResponse({'status': 'ok'})
+
+
+def process_versions(request, process_id):
+    if not request.user.is_authenticated or not request.user.is_staff:
+        return HttpResponseForbidden("Forbidden")
+    process = Process.objects.get(id=process_id)
+    code = process.get_identity()
+    versions = apply_tenant_filter(Process.objects.filter(code=code)).order_by('-version')
+    return render(
+        request,
+        'goflow/process_versions.html',
+        {'process': process, 'versions': versions},
+    )
+
+
+def process_publish(request, process_id):
+    if not request.user.is_authenticated or not request.user.is_staff:
+        return HttpResponseForbidden("Forbidden")
+    if not request.user.has_perm('workflow.can_instantiate'):
+        return HttpResponseForbidden("Permission denied")
+    process = Process.objects.get(id=process_id)
+    is_rollback = request.GET.get('rollback') == '1'
+    if request.method == 'GET' and request.GET.get('confirm') != '1':
+        return render(request, 'goflow/process_publish_confirm.html', {'process': process})
+    code = process.get_identity()
+    Process.objects.filter(code=code).exclude(id=process.id).update(status='retired')
+    process.status = 'published'
+    process.published_at = timezone.now()
+    process.published_by = request.user
+    if is_rollback:
+        process.version_note = 'rollback to version %s' % process.version
+        process.save(update_fields=['status', 'published_at', 'published_by', 'version_note'])
+    else:
+        process.save(update_fields=['status', 'published_at', 'published_by'])
+    try:
+        from goflow.runtime.audit import log_audit_event
+
+        log_audit_event(
+            action='process.published',
+            actor=request.user,
+            process=process,
+            metadata={'rollback': is_rollback, 'version': process.version},
+        )
+    except Exception:
+        pass
+    try:
+        from goflow.runtime.signals import process_published
+
+        process_published.send(
+            sender=Process,
+            process=process,
+            actor=request.user,
+            rollback=is_rollback,
+        )
+    except Exception:
+        pass
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+def process_clone(request, process_id):
+    if not request.user.is_authenticated or not request.user.is_staff:
+        return HttpResponseForbidden("Forbidden")
+    if not request.user.has_perm('workflow.can_instantiate'):
+        return HttpResponseForbidden("Permission denied")
+    process = Process.objects.get(id=process_id)
+    new_version = process.clone_as_new_version(user=request.user, note='cloned from %s' % process.version)
+    return HttpResponseRedirect('../../admin/workflow/process/%d/change/' % new_version.id)
+
+
+def process_diff(request, process_id):
+    if not request.user.is_authenticated or not request.user.is_staff:
+        return HttpResponseForbidden("Forbidden")
+    compare_id = request.GET.get('compare')
+    if not compare_id:
+        return HttpResponseBadRequest('compare parameter required')
+    base = Process.objects.get(id=process_id)
+    other = Process.objects.get(id=int(compare_id))
+    if base.get_identity() != other.get_identity():
+        return HttpResponseBadRequest('process code mismatch')
+
+    base_activities = {a.title for a in base.activities.all()}
+    other_activities = {a.title for a in other.activities.all()}
+    base_transitions = {
+        (t.input.title, t.output.title, t.condition or '')
+        for t in base.transitions.all()
+    }
+    other_transitions = {
+        (t.input.title, t.output.title, t.condition or '')
+        for t in other.transitions.all()
+    }
+
+    payload = {
+        'base_id': base.id,
+        'compare_id': other.id,
+        'activities_added': sorted(list(other_activities - base_activities)),
+        'activities_removed': sorted(list(base_activities - other_activities)),
+        'transitions_added': sorted(list(other_transitions - base_transitions)),
+        'transitions_removed': sorted(list(base_transitions - other_transitions)),
+    }
+    if request.GET.get('format') == 'html':
+        return render(request, 'goflow/process_diff.html', payload)
+    return JsonResponse(payload)
 
     if positions:
         for key, value in positions.items():

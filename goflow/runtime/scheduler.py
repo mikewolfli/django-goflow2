@@ -8,6 +8,9 @@ class BaseSchedulerBackend(object):
     def schedule_timeout_scan(self):
         raise NotImplementedError
 
+    def schedule_sla_scan(self):
+        raise NotImplementedError
+
     def schedule_workitem_action(self, workitem_id, action='forward', **kwargs):
         raise NotImplementedError
 
@@ -17,6 +20,13 @@ class BaseSchedulerBackend(object):
 
 class CronSchedulerBackend(BaseSchedulerBackend):
     def schedule_timeout_scan(self):
+        return {
+            'scheduled': False,
+            'backend': 'cron',
+            'message': 'Use goflow_cron management command via linux cron',
+        }
+
+    def schedule_sla_scan(self):
         return {
             'scheduled': False,
             'backend': 'cron',
@@ -41,6 +51,12 @@ class CelerySchedulerBackend(BaseSchedulerBackend):
         from goflow.runtime import tasks
 
         tasks.timeout_scan_task.delay()
+        return {'scheduled': True, 'backend': 'celery'}
+
+    def schedule_sla_scan(self):
+        from goflow.runtime import tasks
+
+        tasks.sla_scan_task.delay()
         return {'scheduled': True, 'backend': 'celery'}
 
     def schedule_workitem_action(self, workitem_id, action='forward', **kwargs):
@@ -68,6 +84,10 @@ def get_scheduler_backend():
 
 def schedule_timeout_scan():
     return get_scheduler_backend().schedule_timeout_scan()
+
+
+def schedule_sla_scan():
+    return get_scheduler_backend().schedule_sla_scan()
 
 
 def schedule_workitem_action(workitem_id, action='forward', **kwargs):

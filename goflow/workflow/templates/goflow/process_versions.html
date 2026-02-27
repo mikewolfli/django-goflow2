@@ -1,0 +1,34 @@
+{% extends "admin/base_site.html" %}
+{% block coltype %}colMS{% endblock %}
+
+{% block content %}
+<h1>Process Versions - {{ process.title }}</h1>
+
+<div id="content-main">
+  <div class="module">
+    <h2>Versions</h2>
+    <table>
+      <tr>
+        <th>Version</th>
+        <th>Status</th>
+        <th>Published At</th>
+        <th>Actions</th>
+      </tr>
+      {% for p in versions %}
+      <tr>
+        <td>{{ p.version }}</td>
+        <td>{{ p.status }}</td>
+        <td>{{ p.published_at|default:"-" }}</td>
+        <td>
+          <a href="/process/{{ p.id }}/publish/">Publish</a>
+          | <a href="/process/{{ p.id }}/publish/?confirm=1&rollback=1">Rollback to this version</a>
+          | <a href="/process/{{ p.id }}/clone/">Clone</a>
+          | <a href="/process/{{ process.id }}/diff/?compare={{ p.id }}&format=html">Diff</a>
+          | <a href="/admin/workflow/process/{{ p.id }}/change/">Edit</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

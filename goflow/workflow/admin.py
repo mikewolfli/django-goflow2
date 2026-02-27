@@ -18,7 +18,7 @@ class TransitionInline(admin.StackedInline):
 
 
 class ProcessAdmin(admin.ModelAdmin):
-    list_display = ('title', 'enabled', 'summary', 'priority')
+    list_display = ('title', 'code', 'version', 'status', 'enabled', 'summary', 'priority')
     inlines = [
                    TransitionInline,
                ]
@@ -87,7 +87,9 @@ class ActivityAdmin(admin.ModelAdmin):
               ('Application', {'fields':(('application', 'app_param'),)}),
               ('I/O modes', {'fields':(('join_mode', 'split_mode'),)}),
               ('Execution modes', {'fields':(('autostart', 'autofinish'),)}),
-              ('Permission', {'fields':('roles',)}),
+              ('Permissions', {'fields':('roles', 'allowed_groups', 'allowed_users')}),
+              ('SLA', {'fields':('sla_duration', 'sla_warn', 'sla_roles')}),
+              ('Compensation', {'fields':('compensation_handler',)}),
               )
 
 

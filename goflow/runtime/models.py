@@ -1,10 +1,13 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.db import transaction
+from django.db.models import F
 from django.contrib.auth.models import Group
 from goflow.workflow.models import Process, Activity, Transition, UserProfile
 from goflow.workflow.notification import send_mail
 from datetime import timedelta, datetime
+from django.utils import timezone
 from django.urls.base import resolve
 from django.core.mail import mail_admins
 
@@ -18,6 +21,7 @@ from goflow.workflow.safe_expressions import (
     is_timeout_condition,
     parse_params_mapping,
 )
+from goflow.tenancy import apply_tenant_filter, get_tenant_context
 from django.conf import settings
 
 # from goflow.workflow.decorators import allow_tags
@@ -57,17 +61,50 @@ class ProcessInstanceManager(models.Manager):
                                        user=admin, item=leaverequest1)
 
         '''
-        process = Process.objects.get(title=process_name, enabled=True)
+        process = Process.objects.get_effective(title=process_name)
         if priority == 0: priority = process.priority
             
         if not title or (title == 'instance'):
             title = '%s %s' % (process_name, str(item))
-        instance = ProcessInstance.objects.create(process=process, user=user, title=title, content_object=item)
+        tenant_context = get_tenant_context(user=user)
+        instance = ProcessInstance.objects.create(
+            process=process,
+            user=user,
+            title=title,
+            content_object=item,
+            process_version=process.version,
+            tenant_id=tenant_context.get('tenant_id'),
+            org_id=tenant_context.get('org_id'),
+        )
+        try:
+            from goflow.runtime.audit import log_audit_event
+
+            log_audit_event(
+                action='process.started',
+                actor=user,
+                instance=instance,
+                activity=process.begin,
+                metadata={'process_version': process.version},
+            )
+        except Exception:
+            pass
+        try:
+            from goflow.runtime.signals import process_started
+
+            process_started.send(sender=ProcessInstance, instance=instance, process=process, actor=user)
+        except Exception:
+            pass
         # instance running
         instance.set_status('running')
         
-        workitem = WorkItem.objects.create(instance=instance, user=user,
-                                           activity=process.begin, priority=priority)
+        workitem = WorkItem.objects.create(
+            instance=instance,
+            user=user,
+            activity=process.begin,
+            priority=priority,
+            tenant_id=instance.tenant_id,
+            org_id=instance.org_id,
+        )
         log.event('created by ' + user.username, workitem)
         log('process:', process_name, 'user:', user.username, 'item:', item.id)
     
@@ -161,6 +198,10 @@ class ProcessInstance(models.Model):
     title = models.CharField(max_length=100)
     process = models.ForeignKey(
         Process, related_name='instances', on_delete=models.CASCADE, null=True, blank=True)
+    process_version = models.IntegerField(default=1)
+    version = models.IntegerField(default=1)
+    tenant_id = models.CharField(max_length=100, null=True, blank=True)
+    org_id = models.CharField(max_length=100, null=True, blank=True)
     creationTime = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='instances')
@@ -194,9 +235,36 @@ class ProcessInstance(models.Model):
     def set_status(self, status):
         if not status in [x for x, y in ProcessInstance.STATUS_CHOICES]:
             raise Exception('instance status incorrect :%s' % status)
+        lock_strategy = getattr(settings, 'GOFLOW_LOCK_STRATEGY', 'optimistic')
         self.old_status = self.status
-        self.status = status
-        self.save()
+        if lock_strategy == 'optimistic':
+            updated = ProcessInstance.objects.filter(
+                pk=self.pk,
+                version=self.version,
+            ).update(
+                old_status=self.old_status,
+                status=status,
+                version=F('version') + 1,
+            )
+            if updated == 0:
+                raise Exception('process instance modified concurrently')
+            self.refresh_from_db()
+        else:
+            self.status = status
+            self.version += 1
+            self.save(update_fields=['old_status', 'status', 'version'])
+        try:
+            from goflow.runtime.audit import log_audit_event
+
+            log_audit_event(
+                action='instance.status_changed',
+                actor=self.user,
+                instance=self,
+                status_from=self.old_status,
+                status_to=self.status,
+            )
+        except Exception:
+            pass
 
 
 class WorkItemManager(models.Manager):
@@ -222,10 +290,11 @@ class WorkItemManager(models.Manager):
             workitem = WorkItem.objects.get_safe(id, user=request.user)
         
         '''
+        queryset = apply_tenant_filter(self.get_queryset(), user=user)
         if enabled_only:
-            workitem = self.get(id=id, activity__process__enabled=True)
+            workitem = queryset.get(id=id, activity__process__enabled=True)
         else:
-            workitem = self.get(id=id)
+            workitem = queryset.get(id=id)
         workitem._check(user, status)
         return workitem
 
@@ -254,7 +323,9 @@ class WorkItemManager(models.Manager):
             workitems = WorkItem.objects.list_safe(user=me, notstatus='complete', noauto=True)
         
         """
-        if queryset == 'qs_default': queryset = WorkItem.objects
+        if queryset == 'qs_default':
+            queryset = WorkItem.objects
+        queryset = apply_tenant_filter(queryset, user=user)
         if status: notstatus = []
         
         groups = Group.objects.all()
@@ -338,6 +409,12 @@ class WorkItemManager(models.Manager):
     def notify_if_needed(self, user=None, roles=None):
         ''' notify user if conditions are fullfilled
         '''
+        if roles:
+            users = User.objects.filter(groups__in=roles).distinct()
+            for role_user in users:
+                self.notify_if_needed(user=role_user)
+            return
+
         if user:
             workitems = self.list_safe(user=user, notstatus='complete', noauto=True)
             profile, created = UserProfile.objects.get_or_create(user=user)
@@ -368,6 +445,12 @@ class WorkItem(models.Model):
                       ('complete', 'complete'),
                       )
     date = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    activated_at = models.DateTimeField(null=True, blank=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    sla_warned_at = models.DateTimeField(null=True, blank=True)
+    sla_breached_at = models.DateTimeField(null=True, blank=True)
+    last_escalation_at = models.DateTimeField(null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='workitems',
                              on_delete=models.CASCADE, null=True, blank=True)
     instance = models.ForeignKey(
@@ -382,6 +465,9 @@ class WorkItem(models.Model):
     blocked = models.BooleanField(default=False)
     priority = models.IntegerField(default=0)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='inactive')
+    version = models.IntegerField(default=1)
+    tenant_id = models.CharField(max_length=100, null=True, blank=True)
+    org_id = models.CharField(max_length=100, null=True, blank=True)
 
     objects = WorkItemManager()
     
@@ -399,6 +485,10 @@ class WorkItem(models.Model):
         
         '''
         log.info('forward_workitem %s', str(self))
+        lock_strategy = getattr(settings, 'GOFLOW_LOCK_STRATEGY', 'optimistic')
+        if lock_strategy == 'pessimistic':
+            with transaction.atomic():
+                self = WorkItem.objects.select_for_update().get(pk=self.pk)
         if not timeout_forwarding:
             if self.status != 'complete':
                 return
@@ -410,6 +500,24 @@ class WorkItem(models.Model):
         if timeout_forwarding:
             log.info('timeout forwarding')
             Event.objects.create(name='timeout', workitem=self)
+            try:
+                from goflow.runtime.audit import log_audit_event
+
+                log_audit_event(
+                    action='workitem.timeout',
+                    actor=self.user,
+                    workitem=self,
+                    status_from=self.status,
+                    status_to=self.status,
+                )
+            except Exception:
+                pass
+        try:
+            from goflow.runtime.signals import workitem_forwarded
+
+            workitem_forwarded.send(sender=WorkItem, workitem=self)
+        except Exception:
+            pass
         
         for destination in self.get_destinations(timeout_forwarding):
             self._forward_workitem_to_activity(destination)
@@ -432,12 +540,33 @@ class WorkItem(models.Model):
         qwi = WorkItem.objects.filter(instance=instance, activity=target_activity, status='blocked')
         if qwi.count() == 0:
             wi = WorkItem.objects.create(instance=instance, activity=target_activity,
-                                         user=None, priority=self.priority)
+                                         user=None, priority=self.priority,
+                                         tenant_id=instance.tenant_id,
+                                         org_id=instance.org_id)
             created = True
             log.info('forwarded to %s', target_activity.title)
             Event.objects.create(name='creation by %s' % self.user.username, workitem=wi)
             Event.objects.create(name='forwarded to %s' % target_activity.title, workitem=self)
             wi.workitem_from = self
+            try:
+                from goflow.runtime.audit import log_audit_event
+
+                log_audit_event(
+                    action='workitem.created',
+                    actor=self.user,
+                    workitem=wi,
+                    status_from=None,
+                    status_to=wi.status,
+                    metadata={'source_workitem_id': self.id},
+                )
+            except Exception:
+                pass
+            try:
+                from goflow.runtime.signals import workitem_created
+
+                workitem_created.send(sender=WorkItem, workitem=wi)
+            except Exception:
+                pass
         else:
             created = False
             wi = qwi[0]
@@ -488,9 +617,29 @@ class WorkItem(models.Model):
             wi.user = target_user
             wi.save()
             Event.objects.create(name='assigned to %s' % target_user.username, workitem=wi)
+            try:
+                from goflow.runtime.audit import log_audit_event
+
+                log_audit_event(
+                    action='workitem.assigned',
+                    actor=self.user,
+                    workitem=wi,
+                    status_from=wi.status,
+                    status_to=wi.status,
+                    metadata={'assigned_user_id': target_user.id},
+                )
+            except Exception:
+                pass
+            try:
+                from goflow.runtime.signals import workitem_assigned
+
+                workitem_assigned.send(sender=WorkItem, workitem=wi)
+            except Exception:
+                pass
             WorkItem.objects.notify_if_needed(user=target_user)
         else:
-            wi.pull_roles = wi.activity.roles.all()
+            pull_roles = list(wi.activity.roles.all()) + list(wi.activity.allowed_groups.all())
+            wi.pull_roles.set(pull_roles)
             wi.save()
             WorkItem.objects.notify_if_needed(roles=wi.pull_roles)
         return wi
@@ -641,23 +790,102 @@ class WorkItem(models.Model):
             log.warning('activate_workitem actor %s workitem %s already active',
                         actor.username, str(self))
             return
-        self.status = 'active'
-        self.user = actor
-        self.save()
+        previous_status = self.status
+        lock_strategy = getattr(settings, 'GOFLOW_LOCK_STRATEGY', 'optimistic')
+        activated_at = self.activated_at or timezone.now()
+        if lock_strategy == 'optimistic':
+            updated = WorkItem.objects.filter(
+                pk=self.pk,
+                version=self.version,
+            ).update(
+                status='active',
+                user=actor,
+                activated_at=activated_at,
+                version=F('version') + 1,
+            )
+            if updated == 0:
+                raise Exception('workitem modified concurrently')
+            self.refresh_from_db()
+        else:
+            with transaction.atomic():
+                self = WorkItem.objects.select_for_update().get(pk=self.pk)
+                self.status = 'active'
+                self.user = actor
+                if not self.activated_at:
+                    self.activated_at = activated_at
+                self.version += 1
+                self.save(update_fields=['status', 'user', 'activated_at', 'version'])
         log.info('activate_workitem actor %s workitem %s',
                  actor.username, str(self))
         Event.objects.create(name='activated by %s' % actor.username, workitem=self)
+        try:
+            from goflow.runtime.audit import log_audit_event
+
+            log_audit_event(
+                action='workitem.activated',
+                actor=actor,
+                workitem=self,
+                status_from=previous_status,
+                status_to=self.status,
+            )
+        except Exception:
+            pass
+        try:
+            from goflow.runtime.signals import workitem_activated
+
+            workitem_activated.send(sender=WorkItem, workitem=self, actor=actor)
+        except Exception:
+            pass
     
     def complete(self, actor):
         '''
         changes status of workitem to 'complete' and logs event
         '''
         self._check(actor, 'active')
-        self.status = 'complete'
-        self.user = actor
-        self.save()
+        previous_status = self.status
+        lock_strategy = getattr(settings, 'GOFLOW_LOCK_STRATEGY', 'optimistic')
+        completed_at = timezone.now()
+        if lock_strategy == 'optimistic':
+            updated = WorkItem.objects.filter(
+                pk=self.pk,
+                version=self.version,
+            ).update(
+                status='complete',
+                user=actor,
+                completed_at=completed_at,
+                version=F('version') + 1,
+            )
+            if updated == 0:
+                raise Exception('workitem modified concurrently')
+            self.refresh_from_db()
+        else:
+            with transaction.atomic():
+                self = WorkItem.objects.select_for_update().get(pk=self.pk)
+                self.status = 'complete'
+                self.user = actor
+                self.completed_at = completed_at
+                self.version += 1
+                self.save(update_fields=['status', 'user', 'completed_at', 'version'])
         log.info('complete_workitem actor %s workitem %s', actor.username, str(self))
         Event.objects.create(name='completed by %s' % actor.username, workitem=self)
+        try:
+            from goflow.runtime.audit import log_audit_event
+
+            log_audit_event(
+                action='workitem.completed',
+                actor=actor,
+                workitem=self,
+                status_from=previous_status,
+                status_to=self.status,
+            )
+        except Exception:
+            pass
+        try:
+            from goflow.runtime.signals import workitem_completed
+
+            workitem_completed.send(sender=WorkItem, workitem=self, actor=actor)
+        except Exception:
+            pass
         
         if self.activity.autofinish:
             log.debug('activity autofinish: forward')
@@ -721,7 +949,15 @@ class WorkItem(models.Model):
         
         if user and self.user and self.user != user:
             return False
+        if user and user.is_superuser:
+            return True
         ugroups = user.groups.all()
+        allowed_groups = self.activity.allowed_groups.all()
+        allowed_users = self.activity.allowed_users.all()
+        if user in allowed_users:
+            return True
+        if allowed_groups and allowed_groups.filter(id__in=ugroups).exists():
+            return True
         agroups = self.activity.roles.all()
         authorized = False
         if agroups and len(agroups) > 0:
@@ -763,14 +999,89 @@ class WorkItem(models.Model):
         return False
     
     def block(self):
-        self.status = 'blocked'
-        self.save()
+        previous_status = self.status
+        lock_strategy = getattr(settings, 'GOFLOW_LOCK_STRATEGY', 'optimistic')
+        if lock_strategy == 'optimistic':
+            updated = WorkItem.objects.filter(
+                pk=self.pk,
+                version=self.version,
+            ).update(
+                status='blocked',
+                version=F('version') + 1,
+            )
+            if updated == 0:
+                raise Exception('workitem modified concurrently')
+            self.refresh_from_db()
+        else:
+            with transaction.atomic():
+                self = WorkItem.objects.select_for_update().get(pk=self.pk)
+                self.status = 'blocked'
+                self.version += 1
+                self.save(update_fields=['status', 'version'])
         Event.objects.create(name='blocked', workitem=self)
+        try:
+            from goflow.runtime.audit import log_audit_event
+
+            log_audit_event(
+                action='workitem.blocked',
+                actor=self.user,
+                workitem=self,
+                status_from=previous_status,
+                status_to=self.status,
+            )
+        except Exception:
+            pass
+        try:
+            from goflow.runtime.signals import workitem_blocked
+
+            workitem_blocked.send(sender=WorkItem, workitem=self)
+        except Exception:
+            pass
     
     def fall_out(self):
-        self.status = 'fallout'
-        self.save()
+        previous_status = self.status
+        lock_strategy = getattr(settings, 'GOFLOW_LOCK_STRATEGY', 'optimistic')
+        if lock_strategy == 'optimistic':
+            updated = WorkItem.objects.filter(
+                pk=self.pk,
+                version=self.version,
+            ).update(
+                status='fallout',
+                version=F('version') + 1,
+            )
+            if updated == 0:
+                raise Exception('workitem modified concurrently')
+            self.refresh_from_db()
+        else:
+            with transaction.atomic():
+                self = WorkItem.objects.select_for_update().get(pk=self.pk)
+                self.status = 'fallout'
+                self.version += 1
+                self.save(update_fields=['status', 'version'])
         Event.objects.create(name='fallout', workitem=self)
+        try:
+            from goflow.runtime.audit import log_audit_event
+
+            log_audit_event(
+                action='workitem.fallout',
+                actor=self.user,
+                workitem=self,
+                status_from=previous_status,
+                status_to=self.status,
+            )
+        except Exception:
+            pass
+        try:
+            from goflow.runtime.signals import workitem_fallout
+
+            workitem_fallout.send(sender=WorkItem, workitem=self)
+        except Exception:
+            pass
+        if getattr(settings, 'GOFLOW_COMPENSATION_AUTO', False):
+            try:
+                self.compensate(reason='fallout')
+            except Exception:
+                pass
         if not settings.DEBUG:
             mail_admins(subject='workflow workitem %s fall out' % str(self.pk),
                     message=u'''
@@ -838,6 +1149,32 @@ instance: %s
         tdelta = timedelta(**{unit_key: delay})
         now = datetime.now()
         return (now > (self.date + tdelta))
+
+    def compensate(self, reason=None):
+        handler_path = self.activity.compensation_handler
+        if not handler_path:
+            return None
+        try:
+            from django.utils.module_loading import import_string
+            handler = import_string(handler_path)
+        except Exception as exc:
+            raise Exception('invalid compensation handler: %s' % exc)
+
+        result = handler(workitem=self, reason=reason)
+        try:
+            from goflow.runtime.audit import log_audit_event
+
+            log_audit_event(
+                action='workitem.compensated',
+                actor=self.user,
+                workitem=self,
+                status_from=self.status,
+                status_to=self.status,
+                metadata={'reason': reason or ''},
+            )
+        except Exception:
+            pass
+        return result
     
     # @allow_tags
     def events_list(self):
@@ -862,6 +1199,77 @@ class Event(models.Model):
     workitem = models.ForeignKey(
         WorkItem, on_delete=models.CASCADE, related_name='events')
     
+    def __str__(self):
+        return self.name
+
+
+class AuditEvent(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    action = models.CharField(max_length=50)
+    actor = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='audit_events',
+    )
+    process = models.ForeignKey(
+        Process,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='audit_events',
+    )
+    instance = models.ForeignKey(
+        ProcessInstance,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='audit_events',
+    )
+    workitem = models.ForeignKey(
+        WorkItem,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='audit_events',
+    )
+    activity = models.ForeignKey(
+        Activity,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='audit_events',
+    )
+    transition = models.ForeignKey(
+        Transition,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='audit_events',
+    )
+    status_from = models.CharField(max_length=20, null=True, blank=True)
+    status_to = models.CharField(max_length=20, null=True, blank=True)
+    metadata = models.JSONField(default=dict, blank=True)
+
+    def __str__(self):
+        return '%s (%s)' % (self.action, self.created_at.strftime('%Y-%m-%d %H:%M:%S'))
+
+
+class WebhookEndpoint(models.Model):
+    name = models.CharField(max_length=100)
+    url = models.URLField()
+    enabled = models.BooleanField(default=True)
+    event_types = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text='Comma-separated event types, or * for all.',
+    )
+    secret = models.CharField(max_length=255, null=True, blank=True)
+    headers = models.JSONField(default=dict, blank=True)
+    timeout_seconds = models.IntegerField(default=5)
+
     def __str__(self):
         return self.name
 

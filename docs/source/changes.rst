@@ -17,6 +17,7 @@ New Features
 * Added a pluggable scheduler abstraction with three public interfaces:
 
 	* ``schedule_timeout_scan()``
+	* ``schedule_sla_scan()``
 	* ``schedule_workitem_action(workitem_id, action='forward', **kwargs)``
 	* ``schedule_notification(user_id, workitem_ids=None)``
 
@@ -28,10 +29,19 @@ New Features
 * Added automation entry points in runtime:
 
 	* ``run_timeout_scan()``
+	* ``run_sla_scan()``
 	* ``run_workitem_action()``
 	* ``run_user_notification()``
 
-* Added management command ``goflow_cron`` to execute periodic timeout scanning from system cron.
+* Added management commands ``goflow_cron`` (timeout + SLA scans) and ``goflow_webhook_test`` (webhook test event).
+
+* Added audit logging, SLA escalation, process versioning, compensation hooks, and webhook integration models.
+
+* Added publish/clone/version diff endpoints, monitoring dashboard, signal hooks, and optional tenant/org extension fields.
+
+* Added developer guide, UI component partials, and workflow designer validation.
+
+* Added optional UI component styles and expanded workflow designer validation rules.
 
 * Added transition condition normalization and safer condition parsing with explicit DSL support:
 

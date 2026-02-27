@@ -25,8 +25,8 @@
 
 ## Release
 - [ ] Tag release in git
-- [ ] Build package: python -m build
+- [x] Build package: python -m build
 - [ ] Publish package (if applicable)
 - [x] Draft release notes and include key changes
 
-Release 1.1 summary (2026-02-27): Added pluggable scheduler backends (cron/celery), removed eval/exec from key runtime paths via safe condition parsing, and updated automation/admin/designer documentation.
+Release 1.1 summary (2026-02-27): Added pluggable scheduler backends (cron/celery), removed eval/exec from key runtime paths via safe condition parsing, added audit/SLA/versioning/webhooks, and updated automation/admin/designer documentation.

@@ -6,7 +6,17 @@ from django.contrib.auth.views import LoginView, LogoutView
 from goflow.apptools.forms import DefaultAppStartForm
 from goflow.apptools.views import start_application, default_app
 from goflow.runtime.views import *
-from goflow.workflow.views import process_dot, index, cron, workflow_designer, workflow_graph
+from goflow.workflow.views import (
+    process_dot,
+    index,
+    cron,
+    workflow_designer,
+    workflow_graph,
+    process_versions,
+    process_publish,
+    process_clone,
+    process_diff,
+)
 
 urlpatterns = [
     re_path(r'^.*/logout/$', LogoutView.as_view(), name='logout'),
@@ -18,6 +28,10 @@ urlpatterns = [
 urlpatterns += [
     path('', index),
     path('process/dot/<int:id>/',process_dot),
+    path('process/<int:process_id>/versions/', process_versions),
+    path('process/<int:process_id>/publish/', process_publish),
+    path('process/<int:process_id>/clone/', process_clone),
+    path('process/<int:process_id>/diff/', process_diff),
     path('cron/', cron),
     path('designer/<int:process_id>/', workflow_designer),
     path('designer/<int:process_id>/graph/', workflow_graph),
@@ -40,5 +54,7 @@ urlpatterns += [
     path('mywork/',                     mywork),
     path('mywork/activate/<int:id>/', activate),
     path('mywork/complete/<int:id>/', complete),
+    path('monitor/',                   monitor),
+    path('ui/sample-task/',            sample_task),
 ]
 

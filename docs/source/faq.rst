@@ -34,6 +34,12 @@ Transitions have a condition attribute evaluated by a safe parser. You can use a
     * timeout:5d - the task is waiting for 5 days or more
     * workitem.time_out(delay=5, unit='days') - equivalent to ``timeout:5d``
 
+Related settings and behavior:
+
+    * ``GOFLOW_CONDITION_STRATEGY = 'compatible'`` (default): unknown/invalid expressions fall back to legacy equality check against ``instance.condition``.
+    * ``GOFLOW_CONDITION_STRATEGY = 'strict'``: unknown/invalid expressions evaluate to ``False``.
+    * Timeout conditions are enforced by running the ``goflow_cron`` management command periodically.
+
 Is it valid to reuse Activities?
 ++++++++++++++++++++++++++++++++
 

@@ -1,0 +1,14 @@
+from django.dispatch import Signal
+
+process_started = Signal()
+process_published = Signal()
+workitem_created = Signal()
+workitem_assigned = Signal()
+workitem_activated = Signal()
+workitem_completed = Signal()
+workitem_forwarded = Signal()
+workitem_blocked = Signal()
+workitem_fallout = Signal()
+sla_warned = Signal()
+sla_breached = Signal()
+audit_event_created = Signal()

@@ -1,0 +1,37 @@
+{% extends "admin/base_site.html" %}
+{% block coltype %}colMS{% endblock %}
+
+{% block content %}
+<h1>Workflow Monitor</h1>
+
+<div id="content-main">
+  <div class="module">
+    <h2>Instances</h2>
+    <table>
+      <tr><th>Total</th><td>{{ instances_total }}</td></tr>
+      <tr><th>Running</th><td>{{ instances_running }}</td></tr>
+      <tr><th>Active</th><td>{{ instances_active }}</td></tr>
+      <tr><th>Complete</th><td>{{ instances_complete }}</td></tr>
+    </table>
+  </div>
+
+  <div class="module">
+    <h2>Workitems</h2>
+    <table>
+      <tr><th>Total</th><td>{{ workitems_total }}</td></tr>
+      <tr><th>Active</th><td>{{ workitems_active }}</td></tr>
+      <tr><th>Inactive</th><td>{{ workitems_inactive }}</td></tr>
+      <tr><th>Blocked</th><td>{{ workitems_blocked }}</td></tr>
+      <tr><th>Fallout</th><td>{{ workitems_fallout }}</td></tr>
+    </table>
+  </div>
+
+  <div class="module">
+    <h2>SLA</h2>
+    <table>
+      <tr><th>Warned</th><td>{{ sla_warned }}</td></tr>
+      <tr><th>Breached</th><td>{{ sla_breached }}</td></tr>
+    </table>
+  </div>
+</div>
+{% endblock %}

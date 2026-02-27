@@ -18,7 +18,8 @@
 {% for p in processes %}
   <tr><td>
   <div class=module>
-  <a name=process_{{p.id}}><h3>Process [{{p.title}}]</h3></a>
+  <a name=process_{{p.id}}><h3>Process [{{p.title}}] (v{{p.version}}/{{p.status}})</h3></a>
+  <p><a href="process/{{p.id}}/versions/">Versions</a></p>
   <pre>
   <a href="start_proto/{{p.title}}/">start a simulation instance</a>  (role [{{p.title}}] with perm <i>can_instantiate</i> required)
   -----------------------------------------
@@ -97,6 +98,9 @@
 <h2>Admin</h2>
 <ul>
 <li><a href=../admin/ target=admin>Admin console</a>
+<li><a href=monitor/>Monitoring dashboard</a>
+<li><a href=../docs/build/html/ target=docs>Documentation (local)</a>
+<li><a href=ui/sample-task/ target=docs>UI sample task</a>
 </ul>
 </div>
 

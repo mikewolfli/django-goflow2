@@ -55,11 +55,28 @@ Scheduling backends (pluggable):
 Cron command:
 
 - python manage.py goflow_cron
+- python manage.py goflow_webhook_test --action test.ping
 
 Transition condition strategy:
 
 - GOFLOW_CONDITION_STRATEGY = 'compatible' (default)
 - GOFLOW_CONDITION_STRATEGY = 'strict'
+
+Audit, SLA, and integrations:
+
+- GOFLOW_AUDIT_ENABLED = True
+- GOFLOW_SLA_ENABLED = True
+- GOFLOW_SLA_NOTIFY = True
+- GOFLOW_SLA_AUTO_ASSIGN = False
+- GOFLOW_WEBHOOK_ENABLED = False
+- GOFLOW_WEBHOOK_TIMEOUT = 5
+- GOFLOW_COMPENSATION_AUTO = False
+- GOFLOW_LOCK_STRATEGY = 'optimistic'
+
+Tenant extension hooks (optional):
+
+- GOFLOW_TENANT_RESOLVER = callable
+- GOFLOW_TENANT_FILTER = callable
 
 
 4. Install instructions:

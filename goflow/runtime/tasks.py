@@ -16,12 +16,17 @@ except Exception:
             return decorator(args[0])
         return decorator
 
-from goflow.runtime.automation import run_timeout_scan, run_workitem_action, run_user_notification
+from goflow.runtime.automation import run_timeout_scan, run_workitem_action, run_user_notification, run_sla_scan
 
 
 @shared_task
 def timeout_scan_task():
     return run_timeout_scan()
+
+
+@shared_task
+def sla_scan_task():
+    return run_sla_scan()
 
 
 @shared_task

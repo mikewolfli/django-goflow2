@@ -10,6 +10,7 @@ Release 1.1 highlights (2026-02-27):
 - Added pluggable scheduler backends (cron/celery).
 - Replaced eval/exec in key runtime paths with safe condition parsing.
 - Updated automation/admin/designer documentation.
+- Added audit logging, SLA escalation, process versioning, and webhook integrations.
 
 Current compatibility target:
 
@@ -92,12 +93,14 @@ Scheduling backends (pluggable):
 Public scheduler interfaces:
 
 - `schedule_timeout_scan()`
+- `schedule_sla_scan()`
 - `schedule_workitem_action(workitem_id, action='forward', **kwargs)`
 - `schedule_notification(user_id, workitem_ids=None)`
 
 Cron command:
 
 - `python manage.py goflow_cron`
+- `python manage.py goflow_webhook_test --action test.ping`
 
 Transition condition syntax (safe parser):
 
@@ -119,10 +122,31 @@ Condition normalization:
 	- `APPROVED` -> `eq:APPROVED`
 	- `workitem.time_out(3, unit='days')` -> `timeout:3d`
 
+Audit, SLA, and integrations:
+
+- `GOFLOW_AUDIT_ENABLED = True`
+- `GOFLOW_SLA_ENABLED = True`
+- `GOFLOW_SLA_NOTIFY = True`
+- `GOFLOW_SLA_AUTO_ASSIGN = False`
+- `GOFLOW_WEBHOOK_ENABLED = False`
+- `GOFLOW_WEBHOOK_TIMEOUT = 5`
+- `GOFLOW_COMPENSATION_AUTO = False`
+- `GOFLOW_LOCK_STRATEGY = 'optimistic'` (or `'pessimistic'`)
+
+Tenant extension hooks (optional):
+
+- `GOFLOW_TENANT_RESOLVER = callable`
+- `GOFLOW_TENANT_FILTER = callable`
+
 Docs build:
 
 - HTML docs:
 	python -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
+
+UI examples:
+
+- See docs: UI Components and UI Examples (Sphinx)
+- Sample UI page: /ui/sample-task/
 
 REST API (django-ninja + django-ninja-simple-jwt):
 

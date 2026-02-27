@@ -127,6 +127,20 @@
       border-radius: 999px;
       border: 1px solid var(--border);
     }
+    .errors {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #f5c2bd;
+      background: #fdecea;
+      color: #7a1c14;
+      font-size: 12px;
+      display: none;
+    }
+    .errors ul {
+      margin: 6px 0 0 18px;
+      padding: 0;
+    }
     #toast {
       position: fixed;
       right: 16px;
@@ -197,6 +211,7 @@
       <span>Ctrl/Cmd+Z Undo</span>
       <span>Del Delete</span>
     </div>
+    <div id="validationErrors" class="errors"></div>
 
     <h2>Activities</h2>
     <div class="row">
@@ -333,6 +348,17 @@
     toastTimer = setTimeout(() => {
       toast.classList.remove('show');
     }, 1800);
+  }
+
+  function showErrors(errors) {
+    const panel = document.getElementById('validationErrors');
+    if (!errors || !errors.length) {
+      panel.style.display = 'none';
+      panel.innerHTML = '';
+      return;
+    }
+    panel.style.display = 'block';
+    panel.innerHTML = `<strong>Validation errors</strong><ul>${errors.map(e => `<li>${e}</li>`).join('')}</ul>`;
   }
 
   function setStatus(text, isError = false) {
@@ -640,10 +666,20 @@
         'X-CSRFToken': csrfToken,
       },
       body: JSON.stringify(payload),
-    }).then(() => {
+    }).then(async (response) => {
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        const errors = data && data.errors ? data.errors : ['Save failed'];
+        showErrors(errors);
+        showToast(errors[0], true);
+        setStatus('validation error', true);
+        throw new Error('save failed');
+      }
+      showErrors([]);
       showToast('Saved');
       setStatus('saved');
       loadGraph();
+      return response;
     }).catch(() => {
       showToast('Save failed', true);
       setStatus('error', true);

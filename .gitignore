@@ -17,6 +17,8 @@ sampleproject/data.sqlite
 sampleproject/flags
 leavedemo/workflow.log
 sampleproject/db/sampleprojectdata.sqlite3
+sampleprojectdata.sqlite3
+workflow.log
 .cache/
 jwt-signing.pem
 jwt-signing.pub

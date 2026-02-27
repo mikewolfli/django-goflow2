@@ -244,6 +244,13 @@ NINJA_SIMPLE_JWT = {
 GOFLOW_AUTO_CREATE_PROCESS_GROUPS = False
 GOFLOW_SCHEDULER_BACKEND = 'goflow.runtime.scheduler.CronSchedulerBackend'
 GOFLOW_CONDITION_STRATEGY = 'compatible'
+GOFLOW_AUDIT_ENABLED = True
+GOFLOW_SLA_ENABLED = True
+GOFLOW_SLA_NOTIFY = True
+GOFLOW_SLA_AUTO_ASSIGN = False
+GOFLOW_WEBHOOK_ENABLED = False
+GOFLOW_WEBHOOK_TIMEOUT = 5
+GOFLOW_COMPENSATION_AUTO = False
 
 # API access controls (optional)
 # Set to None to allow all processes/content types.

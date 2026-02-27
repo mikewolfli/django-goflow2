@@ -16,6 +16,9 @@ Contents
    api.rst
    install.rst
    automation.rst
+   developer.rst
+   ui_components.rst
+   ui_examples.rst
    faq.rst
    changes.rst
    history.rst

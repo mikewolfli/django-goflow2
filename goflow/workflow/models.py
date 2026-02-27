@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.urls.base import resolve
@@ -10,12 +11,14 @@ from django.conf import settings
 from django import forms
 # from admin_decorators import allow_tags
 from django.utils.safestring import mark_safe
+from django.utils import timezone
 
 from datetime import timedelta
 from django.utils import timezone
 import logging
 from importlib import import_module
 from goflow.workflow.safe_expressions import normalize_condition_text
+from goflow.tenancy import apply_tenant_filter
 
 log = logging.getLogger('goflow.workflow.managers')
 
@@ -50,6 +53,31 @@ class Activity(models.Model):
     subflow = models.ForeignKey('Process', related_name='parent_activities',
                                 on_delete=models.CASCADE, null=True, blank=True)
     roles = models.ManyToManyField(Group, related_name='activities', blank=True)
+    allowed_groups = models.ManyToManyField(Group, related_name='allowed_activities', blank=True)
+    allowed_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='allowed_activities',
+        blank=True,
+    )
+    sla_duration = models.CharField(
+        max_length=16,
+        null=True,
+        blank=True,
+        help_text='SLA duration, e.g. 3d, 12h, 45m',
+    )
+    sla_warn = models.CharField(
+        max_length=16,
+        null=True,
+        blank=True,
+        help_text='SLA warning threshold, e.g. 2d, 8h',
+    )
+    sla_roles = models.ManyToManyField(Group, related_name='sla_activities', blank=True)
+    compensation_handler = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text='Callable path for compensation handler',
+    )
     description = models.TextField(null=True, blank=True)
     autostart = models.BooleanField(default=False)
     autofinish = models.BooleanField(default=True)
@@ -87,7 +115,17 @@ class ProcessManager(models.Manager):
                 # do something
 
         '''
-        return self.get(title=title).enabled
+        return self.get_effective(title=title).enabled
+
+    def get_effective(self, title):
+        qs = self.filter(Q(title=title) | Q(code=title), enabled=True)
+        qs = apply_tenant_filter(qs)
+        if not qs.exists():
+            raise Process.DoesNotExist('process %s not found' % title)
+        published = qs.filter(status='published')
+        if published.exists():
+            qs = published
+        return qs.order_by('-version').first()
 
     def check_can_start(self, process_name, user):
         '''
@@ -126,9 +164,28 @@ class Process(models.Model):
     forward from activity to activity, going through transitions,
     until they reach the End activity.
     """
+    STATUS_CHOICES = (
+        ('draft', 'draft'),
+        ('published', 'published'),
+        ('retired', 'retired'),
+    )
     enabled = models.BooleanField(default=True)
     date = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=100)
+    code = models.CharField(max_length=100, null=True, blank=True)
+    tenant_id = models.CharField(max_length=100, null=True, blank=True)
+    org_id = models.CharField(max_length=100, null=True, blank=True)
+    version = models.IntegerField(default=1)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='published')
+    published_at = models.DateTimeField(null=True, blank=True)
+    published_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='published_processes',
+    )
+    version_note = models.TextField(null=True, blank=True)
     description = models.TextField()
     # description.allow_tags=True
     begin = models.ForeignKey('Activity', related_name='bprocess', on_delete=models.CASCADE,
@@ -149,6 +206,72 @@ class Process(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_identity(self):
+        return self.code or self.title
+
+    def clone_as_new_version(self, user=None, note=None):
+        new_version = Process.objects.create(
+            enabled=self.enabled,
+            title=self.title,
+            code=self.get_identity(),
+            tenant_id=self.tenant_id,
+            org_id=self.org_id,
+            version=self.version + 1,
+            status='draft',
+            description=self.description,
+            priority=self.priority,
+            version_note=note or '',
+        )
+        activity_map = {}
+        for activity in self.activities.all():
+            activity_copy = Activity.objects.create(
+                title=activity.title,
+                kind=activity.kind,
+                process=new_version,
+                push_application=activity.push_application,
+                pushapp_param=activity.pushapp_param,
+                application=activity.application,
+                app_param=activity.app_param,
+                subflow=activity.subflow,
+                description=activity.description,
+                autostart=activity.autostart,
+                autofinish=activity.autofinish,
+                join_mode=activity.join_mode,
+                split_mode=activity.split_mode,
+                sla_duration=activity.sla_duration,
+                sla_warn=activity.sla_warn,
+                compensation_handler=activity.compensation_handler,
+            )
+            activity_copy.roles.set(activity.roles.all())
+            activity_copy.allowed_groups.set(activity.allowed_groups.all())
+            activity_copy.allowed_users.set(activity.allowed_users.all())
+            activity_copy.sla_roles.set(activity.sla_roles.all())
+            activity_map[activity.id] = activity_copy
+
+        for transition in self.transitions.all():
+            Transition.objects.create(
+                name=transition.name,
+                process=new_version,
+                input=activity_map[transition.input_id],
+                output=activity_map[transition.output_id],
+                condition=transition.condition,
+                description=transition.description,
+                precondition=transition.precondition,
+            )
+
+        if self.begin_id and self.begin_id in activity_map:
+            new_version.begin = activity_map[self.begin_id]
+        if self.end_id and self.end_id in activity_map:
+            new_version.end = activity_map[self.end_id]
+        new_version.save()
+
+        if user:
+            new_version.published_by = user
+            new_version.published_at = timezone.now()
+            new_version.save(update_fields=['published_by', 'published_at'])
+
+        return new_version
 
     # @allow_tags
     def summary(self):
@@ -183,6 +306,8 @@ class Process(models.Model):
 
     def save(self, force_insert=False, force_update=False, no_end=False, using=None,
              update_fields=None):
+        if not self.code:
+            self.code = self.title
         models.Model.save(self)
         # instantiation group
         self.create_authorized_group_if_not_exists()

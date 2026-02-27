@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
 from goflow.runtime.models import WorkItem, ProcessInstance
+from goflow.tenancy import apply_tenant_filter
 from django.utils.translation import gettext_lazy as _, gettext
 
 
@@ -33,13 +34,13 @@ def otherswork(request, template='goflow/otherswork.html'):
 @login_required
 def instancehistory(request, template='goflow/instancehistory.html'):
     id = int(request.GET['id'])
-    inst = ProcessInstance.objects.get(pk=id)
+    inst = apply_tenant_filter(ProcessInstance.objects, user=request.user).get(pk=id)
     return render(request, template, {'instance':inst})
 
 
 @login_required
 def myrequests(request, template='goflow/myrequests.html'):
-    inst_list = ProcessInstance.objects.filter(user=request.user)
+    inst_list = apply_tenant_filter(ProcessInstance.objects, user=request.user).filter(user=request.user)
     return render(request, template, {'instances':inst_list})
 
 
@@ -94,4 +95,30 @@ def _app_response(workitem):
         # standard activity
         return HttpResponseRedirect(activity.application.get_app_url(workitem))
     return HttpResponse(gettext('completion page.'))
+
+
+@login_required
+def monitor(request, template='goflow/monitor.html'):
+    instances = apply_tenant_filter(ProcessInstance.objects, user=request.user)
+    workitems = apply_tenant_filter(WorkItem.objects, user=request.user)
+
+    context = {
+        'instances_total': instances.count(),
+        'instances_running': instances.filter(status='running').count(),
+        'instances_active': instances.filter(status='active').count(),
+        'instances_complete': instances.filter(status='complete').count(),
+        'workitems_total': workitems.count(),
+        'workitems_active': workitems.filter(status='active').count(),
+        'workitems_inactive': workitems.filter(status='inactive').count(),
+        'workitems_blocked': workitems.filter(status='blocked').count(),
+        'workitems_fallout': workitems.filter(status='fallout').count(),
+        'sla_warned': workitems.filter(sla_warned_at__isnull=False).count(),
+        'sla_breached': workitems.filter(sla_breached_at__isnull=False).count(),
+    }
+    return render(request, template, context)
+
+
+@login_required
+def sample_task(request, template='goflow/sample_task_form.html'):
+    return render(request, template, {})
 

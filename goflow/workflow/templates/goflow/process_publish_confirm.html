@@ -1,0 +1,16 @@
+{% extends "admin/base_site.html" %}
+{% block coltype %}colMS{% endblock %}
+
+{% block content %}
+<h1>Publish Process</h1>
+<p>You are about to publish version {{ process.version }} of {{ process.title }}.</p>
+{% if request.GET.rollback == '1' %}
+<p><strong>This will rollback to a previous version.</strong></p>
+{% endif %}
+<p>This will retire other versions with the same code.</p>
+
+<p>
+  <a href="/process/{{ process.id }}/publish/?confirm=1{% if request.GET.rollback == '1' %}&rollback=1{% endif %}">Confirm publish</a>
+  | <a href="/process/{{ process.id }}/versions/">Cancel</a>
+</p>
+{% endblock %}

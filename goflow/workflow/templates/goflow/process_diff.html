@@ -1,0 +1,53 @@
+{% extends "admin/base_site.html" %}
+{% block coltype %}colMS{% endblock %}
+
+{% block content %}
+<h1>Process Diff</h1>
+<p>Base: {{ base_id }} | Compare: {{ compare_id }}</p>
+
+<div id="content-main">
+  <div class="module">
+    <h2>Activities Added</h2>
+    <ul>
+      {% for item in activities_added %}
+      <li>{{ item }}</li>
+      {% empty %}
+      <li>None</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="module">
+    <h2>Activities Removed</h2>
+    <ul>
+      {% for item in activities_removed %}
+      <li>{{ item }}</li>
+      {% empty %}
+      <li>None</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="module">
+    <h2>Transitions Added</h2>
+    <ul>
+      {% for item in transitions_added %}
+      <li>{{ item.0 }} -> {{ item.1 }} ({{ item.2 }})</li>
+      {% empty %}
+      <li>None</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="module">
+    <h2>Transitions Removed</h2>
+    <ul>
+      {% for item in transitions_removed %}
+      <li>{{ item.0 }} -> {{ item.1 }} ({{ item.2 }})</li>
+      {% empty %}
+      <li>None</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
