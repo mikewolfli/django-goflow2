@@ -5,6 +5,12 @@
 
 This is django-goflow migrated from django 1.X to modern Django versions.
 
+Release 1.1 highlights (2026-02-27):
+
+- Added pluggable scheduler backends (cron/celery).
+- Replaced eval/exec in key runtime paths with safe condition parsing.
+- Updated automation/admin/designer documentation.
+
 Current compatibility target:
 
 - Django 4.2.x
@@ -75,6 +81,43 @@ Roles and permissions:
 
 - Disable automatic process group creation (use Django auth to manage roles):
 	GOFLOW_AUTO_CREATE_PROCESS_GROUPS = False
+
+Scheduling backends (pluggable):
+
+- Default backend (linux cron + management command):
+	GOFLOW_SCHEDULER_BACKEND = 'goflow.runtime.scheduler.CronSchedulerBackend'
+- Optional Celery backend:
+	GOFLOW_SCHEDULER_BACKEND = 'goflow.runtime.scheduler.CelerySchedulerBackend'
+
+Public scheduler interfaces:
+
+- `schedule_timeout_scan()`
+- `schedule_workitem_action(workitem_id, action='forward', **kwargs)`
+- `schedule_notification(user_id, workitem_ids=None)`
+
+Cron command:
+
+- `python manage.py goflow_cron`
+
+Transition condition syntax (safe parser):
+
+- `eq:APPROVED`
+- `ne:REJECTED`
+- `in:APPROVED,OK`
+- `notin:REJECTED,CANCELLED`
+- `timeout:3d`
+- `instance.condition == 'APPROVED'`
+
+Condition strategy:
+
+- `GOFLOW_CONDITION_STRATEGY = 'compatible'` (default): unknown expressions fall back to legacy `instance.condition == raw_text`.
+- `GOFLOW_CONDITION_STRATEGY = 'strict'`: unknown/invalid expressions evaluate to `False`.
+
+Condition normalization:
+
+- On transition save, plain values are normalized automatically:
+	- `APPROVED` -> `eq:APPROVED`
+	- `workitem.time_out(3, unit='days')` -> `timeout:3d`
 
 Docs build:
 
@@ -326,7 +369,7 @@ Advanced example (summary):
 	``security_review`` and ``finance_review`` activities, both leading to
 	``finalize`` with ``finalize.join_mode = 'and'``.
 - Timeout transition: add a transition with condition
-	``workitem.time_out(3, unit='days')`` and run the cron helper to forward.
+	``workitem.time_out(3, unit='days')`` and run ``goflow_cron`` to forward.
 - Exception path: set ``instance.condition = 'EXCEPTION'`` and transition to
 	``exception_review`` for manual recovery.
 

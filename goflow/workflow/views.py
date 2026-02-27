@@ -10,7 +10,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseForbidden, HttpResponseBadRequest
 
 from goflow.runtime.models import WorkItem
+from goflow.runtime.automation import run_timeout_scan
 from goflow.workflow.models import *
+from goflow.workflow.safe_expressions import normalize_condition_text
 from django.utils.translation import gettext_lazy as _, gettext
 from django.contrib import messages
 
@@ -103,21 +105,23 @@ def cron(request=None):
     (**Work In Progress**)
     TODO: move to instances ?
     """
-    for t in Transition.objects.filter(condition__contains='workitem.timeout'):
-        workitems = WorkItem.objects.filter(
-            activity=t.input).exclude(status='complete')
-        for wi in workitems:
-            wi.forward(timeout_forwarding=True)
+    result = run_timeout_scan()
     
     if request:
         #request.user.message_set.create(message="cron has run.")
-        messages.add_message(request, messages.INFO, "cron has run.")
+        messages.add_message(
+            request,
+            messages.INFO,
+            "cron has run. transitions={timeout_transitions}, checked={checked_workitems}, triggered={triggered_workitems}".format(**result),
+        )
         #if request.META.has_key('HTTP_REFERER'):
         if 'HTTP_REFERER' in request.META.keys():
             url = request.META['HTTP_REFERER']
         else:
             url = 'home/'
         return HttpResponseRedirect(url)
+
+    return result
 
 
 def workflow_designer(request, process_id):
@@ -225,7 +229,7 @@ def workflow_graph(request, process_id):
             continue
         defaults = {
             "name": item.get("name") or "",
-            "condition": item.get("condition") or "",
+            "condition": normalize_condition_text(item.get("condition") or ""),
         }
         if item_id:
             transition = Transition.objects.get(id=item_id, process=process)

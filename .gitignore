@@ -11,6 +11,7 @@
 __pycache__/
 docs/build/
 docs/source/_build/
+dist/
 sampleproject/workflow.log
 sampleproject/data.sqlite
 sampleproject/flags

@@ -31,9 +31,15 @@ goflow/graphics2/templatetags/__init__.py
 goflow/graphics2/templatetags/libjs.py
 goflow/runtime/__init__.py
 goflow/runtime/admin.py
+goflow/runtime/automation.py
 goflow/runtime/models.py
 goflow/runtime/reporting.py
+goflow/runtime/scheduler.py
+goflow/runtime/tasks.py
 goflow/runtime/views.py
+goflow/runtime/management/__init__.py
+goflow/runtime/management/commands/__init__.py
+goflow/runtime/management/commands/goflow_cron.py
 goflow/runtime/templatetags/__init__.py
 goflow/runtime/templatetags/work_lib.py
 goflow/workflow/__init__.py
@@ -43,6 +49,7 @@ goflow/workflow/logger.py
 goflow/workflow/models.py
 goflow/workflow/notification.py
 goflow/workflow/pushapps.py
+goflow/workflow/safe_expressions.py
 goflow/workflow/views.py
 goflow/workflow/templatetags/__init__.py
 goflow/workflow/templatetags/debug_goflow.py

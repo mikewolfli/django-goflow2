@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 from django.db.models import *
 
 from django.contrib.auth import get_user_model
@@ -42,7 +43,40 @@ class PushApplicationAdmin(admin.ModelAdmin):
 admin.site.register(PushApplication, PushApplicationAdmin)
 
 
+class ActivityAdminForm(forms.ModelForm):
+    class Meta:
+        model = Activity
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(ActivityAdminForm, self).__init__(*args, **kwargs)
+        self.fields['app_param'].help_text = (
+            'Use JSON/object mapping, e.g. {"template": "start_leave.html", "ok_values": ["APPROVED", "REJECTED"]}. '
+            'Python eval expressions are not supported.'
+        )
+        self.fields['pushapp_param'].help_text = (
+            'Use JSON/object mapping, e.g. {"username": "john"}. Python eval expressions are not supported.'
+        )
+        self.fields['app_param'].widget.attrs['placeholder'] = '{"template":"start_leave.html"}'
+        self.fields['pushapp_param'].widget.attrs['placeholder'] = '{"username":"john"}'
+
+
+class TransitionAdminForm(forms.ModelForm):
+    class Meta:
+        model = Transition
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(TransitionAdminForm, self).__init__(*args, **kwargs)
+        self.fields['condition'].help_text = (
+            'Safe condition DSL examples: eq:APPROVED, ne:REJECTED, in:APPROVED,OK, timeout:3d, '
+            'or safe expression like instance.condition == "APPROVED".'
+        )
+        self.fields['condition'].widget.attrs['placeholder'] = 'eq:APPROVED | timeout:3d'
+
+
 class ActivityAdmin(admin.ModelAdmin):
+    form = ActivityAdminForm
     save_as = True
     list_display = ('title', 'description', 'kind', 'application',
                     'join_mode', 'split_mode', 'autostart', 'autofinish', 'process')
@@ -61,6 +95,7 @@ admin.site.register(Activity, ActivityAdmin)
 
 
 class TransitionAdmin(admin.ModelAdmin):
+    form = TransitionAdminForm
     save_as = True
     list_display = ('__str__', 'input', 'output', 'condition', 'description', 'process')
     list_filter = ('process',)

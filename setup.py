@@ -8,7 +8,7 @@ README_PATH = BASE_DIR / 'README.md'
 
 setup(
     name='django-goflow2',
-    version='1.0',
+    version='1.1',
     description='Fork from Eric Simorre\'s django-goflow, updated for modern Python and Django 4/5/6',
     long_description=README_PATH.read_text(encoding='utf-8'),
     long_description_content_type='text/markdown',
@@ -20,7 +20,20 @@ setup(
         'Tracker': 'https://github.com/mikewolfli/django-goflow/issues',
     },
     keywords='django workflow bpm goflow',
-    packages=['goflow', 'goflow.apptools', 'goflow.runtime', 'goflow.graphics', 'goflow.graphics2', 'goflow.workflow', 'goflow.apptools.templatetags', 'goflow.runtime.templatetags', 'goflow.workflow.templatetags', 'goflow.graphics2.templatetags'],
+    packages=[
+        'goflow',
+        'goflow.apptools',
+        'goflow.runtime',
+        'goflow.runtime.management',
+        'goflow.runtime.management.commands',
+        'goflow.graphics',
+        'goflow.graphics2',
+        'goflow.workflow',
+        'goflow.apptools.templatetags',
+        'goflow.runtime.templatetags',
+        'goflow.workflow.templatetags',
+        'goflow.graphics2.templatetags',
+    ],
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
@@ -42,6 +55,11 @@ setup(
         'django-ninja-simple-jwt>=0.7.1',
         'Pillow>=10.0.0',
     ],
+    extras_require={
+        'celery': [
+            'celery>=5.3.0',
+        ],
+    },
     include_package_data=True,
     zip_safe=False,
 )

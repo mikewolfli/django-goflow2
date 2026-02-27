@@ -96,7 +96,7 @@ GoFlow supports advanced execution patterns:
 - Parallel branches: split activities with ``split_mode=and`` and join with
   ``join_mode=and`` to wait for all branches.
 - Timeout transitions: guard transitions with
-  ``workitem.time_out(3, unit='days')`` and run the cron helper.
+  ``workitem.time_out(3, unit='days')`` and run the ``goflow_cron`` command.
 - Exception paths: route to recovery activities by setting
   ``instance.condition = 'EXCEPTION'``.
 

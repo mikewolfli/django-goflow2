@@ -249,9 +249,18 @@
       </div>
       <div>
         <label>Condition</label>
-        <input id="transitionCondition" placeholder="instance.condition == 'OK'" />
+        <input id="transitionCondition" list="transitionConditionPresets" placeholder="eq:APPROVED" />
       </div>
     </div>
+    <datalist id="transitionConditionPresets">
+      <option value="eq:APPROVED"></option>
+      <option value="ne:REJECTED"></option>
+      <option value="in:APPROVED,OK"></option>
+      <option value="timeout:3d"></option>
+      <option value="instance.condition == 'APPROVED'"></option>
+      <option value="workitem.time_out(3, unit='days')"></option>
+    </datalist>
+    <p class="muted">Condition DSL: eq:VALUE, ne:VALUE, in:A,B,C, timeout:3d (or safe expression).</p>
     <button id="addTransition">Add Transition</button>
   </section>
 

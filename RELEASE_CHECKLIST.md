@@ -3,7 +3,7 @@
 ## Pre-flight
 - [ ] Confirm working tree clean or changes accounted for
 - [ ] Verify Python and Django versions in README/INSTALL
-- [ ] Update version number in setup.py (if releasing)
+- [x] Update version number in setup.py (if releasing)
 
 ## Quality
 - [x] Run system checks:
@@ -21,10 +21,12 @@
 ## Docs
 - [x] Build Sphinx docs: python -m sphinx -b html -d docs/build/doctrees docs/source docs/build/html
 - [x] Verify REST API docs and schema tables
-- [ ] Confirm install steps still match current settings
+- [x] Confirm install steps still match current settings
 
 ## Release
 - [ ] Tag release in git
 - [ ] Build package: python -m build
 - [ ] Publish package (if applicable)
-- [ ] Draft release notes and include key changes
+- [x] Draft release notes and include key changes
+
+Release 1.1 summary (2026-02-27): Added pluggable scheduler backends (cron/celery), removed eval/exec from key runtime paths via safe condition parsing, and updated automation/admin/designer documentation.

@@ -368,8 +368,8 @@ Add a transition from ``finance_review`` to ``finalize`` with a timeout conditio
 
 - condition: ``workitem.time_out(3, unit='days')``
 
-Then add a scheduled call to the ``cron`` endpoint or run the cron helper
-periodically to forward timed-out workitems.
+Then run the ``goflow_cron`` management command periodically (via system cron)
+to forward timed-out workitems.
 
 3) Rollback / exception handling
 --------------------------------
@@ -388,7 +388,7 @@ In the review view, set ``instance.condition = 'EXCEPTION'`` and call
 ------------------------
 
 - Verify parallel branches both complete before ``finalize``.
-- Trigger a timeout condition and run cron.
+- Trigger a timeout condition and run ``goflow_cron``.
 - Trigger the exception path and confirm fallback behavior.
 
 Advanced Tutorial

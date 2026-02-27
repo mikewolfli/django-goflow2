@@ -45,6 +45,22 @@ Roles and permissions:
 - Disable automatic process group creation (use Django auth to manage roles):
   GOFLOW_AUTO_CREATE_PROCESS_GROUPS = False
 
+Scheduling backends (pluggable):
+
+- Default backend (linux cron + management command):
+  GOFLOW_SCHEDULER_BACKEND = 'goflow.runtime.scheduler.CronSchedulerBackend'
+- Optional Celery backend:
+  GOFLOW_SCHEDULER_BACKEND = 'goflow.runtime.scheduler.CelerySchedulerBackend'
+
+Cron command:
+
+- python manage.py goflow_cron
+
+Transition condition strategy:
+
+- GOFLOW_CONDITION_STRATEGY = 'compatible' (default)
+- GOFLOW_CONDITION_STRATEGY = 'strict'
+
 
 4. Install instructions:
 
@@ -189,7 +205,7 @@ Advanced flow summary:
 - Parallel reviews: set ``split_mode=and`` on the approval activity and
   ``join_mode=and`` on the finalize activity.
 - Timeout transition: use condition ``workitem.time_out(3, unit='days')`` and
-  trigger the cron helper periodically.
+  run ``goflow_cron`` periodically.
 - Exception path: use ``instance.condition = 'EXCEPTION'`` to route to a
   recovery activity.
 

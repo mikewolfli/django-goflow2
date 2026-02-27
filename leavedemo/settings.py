@@ -242,6 +242,8 @@ NINJA_SIMPLE_JWT = {
 
 # Permissions/roles are managed by the main Django auth system.
 GOFLOW_AUTO_CREATE_PROCESS_GROUPS = False
+GOFLOW_SCHEDULER_BACKEND = 'goflow.runtime.scheduler.CronSchedulerBackend'
+GOFLOW_CONDITION_STRATEGY = 'compatible'
 
 # API access controls (optional)
 # Set to None to allow all processes/content types.

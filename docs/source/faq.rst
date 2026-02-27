@@ -27,11 +27,12 @@ AutoStart and AutoFinish are start mode and finish mode as described here: http:
 How should I define a transition condition ?
 ++++++++++++++++++++++++++++++++++++++++++++
 
-transitions have a condition attribute: it is a python expression that returns a boolean. the variables that can be used in the boolean expression are instance and workitem. examples:
+Transitions have a condition attribute evaluated by a safe parser. You can use a compact DSL or a simple expression. The variables available are ``instance`` and ``workitem``. Examples:
 
-    * OK: the user has pushed the OK button
-    * instance.condition == "OK": the user has pushed the OK button
-    * workitem.time_out(delay=5, unit='days'): the task is waiting for 5 days or more (NYI but soon)
+    * eq:OK - the user has pushed the OK button
+    * instance.condition == "OK" - the user has pushed the OK button
+    * timeout:5d - the task is waiting for 5 days or more
+    * workitem.time_out(delay=5, unit='days') - equivalent to ``timeout:5d``
 
 Is it valid to reuse Activities?
 ++++++++++++++++++++++++++++++++

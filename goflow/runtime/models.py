@@ -13,6 +13,11 @@ from django.contrib.contenttypes import fields
 from django.contrib.auth import get_user_model
 
 from goflow.workflow.logger import Log; log = Log('goflow.runtime.managers')
+from goflow.workflow.safe_expressions import (
+    evaluate_condition_expression,
+    is_timeout_condition,
+    parse_params_mapping,
+)
 from django.conf import settings
 
 # from goflow.workflow.decorators import allow_tags
@@ -534,10 +539,10 @@ class WorkItem(models.Model):
         @return: list of destination activities.
         '''
         transitions = Transition.objects.filter(input=self.activity)
-        if timeout_forwarding:
-            transitions = transitions.filter(condition__contains='workitem.time_out')
         destinations = []
         for t in transitions:
+            if timeout_forwarding and not is_timeout_condition(t.condition):
+                continue
             if self.eval_transition_condition(t):
                 destinations.append(t.output)
         return destinations
@@ -553,7 +558,12 @@ class WorkItem(models.Model):
         log.debug('eval_transition_condition %s - %s',
             transition.condition, instance.condition)
         try:
-            result = eval(transition.condition)
+            result = evaluate_condition_expression(
+                transition.condition,
+                workitem=self,
+                instance=instance,
+                wfobject=wfobject,
+            )
             
             # boolean expr
             if type(result) == type(True):
@@ -576,8 +586,7 @@ class WorkItem(models.Model):
             raise Exception('process %s disabled.' % self.activity.process.title)
         params = self.activity.pushapp_param
         try:
-            if params: kwargs = eval(params)
-            else: kwargs = {}
+            kwargs = parse_params_mapping(params)
 
             #print("Test")
             result = self.activity.push_application.execute(self, **kwargs)
@@ -603,8 +612,7 @@ class WorkItem(models.Model):
             params = self.activity.app_param
             # params values defined in activity override those defined in urls.py
             if params:
-                params = eval('{' + params.lstrip('{').rstrip('}') + '}')
-                kwargs.update(params)
+                kwargs.update(parse_params_mapping(params))
             func(workitem=self , **kwargs)
             return True
         except Exception as v:
@@ -805,7 +813,29 @@ instance: %s
           delay:    nb units
           unit: 'weeks' | 'days' | 'hours' ... (see timedelta)
         '''
-        tdelta = eval('timedelta(' + unit + '=delay)')
+        aliases = {
+            'weeks': 'weeks',
+            'week': 'weeks',
+            'w': 'weeks',
+            'days': 'days',
+            'day': 'days',
+            'd': 'days',
+            'hours': 'hours',
+            'hour': 'hours',
+            'h': 'hours',
+            'minutes': 'minutes',
+            'minute': 'minutes',
+            'min': 'minutes',
+            'm': 'minutes',
+            'seconds': 'seconds',
+            'second': 'seconds',
+            'sec': 'seconds',
+            's': 'seconds',
+        }
+        unit_key = aliases.get(str(unit).lower())
+        if not unit_key:
+            raise ValueError('unsupported timeout unit: %s' % unit)
+        tdelta = timedelta(**{unit_key: delay})
         now = datetime.now()
         return (now > (self.date + tdelta))
     

@@ -14,6 +14,8 @@ from django.utils.safestring import mark_safe
 from datetime import timedelta
 from django.utils import timezone
 import logging
+from importlib import import_module
+from goflow.workflow.safe_expressions import normalize_condition_text
 
 log = logging.getLogger('goflow.workflow.managers')
 
@@ -336,16 +338,17 @@ class PushApplication(models.Model):
         try:
             # search first in pre-built handlers
             from . import pushapps
-            if self.url in dir(pushapps):
-                # TODO
-                return eval('pushapps.%s' % self.url)
+            if hasattr(pushapps, self.url):
+                handler = getattr(pushapps, self.url)
+                if callable(handler):
+                    return handler
             # then search elsewhere
             prefix = settings.WF_PUSH_APPS_PREFIX
-            # dyn import
-            #print("%s.%s" % (prefix, self.url))
-            exec('import %s' % prefix)
-           
-            return eval('%s.%s' % (prefix, self.url))
+            module = import_module(prefix)
+            if hasattr(module, self.url):
+                handler = getattr(module, self.url)
+                if callable(handler):
+                    return handler
         except Exception as v:
             log.error('PushApplication.get_handler %s', v)
         return None
@@ -385,7 +388,7 @@ class Transition(models.Model):
     input = models.ForeignKey(
         Activity, on_delete=models.CASCADE, related_name='transition_inputs')
     condition = models.CharField(max_length=200, null=True, blank=True,
-                                 help_text='ex: instance.condition=="OK" | OK')
+                                 help_text='ex: eq:APPROVED | timeout:3d | instance.condition=="OK"')
     output = models.ForeignKey(
         Activity, on_delete=models.CASCADE, related_name='transition_outputs')
     description = models.CharField(max_length=100, null=True, blank=True)
@@ -399,6 +402,7 @@ class Transition(models.Model):
     def save(self):
         if self.input.process != self.process or self.output.process != self.process:
             raise Exception("a transition and its activities must be linked to the same process")
+        self.condition = normalize_condition_text(self.condition)
         models.Model.save(self)
 
     def __str__(self):

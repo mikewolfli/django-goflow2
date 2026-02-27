@@ -26,6 +26,7 @@ from django.utils.translation import gettext
 from goflow.workflow.logger import Log; log = Log('goflow.apptools.views')
 
 from goflow.workflow.notification import send_mail
+from goflow.workflow.safe_expressions import parse_params_mapping
 
 from django.contrib import messages
 
@@ -403,7 +404,7 @@ def override_app_params(activity, name, value):
     try:
         if not activity.app_param:
             return value
-        dicparams = eval(activity.app_param)
+        dicparams = parse_params_mapping(activity.app_param)
         # if dicparams.has_key(name):
         if name in dicparams.keys():
             return dicparams[name]

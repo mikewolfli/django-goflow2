@@ -15,6 +15,7 @@ Contents
    tutorials.rst
    api.rst
    install.rst
+   automation.rst
    faq.rst
    changes.rst
    history.rst
