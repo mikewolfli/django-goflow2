@@ -1,0 +1,4 @@
+Django<7.0,>=4.2
+django-ninja>=1.5.3
+django-ninja-simple-jwt>=0.7.1
+Pillow>=10.0.0
