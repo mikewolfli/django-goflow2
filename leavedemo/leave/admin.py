@@ -1,8 +1,10 @@
 from django.contrib import admin
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from goflow.workflow.admin import GoFlowUserAdmin, UserProfileInline
 from leavedemo.leave.models import *
+
+User = get_user_model()
 
 
 class LeaveRequestAdmin(admin.ModelAdmin):

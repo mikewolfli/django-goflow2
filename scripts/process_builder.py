@@ -1,4 +1,5 @@
 import django.db.models
+from django.apps import apps
 from goflow.workflow.models import *
 DEBUG = True
 
@@ -147,7 +148,7 @@ class ProcessBuilder(object):
         role, flag = Group.objects.get_or_create(name=name)
         log('role', role)
         for app_label, model_class_name, codename in permissions:
-            model_class = django.db.models.get_model(app_label, model_class_name)
+            model_class = apps.get_model(app_label, model_class_name)
             content_type = ContentType.objects.get_for_model(model_class)
             permission = Permission.objects.get(content_type=content_type,
                 codename=codename)

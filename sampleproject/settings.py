@@ -1,5 +1,6 @@
 # Django settings for sampleproject project.
-from os.path import dirname, join 
+from os.path import dirname, join
+from django.utils.translation import gettext_lazy as _
 _dir = dirname(__file__)
 
 LIB_PATH = join(_dir,'..')
@@ -58,13 +59,18 @@ TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+LOCALE_PATHS = (
+    join(_dir, 'locale'),
+)
 
 # Absolute path to the directory that holds static.
 # Example: "/home/static/static.lawrence.com/"
@@ -127,7 +133,7 @@ MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.admindocs.middleware.XViewMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'sampleproject.urls'
@@ -137,6 +143,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.admindocs',
     'django.contrib.staticfiles',
@@ -146,13 +153,10 @@ INSTALLED_APPS = (
     'goflow.runtime',
     'goflow.apptools',
     'sampleproject.sampleapp',
-    'sampleproject.flags',
+    'ninja_simple_jwt',
 )
 
 #LOGIN_URL = 'accounts/login'
-
-# user profile model
-AUTH_PROFILE_MODULE = 'workflow.userprofile'
 
 # mail notification
 DEFAULT_FROM_EMAIL = 'sample@project.com'
@@ -179,14 +183,29 @@ FLAGS_URL = MEDIA_URL + "flags/"
 #FLAGS_URL = 'http://djangodev.free.fr/flags/'
 
 # languages
-ugettext = lambda s: s
 LANGUAGES = (
-    ('ar', ugettext('Arabic')),
-    ('fr', ugettext('French')),
-    ('en', ugettext('English')),
-    ('es', ugettext('Spanish')),
-    ('de', ugettext('German')),
-    ('pl', ugettext('Polish')),
+    ('en', _('English')),
+    ('fr', _('French')),
+    ('zh-hans', _('Simplified Chinese')),
+    ('zh-hant', _('Traditional Chinese')),
+    ('ja', _('Japanese')),
+    ('de', _('German')),
+    ('es', _('Spanish')),
+    ('it', _('Italian')),
 )
+
+NINJA_SIMPLE_JWT = {
+    "USE_STATELESS_AUTH": True,
+}
+
+# Permissions/roles are managed by the main Django auth system.
+GOFLOW_AUTO_CREATE_PROCESS_GROUPS = False
+
+# API access controls (optional)
+# Set to None to allow all processes/content types.
+GOFLOW_API_ALLOWED_PROCESS_TITLES = ("Sample process", "test parallel workflow")
+GOFLOW_API_ALLOWED_CONTENT_TYPES = ("sampleapp.samplemodel",)
+GOFLOW_API_REQUIRE_OBJECT_OWNERSHIP = True
+GOFLOW_API_OBJECT_OWNER_FIELDS = ("requester",)
 
 

@@ -2,9 +2,9 @@
 
 .. _license:
 
-============
+==============
 GoFlow License
-============
+==============
 
 insert license here.
 

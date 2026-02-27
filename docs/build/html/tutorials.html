@@ -1,27 +1,26 @@
+<!DOCTYPE html>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" data-content_root="./">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>GoFlow User Guide &#8212; GoFlow 0.51 documentation</title>
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/default.css" />
+    <script src="_static/documentation_options.js?v=40225006"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation" href="install.html" />
+    <link rel="next" title="API Guide" href="api.html" />
     <link rel="prev" title="Workflow Patterns" href="patterns.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -29,43 +28,49 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
-  <div class="section" id="goflow-user-guide">
-<span id="tutorial"></span><h1>GoFlow User Guide<a class="headerlink" href="#goflow-user-guide" title="Permalink to this headline">¶</a></h1>
+  <section id="goflow-user-guide">
+<span id="tutorial"></span><h1>GoFlow User Guide<a class="headerlink" href="#goflow-user-guide" title="Link to this heading">¶</a></h1>
 <p>GoFlow is a <cite>django component</cite> which adds activity-based workflow features to a django project.</p>
 <p>We’ll learn here how to use this module, starting with a very simple “Hello world” django project, and then gradually add features as we go along.</p>
-<div class="section" id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="prerequisite">
-<h3>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h3>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h2>
+<section id="prerequisite">
+<h3>Prerequisite<a class="headerlink" href="#prerequisite" title="Link to this heading">¶</a></h3>
 <p>Create a directory, and copy the directory <code class="docutils literal notranslate"><span class="pre">goflow</span></code> to this directory (you can also place it in any directory in your PYTHONPATH).</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">While the Django documentation advocates the use of absolute paths, the use of relative paths
+<p class="admonition-title">Note</p>
+<p>While the Django documentation advocates the use of absolute paths, the use of relative paths
 in what follows is voluntary. This is done in order to simplify expressions and to be platform
 independent (and it works, at least under Windows and OS X)</p>
 </div>
-</div>
-</div>
-<div class="section" id="project-hello-world">
-<h2>Project “Hello World”<a class="headerlink" href="#project-hello-world" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id1">
-<h3>Project “Hello World”<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="project-hello-world">
+<h2>Project “Hello World”<a class="headerlink" href="#project-hello-world" title="Link to this heading">¶</a></h2>
+<section id="id1">
+<h3>Project “Hello World”<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <p>We will discover the workflow engine with a very simple application based on a process workflow with a single activity (a single activity, with no transitions: the simplest possible workflow). The purpose of this activity is to receive a message (for example, “Hello world”).</p>
 <blockquote>
 <div><ul>
-<li><p class="first">Start by creating an empty django project (or use an existing project):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Django</span> <span class="n">admin</span><span class="o">-</span><span class="n">startproj</span> <span class="n">myproj</span>
-</pre></div>
-</div>
+<li><p>Start by creating an empty django project (or use an existing project):</p>
+<p>django-admin startproject myproj</p>
 </li>
-<li><p class="first">Add the following applications in the file <code class="docutils literal notranslate"><span class="pre">settings.py</span></code>:</p>
+<li><p>Add the following applications in the file <code class="docutils literal notranslate"><span class="pre">settings.py</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
  <span class="o">...</span>
- <span class="s1">&#39;django.contrib.admin&#39;</span>
- <span class="s1">&#39;goflow.workflow&#39;</span>
- <span class="s1">&#39;goflow.instances&#39;</span>
+ <span class="s1">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;goflow.workflow&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;goflow.runtime&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;goflow.apptools&#39;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -76,34 +81,37 @@ independent (and it works, at least under Windows and OS X)</p>
 process), and the <code class="docutils literal notranslate"><span class="pre">instances</span></code> application contains the dynamic part or runtime.</p>
 <blockquote>
 <div><ul>
-<li><p class="first">Set up the database part of the settings file, for example like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DATABASE_ENGINE</span> <span class="o">=</span> <span class="s1">&#39;sqlite3&#39;</span>
-<span class="n">DATABASE_NAME</span> <span class="o">=</span> <span class="s1">&#39;data.sqlite&#39;</span>
-</pre></div>
-</div>
+<li><p>Set up the database part of the settings file, for example like this:</p>
+<dl>
+<dt>DATABASES = {</dt><dd><dl class="simple">
+<dt>‘default’: {</dt><dd><p>‘ENGINE’: ‘django.db.backends.sqlite3’,
+‘NAME’: ‘data.sqlite3’,</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+<p>}</p>
 </li>
-<li><p class="first">Add the following two lines in the <code class="docutils literal notranslate"><span class="pre">urls.py</span></code>  file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>urlpatterns = patterns (``,
- ...
-
- # Uncomment this for admin:
- (r &#39;^ admin /&#39;, include ( &#39;django.contrib.admin.urls&#39;)),
- (r &#39;^ workflow /&#39;, include ( &#39;goflow.urls&#39;)),
-)
-</pre></div>
-</div>
+<li><p>Add the following lines in the <code class="docutils literal notranslate"><span class="pre">urls.py</span></code> file:</p>
+<p>from django.contrib import admin
+from django.urls import path, include</p>
+<dl class="simple">
+<dt>urlpatterns = [</dt><dd><p>path(‘admin/’, admin.site.urls),
+path(‘workflow/’, include(‘goflow.urls’)),</p>
+</dd>
+</dl>
+<p>]</p>
 </li>
-<li><p class="first">Now create the database server and start it as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">syncdb</span> <span class="o">-</span> <span class="n">pythonpath</span> <span class="o">=..</span>
-<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">runserver</span> <span class="o">-</span> <span class="n">pythonpath</span> <span class="o">=..</span>
-</pre></div>
-</div>
+<li><p>Now create the database server and start it as follows:</p>
+<p>python manage.py migrate
+python manage.py runserver</p>
 </li>
 </ul>
 </div></blockquote>
-<p>We can now open the console admin [<a class="reference external" href="http://localhost:8000/admin">http://localhost:8000/admin</a>], and discover the data models introduced by GoFlow:</p>
+<p>We can now open the console admin [<a class="reference external" href="http://localhost:8000/admin/">http://localhost:8000/admin/</a>], and discover the data models introduced by GoFlow:</p>
 <img alt="_images/admin1.png" class="align-center" src="_images/admin1.png" />
-<p>We can also discover the GoFlow Dashboard, which provide easy access to the status of workflows using a “back-office” perspective, [<a class="reference external" href="http://localhost:8000/workflow">http://localhost:8000/workflow</a>]</p>
+<p>We can also discover the GoFlow Dashboard, which provide easy access to the status of workflows using a “back-office” perspective, [<a class="reference external" href="http://localhost:8000/workflow/">http://localhost:8000/workflow/</a>]</p>
 <img alt="_images/admin2.png" class="align-center" src="_images/admin2.png" />
 <p>We will now create a process workflow.</p>
 <p>Return to the admin console, add an entity Process as shown with the screen below:</p>
@@ -111,12 +119,12 @@ process), and the <code class="docutils literal notranslate"><span class="pre">i
 <p>Use “Hello world” for the title, and optionally provide a description of the new process</p>
 <blockquote>
 <div><ul class="simple">
-<li>Register using the <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">button</span> <span class="pre">and</span> <span class="pre">continue</span> <span class="pre">editing</span></code>: you can now see that an
-activity <code class="docutils literal notranslate"><span class="pre">End</span></code> was added automatically.</li>
-<li>Create an initial activity by clicking on the icon “+” in the field <code class="docutils literal notranslate"><span class="pre">Initial</span> <span class="pre">activity</span></code>:
+<li><p>Register using the <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">button</span> <span class="pre">and</span> <span class="pre">continue</span> <span class="pre">editing</span></code>: you can now see that an
+activity <code class="docutils literal notranslate"><span class="pre">End</span></code> was added automatically.</p></li>
+<li><p>Create an initial activity by clicking on the icon “+” in the field <code class="docutils literal notranslate"><span class="pre">Initial</span> <span class="pre">activity</span></code>:
 enter a title, set the process dropdown to the current process “Hello world”, leaving the
-default values for other fields.</li>
-<li>Save</li>
+default values for other fields.</p></li>
+<li><p>Save</p></li>
 </ul>
 </div></blockquote>
 <p>We have created our first process workflow:</p>
@@ -126,180 +134,391 @@ default values for other fields.</li>
 <p>Before we start running our process workflow, we must first create a <code class="docutils literal notranslate"><span class="pre">Group</span></code> with a single permission to allow users to instantiate it:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Add a group named <code class="docutils literal notranslate"><span class="pre">Hello</span> <span class="pre">world</span></code>, give it the permission <code class="docutils literal notranslate"><span class="pre">can_instantiate</span></code> on the
+<li><p>Add a group named <code class="docutils literal notranslate"><span class="pre">Hello</span> <span class="pre">world</span></code>, give it the permission <code class="docutils literal notranslate"><span class="pre">can_instantiate</span></code> on the
 content type <code class="docutils literal notranslate"><span class="pre">workflow.process</span></code>, and save. (note: the name of the group and the name of
-the process must be the same)</li>
-<li>Add this group to the current user: this will allow the user to instantiate the process
-<code class="docutils literal notranslate"><span class="pre">Hello</span> <span class="pre">world</span></code>.</li>
+the process must be the same)</p></li>
+<li><p>Add this group to the current user: this will allow the user to instantiate the process
+<code class="docutils literal notranslate"><span class="pre">Hello</span> <span class="pre">world</span></code>.</p></li>
 </ul>
 </div></blockquote>
-<p>We are now ready to execute/test the workflow: go to the dashboard [<a class="reference external" href="http://localhost:8000/workflow">http://localhost:8000/workflow</a>]. You will find the process and its definition, and other information on roles and permissions.</p>
+<p>We are now ready to execute/test the workflow: go to the dashboard [<a class="reference external" href="http://localhost:8000/workflow/">http://localhost:8000/workflow/</a>]. You will find the process and its definition, and other information on roles and permissions.</p>
+<section id="internationalization-optional">
+<h4>Internationalization (optional)<a class="headerlink" href="#internationalization-optional" title="Link to this heading">¶</a></h4>
+<p>If you enable i18n URL prefixes, you can visit /en/ or /zh-hans/ and so on.
+You can also POST to /i18n/setlang/ with the “language” field to persist
+the language in session/cookies.</p>
 <blockquote>
 <div><ul class="simple">
-<li>Click on the link <code class="docutils literal notranslate"><span class="pre">start</span> <span class="pre">a</span> <span class="pre">simulation</span> <span class="pre">instance</span></code> under the process <code class="docutils literal notranslate"><span class="pre">Hello</span> <span class="pre">world</span></code></li>
+<li><p>Click on the link <code class="docutils literal notranslate"><span class="pre">start</span> <span class="pre">a</span> <span class="pre">simulation</span> <span class="pre">instance</span></code> under the process <code class="docutils literal notranslate"><span class="pre">Hello</span> <span class="pre">world</span></code></p></li>
 </ul>
 </div></blockquote>
-<div class="section" id="let-s-add-an-activity">
-<h4>Let’s add an activity<a class="headerlink" href="#let-s-add-an-activity" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="let-s-add-an-activity">
+<h4>Let’s add an activity<a class="headerlink" href="#let-s-add-an-activity" title="Link to this heading">¶</a></h4>
+</section>
+<section id="let-s-add-our-own-models">
+<h4>Let’s add our own models<a class="headerlink" href="#let-s-add-our-own-models" title="Link to this heading">¶</a></h4>
+<p>Create a small model for a workflow-backed request. In your app’s
+<code class="docutils literal notranslate"><span class="pre">models.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.db</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.utils.translation</span><span class="w"> </span><span class="kn">import</span> <span class="n">gettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Request</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+  <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">))</span>
+  <span class="n">body</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">))</span>
+  <span class="n">requester</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+  <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+</pre></div>
 </div>
-<div class="section" id="let-s-add-our-own-models">
-<h4>Let’s add our own models<a class="headerlink" href="#let-s-add-our-own-models" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="and-for-some-code">
+<h4>And for some code<a class="headerlink" href="#and-for-some-code" title="Link to this heading">¶</a></h4>
+<p>We will implement a form and a view that starts a workflow instance.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">forms.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django</span><span class="w"> </span><span class="kn">import</span> <span class="n">forms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.utils.translation</span><span class="w"> </span><span class="kn">import</span> <span class="n">gettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Request</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">RequestForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+  <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Request</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;body&#39;</span><span class="p">)</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">),</span>
+      <span class="s1">&#39;body&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+</pre></div>
 </div>
-<div class="section" id="and-for-some-code">
-<h4>And for some code<a class="headerlink" href="#and-for-some-code" title="Permalink to this headline">¶</a></h4>
-<p>we will implement some forms methods.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">views.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">RequestForm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">goflow.runtime.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessInstance</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">start_request</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">RequestForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+      <span class="n">obj</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+      <span class="n">obj</span><span class="o">.</span><span class="n">requester</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+      <span class="n">obj</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+      <span class="n">ProcessInstance</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;request_done&#39;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">RequestForm</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;request/start.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
 </div>
+<p>In <code class="docutils literal notranslate"><span class="pre">urls.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">views</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="n">path</span><span class="p">(</span><span class="s1">&#39;request/start/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">start_request</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;request_start&#39;</span><span class="p">),</span>
+  <span class="n">path</span><span class="p">(</span><span class="s1">&#39;request/done/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">done</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;request_done&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
 </div>
+<p>Template <code class="docutils literal notranslate"><span class="pre">templates/request/start.html</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="o">%</span> <span class="n">trans</span> <span class="s2">&quot;Start Request&quot;</span> <span class="o">%</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">form</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;post&quot;</span><span class="o">&gt;</span>
+  <span class="p">{</span><span class="o">%</span> <span class="n">csrf_token</span> <span class="o">%</span><span class="p">}</span>
+  <span class="p">{{</span> <span class="n">form</span><span class="o">.</span><span class="n">as_p</span> <span class="p">}}</span>
+  <span class="o">&lt;</span><span class="n">button</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="o">%</span> <span class="n">trans</span> <span class="s2">&quot;Submit&quot;</span> <span class="o">%</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+</pre></div>
 </div>
-<div class="section" id="advanced-tutorial">
-<h2>Advanced Tutorial<a class="headerlink" href="#advanced-tutorial" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="goflow-advanced">
-<h3>GoFlow Advanced<a class="headerlink" href="#goflow-advanced" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id2">
-<h4>Prerequisites<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="internationalization-checklist">
+<h4>Internationalization checklist<a class="headerlink" href="#internationalization-checklist" title="Link to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Wrap user-facing strings with <code class="docutils literal notranslate"><span class="pre">gettext_lazy</span></code> or <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">trans</span> <span class="pre">%}</span></code>.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">django-admin</span> <span class="pre">makemessages</span> <span class="pre">-a</span></code> and <code class="docutils literal notranslate"><span class="pre">compilemessages</span></code>.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">/i18n/setlang/</span></code> or URL prefixes to switch language.</p></li>
+</ul>
+</section>
+</section>
+<section id="process-modeling-roles-and-auto-tasks">
+<h3>Process modeling, roles, and auto tasks<a class="headerlink" href="#process-modeling-roles-and-auto-tasks" title="Link to this heading">¶</a></h3>
+<p>This section shows a complete example of:</p>
+<ul class="simple">
+<li><p>modeling a process with manual and automatic activities</p></li>
+<li><p>assigning roles and permissions</p></li>
+<li><p>verifying auto tasks run without user intervention</p></li>
+</ul>
+<p>In the Django admin:</p>
+<ul class="simple">
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">Process</span></code> named <code class="docutils literal notranslate"><span class="pre">request</span></code>.</p></li>
+<li><p>Create an <code class="docutils literal notranslate"><span class="pre">Activity</span></code> named <code class="docutils literal notranslate"><span class="pre">submit</span></code> (kind=standard, join=xor, split=xor).</p></li>
+<li><p>Create an <code class="docutils literal notranslate"><span class="pre">Activity</span></code> named <code class="docutils literal notranslate"><span class="pre">approve</span></code> (kind=standard).</p></li>
+<li><p>Create an <code class="docutils literal notranslate"><span class="pre">Activity</span></code> named <code class="docutils literal notranslate"><span class="pre">notify</span></code> (kind=standard, autostart=True).</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">submit</span></code> as begin activity and <code class="docutils literal notranslate"><span class="pre">notify</span></code> as end activity.</p></li>
+</ul>
+<p>Create transitions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">submit</span> <span class="pre">-&gt;</span> <span class="pre">approve</span></code> with condition <code class="docutils literal notranslate"><span class="pre">instance.condition</span> <span class="pre">==</span> <span class="pre">'OK'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">approve</span> <span class="pre">-&gt;</span> <span class="pre">notify</span></code> with condition <code class="docutils literal notranslate"><span class="pre">instance.condition</span> <span class="pre">==</span> <span class="pre">'OK'</span></code></p></li>
+</ul>
+<p>Create two groups and assign permissions:</p>
+<ul class="simple">
+<li><p>Group <code class="docutils literal notranslate"><span class="pre">request</span></code> with permission <code class="docutils literal notranslate"><span class="pre">workflow.can_instantiate</span></code></p></li>
+<li><p>Group <code class="docutils literal notranslate"><span class="pre">approver</span></code> with permission <code class="docutils literal notranslate"><span class="pre">workflow.can_instantiate</span></code></p></li>
+</ul>
+<p>Assign activity roles:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">submit</span></code>: group <code class="docutils literal notranslate"><span class="pre">request</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">approve</span></code>: group <code class="docutils literal notranslate"><span class="pre">approver</span></code></p></li>
+</ul>
+<p>Add users to those groups in the admin.</p>
+<p>Register two application URLs:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">request/start</span></code> for the submit activity</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">request/approve</span></code> for the approve activity</p></li>
+</ul>
+<p>Then, set these URLs in the <code class="docutils literal notranslate"><span class="pre">Activity</span></code> application field.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">views.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">goflow.runtime.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkItem</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">approve_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+  <span class="n">workitem</span> <span class="o">=</span> <span class="n">WorkItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_safe</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+    <span class="n">workitem</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="s1">&#39;OK&#39;</span>
+    <span class="n">workitem</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+    <span class="n">workitem</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;request_done&#39;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;request/approve.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;workitem&#39;</span><span class="p">:</span> <span class="n">workitem</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Define an auto application (no UI) for <code class="docutils literal notranslate"><span class="pre">notify</span></code>. It can send an email and
+then complete automatically. In <code class="docutils literal notranslate"><span class="pre">views.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.core.mail</span><span class="w"> </span><span class="kn">import</span> <span class="n">send_mail</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">notify_request</span><span class="p">(</span><span class="n">workitem</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">workitem</span><span class="p">:</span>
+    <span class="k">return</span>
+  <span class="n">send_mail</span><span class="p">(</span>
+    <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;Request approved&#39;</span><span class="p">,</span>
+    <span class="n">message</span><span class="o">=</span><span class="s1">&#39;Your request was approved.&#39;</span><span class="p">,</span>
+    <span class="n">from_email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">recipient_list</span><span class="o">=</span><span class="p">[</span><span class="n">workitem</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">],</span>
+    <span class="n">fail_silently</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+  <span class="p">)</span>
+</pre></div>
+</div>
+<p>The workflow runtime will call this when the <code class="docutils literal notranslate"><span class="pre">notify</span></code> activity is reached
+because it is marked <code class="docutils literal notranslate"><span class="pre">autostart=True</span></code>.</p>
+<ul class="simple">
+<li><p>Login as a user in the <code class="docutils literal notranslate"><span class="pre">request</span></code> group and start a request.</p></li>
+<li><p>Login as a user in the <code class="docutils literal notranslate"><span class="pre">approver</span></code> group and approve it.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">notify</span></code> activity runs automatically; check logs or email output.</p></li>
+</ul>
+</section>
+<section id="parallel-branches-timeouts-and-rollback">
+<h3>Parallel branches, timeouts, and rollback<a class="headerlink" href="#parallel-branches-timeouts-and-rollback" title="Link to this heading">¶</a></h3>
+<p>This section extends the example to include:</p>
+<ul class="simple">
+<li><p>parallel branches (split_mode=and)</p></li>
+<li><p>timeout-driven transitions</p></li>
+<li><p>rollback/exception handling</p></li>
+</ul>
+<p>Create two new activities:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">security_review</span></code> (kind=standard)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finance_review</span></code> (kind=standard)</p></li>
+</ul>
+<p>Update the <code class="docutils literal notranslate"><span class="pre">approve</span></code> activity:</p>
+<ul class="simple">
+<li><p>set <code class="docutils literal notranslate"><span class="pre">split_mode</span></code> to <code class="docutils literal notranslate"><span class="pre">and</span></code></p></li>
+</ul>
+<p>Add transitions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">approve</span> <span class="pre">-&gt;</span> <span class="pre">security_review</span></code> with condition <code class="docutils literal notranslate"><span class="pre">instance.condition</span> <span class="pre">==</span> <span class="pre">'OK'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">approve</span> <span class="pre">-&gt;</span> <span class="pre">finance_review</span></code> with condition <code class="docutils literal notranslate"><span class="pre">instance.condition</span> <span class="pre">==</span> <span class="pre">'OK'</span></code></p></li>
+</ul>
+<p>Create a new join activity:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">finalize</span></code> (kind=standard, join_mode=and)</p></li>
+</ul>
+<p>Add transitions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">security_review</span> <span class="pre">-&gt;</span> <span class="pre">finalize</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finance_review</span> <span class="pre">-&gt;</span> <span class="pre">finalize</span></code></p></li>
+</ul>
+<p>This configuration forces both reviews to complete before <code class="docutils literal notranslate"><span class="pre">finalize</span></code> runs.</p>
+<p>Add a transition from <code class="docutils literal notranslate"><span class="pre">finance_review</span></code> to <code class="docutils literal notranslate"><span class="pre">finalize</span></code> with a timeout condition:</p>
+<ul class="simple">
+<li><p>condition: <code class="docutils literal notranslate"><span class="pre">workitem.time_out(3,</span> <span class="pre">unit='days')</span></code></p></li>
+</ul>
+<p>Then add a scheduled call to the <code class="docutils literal notranslate"><span class="pre">cron</span></code> endpoint or run the cron helper
+periodically to forward timed-out workitems.</p>
+<p>When an activity cannot be completed, you can mark the workitem as fallout
+and route it to a recovery activity:</p>
+<ul class="simple">
+<li><p>Create <code class="docutils literal notranslate"><span class="pre">exception_review</span></code> activity</p></li>
+<li><p>Add transition <code class="docutils literal notranslate"><span class="pre">finance_review</span> <span class="pre">-&gt;</span> <span class="pre">exception_review</span></code> with a custom
+condition (e.g. <code class="docutils literal notranslate"><span class="pre">instance.condition</span> <span class="pre">==</span> <span class="pre">'EXCEPTION'</span></code>)</p></li>
+</ul>
+<p>In the review view, set <code class="docutils literal notranslate"><span class="pre">instance.condition</span> <span class="pre">=</span> <span class="pre">'EXCEPTION'</span></code> and call
+<code class="docutils literal notranslate"><span class="pre">workitem.complete(request.user)</span></code> to route into the exception path.</p>
+<ul class="simple">
+<li><p>Verify parallel branches both complete before <code class="docutils literal notranslate"><span class="pre">finalize</span></code>.</p></li>
+<li><p>Trigger a timeout condition and run cron.</p></li>
+<li><p>Trigger the exception path and confirm fallback behavior.</p></li>
+</ul>
+</section>
+</section>
+<section id="advanced-tutorial">
+<h2>Advanced Tutorial<a class="headerlink" href="#advanced-tutorial" title="Link to this heading">¶</a></h2>
+<section id="goflow-advanced">
+<h3>GoFlow Advanced<a class="headerlink" href="#goflow-advanced" title="Link to this heading">¶</a></h3>
+<section id="id2">
+<h4>Prerequisites<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h4>
 <ul>
-<li><dl class="first docutils">
-<dt>use goflow svn version as version 0.5 will not work with these tutorials. You can also</dt>
-<dd><blockquote class="first">
+<li><dl>
+<dt>use goflow svn version as version 0.5 will not work with these tutorials. You can also</dt><dd><blockquote>
 <div><p>download the [<a class="reference external" href="http://goflow.googlecode.com/files/goflow-0.51.zip">http://goflow.googlecode.com/files/goflow-0.51.zip</a> v 0.51].</p>
 </div></blockquote>
-<ul class="last simple">
-<li>It is helpful to have a “played” with the demo goflow leave (available online).
-[<a class="reference external" href="http://goflow.alwaysdata.net/leave/">http://goflow.alwaysdata.net/leave/</a>]</li>
+<ul class="simple">
+<li><p>It is helpful to have a “played” with the demo goflow leave (available online).
+[<a class="reference external" href="http://goflow.alwaysdata.net/leave/">http://goflow.alwaysdata.net/leave/</a>]</p></li>
 </ul>
 </dd>
 </dl>
 </li>
 </ul>
 <p>(tutorial draft; screenshots will be added later)</p>
-</div>
-<div class="section" id="application-unit-testing">
-<h4>Application Unit Testing<a class="headerlink" href="#application-unit-testing" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="application-unit-testing">
+<h4>Application Unit Testing<a class="headerlink" href="#application-unit-testing" title="Link to this heading">¶</a></h4>
 <p>We will simulate here coding an existing application of the demo <code class="docutils literal notranslate"><span class="pre">Leave</span></code>: <code class="docutils literal notranslate"><span class="pre">hrform</span></code>.</p>
 <blockquote>
 <div><ul>
-<li><p class="first">Launch the local server of the demo <code class="docutils literal notranslate"><span class="pre">leave</span></code> in the <code class="docutils literal notranslate"><span class="pre">leavedemo</span></code> folder (cf. INSTALL.TXT
-file)</p>
-</li>
-<li><p class="first">Go to the admin console: [<a class="reference external" href="http://localhost:8000/leave/admin/">http://localhost:8000/leave/admin/</a>]</p>
-</li>
-<li><dl class="first docutils">
-<dt>Create a !LeaveRequest object: [<a class="reference external" href="http://localhost:8000/leave/admin/leave/leaverequest/add/">http://localhost:8000/leave/admin/leave/leaverequest/add/</a>]</dt>
-<dd><ul class="first last simple">
-<li>This object will be used as a model when performing unit tests; hence provide the
+<li><p>Launch the local server of the demo <code class="docutils literal notranslate"><span class="pre">leave</span></code> in the <code class="docutils literal notranslate"><span class="pre">leavedemo</span></code> folder (cf. INSTALL.TXT
+file)</p></li>
+<li><p>Go to the admin console: [<a class="reference external" href="http://localhost:8000/leave/admin/">http://localhost:8000/leave/admin/</a>]</p></li>
+<li><dl class="simple">
+<dt>Create a !LeaveRequest object: [<a class="reference external" href="http://localhost:8000/leave/admin/leave/leaverequest/add/">http://localhost:8000/leave/admin/leave/leaverequest/add/</a>]</dt><dd><ul class="simple">
+<li><p>This object will be used as a model when performing unit tests; hence provide the
 beginning and end dates, type of absence, the requester (admin), and the reason (e.g
-“test”)</li>
+“test”)</p></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><p class="first">On the applications panel: [<a class="reference external" href="http://localhost:8000/leave/admin/workflow/application/">http://localhost:8000/leave/admin/workflow/application/</a>]</p>
+<li><p>On the applications panel: [<a class="reference external" href="http://localhost:8000/leave/admin/workflow/application/">http://localhost:8000/leave/admin/workflow/application/</a>]</p>
 <blockquote>
 <div><ul class="simple">
-<li>Click on the <code class="docutils literal notranslate"><span class="pre">create</span> <span class="pre">unit</span> <span class="pre">test</span></code> link in the <code class="docutils literal notranslate"><span class="pre">hrform</span></code> application row: this will
-create a process with a single activity that will run the application <code class="docutils literal notranslate"><span class="pre">hrform</span></code>.</li>
-<li>Click on <code class="docutils literal notranslate"><span class="pre">return</span></code></li>
-<li>Click  on the <code class="docutils literal notranslate"><span class="pre">start</span> <span class="pre">test</span> <span class="pre">forums</span></code> link in the <code class="docutils literal notranslate"><span class="pre">hrform</span></code> application row; then choose
+<li><p>Click on the <code class="docutils literal notranslate"><span class="pre">create</span> <span class="pre">unit</span> <span class="pre">test</span></code> link in the <code class="docutils literal notranslate"><span class="pre">hrform</span></code> application row: this will
+create a process with a single activity that will run the application <code class="docutils literal notranslate"><span class="pre">hrform</span></code>.</p></li>
+<li><p>Click on <code class="docutils literal notranslate"><span class="pre">return</span></code></p></li>
+<li><p>Click  on the <code class="docutils literal notranslate"><span class="pre">start</span> <span class="pre">test</span> <span class="pre">forums</span></code> link in the <code class="docutils literal notranslate"><span class="pre">hrform</span></code> application row; then choose
 the content type <code class="docutils literal notranslate"><span class="pre">leave</span> <span class="pre">request</span></code> and click <code class="docutils literal notranslate"><span class="pre">OK</span></code>: this will initiate as many
 workflow instances as !LeaveRequest instances that we manually manually before (here,
-only one).</li>
+only one).</p></li>
 </ul>
 </div></blockquote>
 </li>
-<li><p class="first">Go to the task list of the admin user: [<a class="reference external" href="http://localhost:8000/leave/mywork/">http://localhost:8000/leave/mywork/</a>]</p>
-</li>
-<li><p class="first">There must be a task for an activity called <code class="docutils literal notranslate"><span class="pre">test_activity</span></code> in the workflow process
-<code class="docutils literal notranslate"><span class="pre">test_hrform</span></code></p>
-</li>
-<li><p class="first">Clicking on the link <code class="docutils literal notranslate"><span class="pre">activate</span></code> should lead you to the panel corresponding to the
-implementation of the <code class="docutils literal notranslate"><span class="pre">hrform</span></code> application.</p>
-</li>
+<li><p>Go to the task list of the admin user: [<a class="reference external" href="http://localhost:8000/leave/mywork/">http://localhost:8000/leave/mywork/</a>]</p></li>
+<li><p>There must be a task for an activity called <code class="docutils literal notranslate"><span class="pre">test_activity</span></code> in the workflow process
+<code class="docutils literal notranslate"><span class="pre">test_hrform</span></code></p></li>
+<li><p>Clicking on the link <code class="docutils literal notranslate"><span class="pre">activate</span></code> should lead you to the panel corresponding to the
+implementation of the <code class="docutils literal notranslate"><span class="pre">hrform</span></code> application.</p></li>
 </ul>
 </div></blockquote>
 <p>Here we have simulated/tested an application in a process workflow; it seems very little, but it is important to have in mind that in the development of complex workflows, and in order to efficiently work in teams, each activity should be coded and tested independently of each other.</p>
 <p>That is why GoFlow is equipped with tools, available in the console admin customized for this purpose, to help the developer generate a test environment for each application.</p>
-</div>
-<div class="section" id="application-automation">
-<h4>Application Automation<a class="headerlink" href="#application-automation" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="application-automation">
+<h4>Application Automation<a class="headerlink" href="#application-automation" title="Link to this heading">¶</a></h4>
 <p>We are going to replace an application that currently requires human intervention by an automatic activity. We will work on the previous application <code class="docutils literal notranslate"><span class="pre">hrform</span></code> and replace it with the application <code class="docutils literal notranslate"><span class="pre">hr_auto</span></code> which will perform the same function but automatically (in fact, this is a simplified version, because calculating the number of days worked between two dates is not trivial).</p>
 <p>TODO</p>
-</div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
+</section>
 
 
           </div>
+          
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">GoFlow User Guide</a><ul>
-<li><a class="reference internal" href="#prerequisites">Prerequisites</a><ul>
-<li><a class="reference internal" href="#prerequisite">Prerequisite</a></li>
+<h1 class="logo"><a href="index.html">GoFlow</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns.html">Workflow Patterns</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GoFlow User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-hello-world">Project “Hello World”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-tutorial">Advanced Tutorial</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#project-hello-world">Project “Hello World”</a><ul>
-<li><a class="reference internal" href="#id1">Project “Hello World”</a><ul>
-<li><a class="reference internal" href="#let-s-add-an-activity">Let’s add an activity</a></li>
-<li><a class="reference internal" href="#let-s-add-our-own-models">Let’s add our own models</a></li>
-<li><a class="reference internal" href="#and-for-some-code">And for some code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">GoFlow FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">What’s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">GoFlow License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">GoFlow Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="definitions.html">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/index.html">GoFlow Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#advanced-tutorial">Advanced Tutorial</a><ul>
-<li><a class="reference internal" href="#goflow-advanced">GoFlow Advanced</a><ul>
-<li><a class="reference internal" href="#id2">Prerequisites</a></li>
-<li><a class="reference internal" href="#application-unit-testing">Application Unit Testing</a></li>
-<li><a class="reference internal" href="#application-automation">Application Automation</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="patterns.html" title="previous chapter">Workflow Patterns</a></li>
-      <li>Next: <a href="install.html" title="next chapter">Installation</a></li>
+      <li>Next: <a href="api.html" title="next chapter">API Guide</a></li>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/tutorials.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2008, Eric Simorre.
+      &#169;2008, Eric Simorre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |
       <a href="_sources/tutorials.rst.txt"

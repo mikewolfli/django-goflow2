@@ -62,11 +62,6 @@ def input_buttons(context):
         saves the object but does not complete the task.
     '''
     sub_context ={'submit_name':context['submit_name']}
-    '''
-    if context.has_key('ok_values'): sub_context['ok_values'] = context['ok_values']
-    if context.has_key('save_value'): sub_context['save_value'] = context['save_value']
-    if context.has_key('cancel_value'): sub_context['cancel_value'] = context['cancel_value']
-    '''
     sub_context['ok_values'] = context.get('ok_values')
     sub_context['save_value'] = context.get('save_value')
     sub_context['cancel_value'] = context.get('cancel_value')

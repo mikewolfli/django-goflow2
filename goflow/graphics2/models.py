@@ -12,11 +12,11 @@ class ProcessImage(models.Model):
     
     #@allow_tags
     def graphic(self):
-        return mark_safe('<img name=image%d src=%s>' % (self.id, self.get_file_url()))
+        return mark_safe('<img name=image%d src=%s>' % (self.id, self.file.url))
 
     #@allow_tags
     def graphic_input(self):
-        return mark_safe('<input type=image name=process src=%s>' % self.get_file_url())
+        return mark_safe('<input type=image name=process src=%s>' % self.file.url)
     
     def list_activities(self):
         return self.process.activities.all()
@@ -24,7 +24,7 @@ class ProcessImage(models.Model):
     def list_activity_positions(self):
         return ActivityPosition.objects.filter(diagram=self)
         
-    def __unicode__(self):
+    def __str__(self):
         return self.process.title
 
 class ActivityPosition(models.Model):

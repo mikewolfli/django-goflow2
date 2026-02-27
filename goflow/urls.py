@@ -1,17 +1,16 @@
 from django.urls import path,re_path, include #django 2.*
 
 from django.conf import settings
-from django.contrib.auth import logout, login
+from django.contrib.auth.views import LoginView, LogoutView
 
 from goflow.apptools.forms import DefaultAppStartForm
 from goflow.apptools.views import start_application, default_app
 from goflow.runtime.views import *
-from goflow.workflow.views import process_dot, index, cron
+from goflow.workflow.views import process_dot, index, cron, workflow_designer, workflow_graph
 
 urlpatterns = [
-    re_path(r'^.*/logout/$', logout, name='logout'),
-    re_path(r'^.*/accounts/login/$', login,
-        {'template_name': 'goflow/login.html'}),
+    re_path(r'^.*/logout/$', LogoutView.as_view(), name='logout'),
+    re_path(r'^.*/accounts/login/$', LoginView.as_view(template_name='goflow/login.html')),
     path('apptools/', include('goflow.apptools.urls')),
     path('graph/', include('goflow.graphics.urls')),
 ]
@@ -20,6 +19,8 @@ urlpatterns += [
     path('', index),
     path('process/dot/<int:id>/',process_dot),
     path('cron/', cron),
+    path('designer/<int:process_id>/', workflow_designer),
+    path('designer/<int:process_id>/graph/', workflow_graph),
     ]
 
 urlpatterns += [

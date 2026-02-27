@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from goflow.workflow.models import Process, Activity, Transition, UserProfile
 from goflow.workflow.notification import send_mail
 from datetime import timedelta, datetime
@@ -184,9 +184,6 @@ class ProcessInstance(models.Model):
         return mark_safe('<a href=../workitem/?instance__id__exact=%d&ot=asc&o=0>%d item(s)</a>' % (self.pk, nbwi))
     
     def __str__(self):
-        return str(self.pk)
-    
-    def __unicode__(self):
         return self.title
     
     def set_status(self, status):
@@ -374,7 +371,7 @@ class WorkItem(models.Model):
         Activity, on_delete=models.CASCADE, related_name='workitems')
     workitem_from = models.ForeignKey(
         'self', related_name='workitems_to', on_delete=models.CASCADE, null=True, blank=True)
-    others_workitems_from = models.ManyToManyField('self', related_name='others_workitems_to', blank=True)
+    others_workitems_from = models.ManyToManyField('self', blank=True)
     push_roles = models.ManyToManyField(Group, related_name='push_workitems', blank=True)
     pull_roles = models.ManyToManyField(Group, related_name='pull_workitems', blank=True)
     blocked = models.BooleanField(default=False)
@@ -396,13 +393,13 @@ class WorkItem(models.Model):
         @param subflow_workitem: a workitem associated with a subflow ???
         
         '''
-        log.info(u'forward_workitem %s', self.__unicode__())
+        log.info('forward_workitem %s', str(self))
         if not timeout_forwarding:
             if self.status != 'complete':
                 return
         if self.has_workitems_to() and not subflow_workitem:
             log.debug('forward_workitem canceled for %s: ' 
-                       'workitem.has_workitems_to()', self.__unicode__())
+                       'workitem.has_workitems_to()', str(self))
             return
         
         if timeout_forwarding:
@@ -700,10 +697,7 @@ class WorkItem(models.Model):
         raise Exception("New API (not yet implemented)")
     
     def __str__(self):
-        return str(self.pk)
-    
-    def __unicode__(self):
-        return u'%s-%s-%s' % (self.instance.__unicode__(), self.activity.__unicode__(), str(self.pk))
+        return '%s-%s-%s' % (str(self.instance), str(self.activity), str(self.pk))
     
     def has_workitems_to(self):
         b = (self.workitems_to.count() > 0)
@@ -838,6 +832,6 @@ class Event(models.Model):
     workitem = models.ForeignKey(
         WorkItem, on_delete=models.CASCADE, related_name='events')
     
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 

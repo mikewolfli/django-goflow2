@@ -1,13 +1,12 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
-from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 
 from django.contrib.auth.decorators import login_required
 
 from goflow.runtime.models import WorkItem, ProcessInstance
-from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.translation import gettext_lazy as _, gettext
 
 
 @login_required
@@ -79,7 +78,7 @@ def _app_response(workitem):
     id = workitem.id
     activity = workitem.activity
     if not activity.process.enabled:
-        return HttpResponse(ugettext('process %s disabled.') % activity.process.title)
+        return HttpResponse(gettext('process %s disabled.') % activity.process.title)
     
     if activity.kind == 'subflow':
         # subflow
@@ -94,5 +93,5 @@ def _app_response(workitem):
     if activity.kind == 'standard':
         # standard activity
         return HttpResponseRedirect(activity.application.get_app_url(workitem))
-    return HttpResponse(ugettext('completion page.'))
+    return HttpResponse(gettext('completion page.'))
 

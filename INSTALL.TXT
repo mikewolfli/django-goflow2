@@ -24,36 +24,63 @@ GoFlow - A workflow engine for Django
 
 2. Requirements:
 
-- Python 3.4+
-- Django 2.0+
+- Python 3.9+
+- Django 4.2 / 5.x / 6.x
+- gettext (for makemessages/compilemessages)
 - for sampleproject:
-  * django-flags (http://code.google.com/p/django-flags/)(note: no need to download this , it has been in the dir and fit for python 3.6)
   * docutils (admindocs)
 
+3. Multilingual support:
 
-3. Install instructions:
+- Supported languages: en, fr, zh-hans, zh-hant, ja, de, es, it
+- Language switching options:
+  * URL prefix (i18n_patterns)
+  * Session/cookie (LocaleMiddleware)
+  * Accept-Language (browser)
+- Set language via: /i18n/setlang/
+- URL prefix example: /en/leave/ or /zh-hans/leave/
 
-leavedemo project:
+Roles and permissions:
+
+- Disable automatic process group creation (use Django auth to manage roles):
+  GOFLOW_AUTO_CREATE_PROCESS_GROUPS = False
+
+
+4. Install instructions:
+
+leavedemo project (SQLite by default):
 
 - cd leavedemo
-  > create the database with command "python manage.py migrate --noinput"
+  > create the database with command "python manage.py migrate"
   > don't create the admin account, because
     leave demo data and all users required for playing with it will
     be created at this stage.
  
 - superuser is "admin" with password "open"
 
+Optional PostgreSQL:
+
+- export GOFLOW_USE_PG=1
+- export GOFLOW_PG_DB=leavedemo
+- export GOFLOW_PG_USER=postgres
+- export GOFLOW_PG_PASSWORD=...
+- export GOFLOW_PG_HOST=127.0.0.1
+- export GOFLOW_PG_PORT=5432
+
+Example database files:
+
+- PostgreSQL backup: leavedemo/pgdb/leavedemo20180517.backup
+- SQLite fallback: sampleproject/db/sampleprojectdata.sqlite3
+
 
 sampleproject project:
 
-- install flags application in the sampleproject directory
-- move "flags/img/flags" directory in the "static" directory
-- cd sampleproject 
-  > create the database with command "python manage.py migrate --noinput"
-- superuser is  "admin" with password "admin"
+- cd sampleproject
+  > create the database with command "python manage.py migrate"
+- create a superuser with "python manage.py createsuperuser"
 
 
-4. Test instructions:
+5. Test instructions:
 
 - run "python manage.py runserver" (with goflow in python path)
 
@@ -61,10 +88,115 @@ sampleproject project:
 
 - leave demo:      http://localhost:8000/leave/
 
+- workflow designer:
+  http://localhost:8000/leave/designer/<process_id>/
 
-5. deployment instruction on a factcgi server online (like www.alwaysdata.net)
+REST API (django-ninja + django-ninja-simple-jwt):
 
-- copy get_svn_leavdemo.sh on the server and run
+- Generate JWT keys (dev):
+  python manage.py make_rsa
+- Auth endpoints:
+  /api/auth/mobile/sign-in
+  /api/auth/mobile/token-refresh
+  /api/auth/web/sign-in
+  /api/auth/web/token-refresh
+- Protected example:
+  /api/protected/me
+
+- Auth example (web):
+  POST /api/auth/web/sign-in
+  {"username":"admin","password":"open"}
+
+  Response:
+  {"access":"<jwt>"}
+  (refresh token is set in HttpOnly cookie "refresh")
+
+- Token refresh:
+  POST /api/auth/web/token-refresh
+  Cookie: refresh=<jwt>
+
+  Response:
+  {"access":"<jwt>"}
+
+- Auth example (mobile):
+  POST /api/auth/mobile/sign-in
+  {"username":"admin","password":"open"}
+
+  Response:
+  {"access":"<jwt>","refresh":"<jwt>"}
+
+- Workflow resources (JWT required):
+  /api/protected/processes
+  /api/protected/processes/{process_id}/activities
+  /api/protected/workitems
+  /api/protected/my/workitems
+  /api/protected/workitems/{id}/activate
+  /api/protected/workitems/{id}/complete
+  /api/protected/processes/start
+
+- List processes response:
+  [{"id":1,"title":"leave","enabled":true}]
+
+- List activities response:
+  [{"id":1,"title":"Start","kind":"standard","process_id":1}]
+
+- List workitems response:
+  [{"id":1,"status":"active","activity_id":2,"instance_id":1,"user_id":1}]
+
+- Activate workitem response:
+  {"status":"activated","workitem_id":1}
+
+- Complete workitem response:
+  {"status":"completed","workitem_id":1}
+
+- Start process example (JWT required):
+  POST /api/protected/processes/start
+  {"process_name":"leave","content_app_label":"leave","content_model":"leaverequest","object_id":1,"title":"Vacation request","priority":5}
+
+  Response:
+  {"status":"started","workitem_id":12,"instance_id":9}
+
+- Error responses:
+  - 401/403: missing or invalid token
+  - 403: process or content type not allowed
+  - 403: object not allowed
+  - 400: invalid content type
+  - 404: content object not found
+
+- Schema summary:
+  SignInRequest: username (string), password (string)
+  WebSignInResponse: access (string)
+  MobileSignInResponse: access (string), refresh (string)
+  ProcessOut: id (int), title (string), enabled (bool)
+  ActivityOut: id (int), title (string), kind (string), process_id (int)
+  WorkItemOut: id (int), status (string), activity_id (int), instance_id (int), user_id (int or null)
+  StartProcessIn: process_name (string), content_app_label (string), content_model (string),
+                  object_id (int), title (string or null), priority (int or null)
+  StartProcessResponse: status (string), workitem_id (int), instance_id (int)
+
+- Optional API access controls (settings.py):
+  GOFLOW_API_ALLOWED_PROCESS_TITLES = ("leave", "Gestion des absences")
+  GOFLOW_API_ALLOWED_CONTENT_TYPES = ("leave.leaverequest",)
+  GOFLOW_API_REQUIRE_OBJECT_OWNERSHIP = True
+  GOFLOW_API_OBJECT_OWNER_FIELDS = ("requester",)
+
+- Sampleproject note:
+  - Process titles: "Sample process", "test parallel workflow"
+  - Content type: "sampleapp.samplemodel"
+
+Advanced flow summary:
+
+- Parallel reviews: set ``split_mode=and`` on the approval activity and
+  ``join_mode=and`` on the finalize activity.
+- Timeout transition: use condition ``workitem.time_out(3, unit='days')`` and
+  trigger the cron helper periodically.
+- Exception path: use ``instance.condition = 'EXCEPTION'`` to route to a
+  recovery activity.
+
+
+6. Deployment notes
+
+- FastCGI deployment is historical; use modern WSGI/ASGI stacks instead.
 
 - admin interface: http://localhost:8000/leave/admin
 

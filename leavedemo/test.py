@@ -16,8 +16,9 @@ from goflow.workflow.views import cron
 #from django.core.urlresolvers import resolve
 
 #cron()
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from goflow.workflow.applications import send_mail
+User = get_user_model()
 user = User.objects.get(username='admin')
 wi = WorkItem.objects.get(id=1)
 send_mail(None, wi, 'admin', subject="message for {{user.username}}")

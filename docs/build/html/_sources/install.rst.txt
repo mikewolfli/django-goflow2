@@ -9,14 +9,14 @@ Installation
     
 Python
 -------
-      
-Depending on your platform you can install python from http://www.python.org and version 2.5.2 is the version that we are using here.
+
+Python 3.9+ is required. Use your platform package manager or https://www.python.org.
       
 
 Django
--------
-   
-Try to get the latest subversion trunk version of django from http://www.djangoproject.com
+------
+
+Supported Django versions: 4.2, 5.x, 6.x.
     
     
 GoFlow
@@ -39,4 +39,15 @@ Optional (but useful) Modules
     * PIL  
     * Pyyaml
     * Pygraphviz
+
+Internationalization (i18n)
+---------------------------
+
+Supported languages: en, fr, zh-hans, zh-hant, ja, de, es, it.
+
+Language switching options:
+
+- URL prefix via ``i18n_patterns``
+- Session/cookie via ``LocaleMiddleware``
+- Browser ``Accept-Language``
 

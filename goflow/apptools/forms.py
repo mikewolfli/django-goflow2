@@ -9,7 +9,7 @@ from datetime import datetime
 from django.contrib.contenttypes.models import ContentType
 
 from goflow.apptools.models import DefaultAppModel
-from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.translation import gettext_lazy as _, gettext
 
 
 class BaseForm(ModelForm):
@@ -64,15 +64,15 @@ class DefaultAppForm(BaseForm):
         ob = super(DefaultAppForm, self).save(commit=False)
         if ob.comment:
             if not ob.history:
-                ob.history = ugettext('Init')
+                ob.history = gettext('Init')
             ob.history += '\n---------'
             if workitem:
-                ob.history += ugettext('\nActivity: [%s]') % workitem.activity.title
+                ob.history += gettext('\nActivity: [%s]') % workitem.activity.title
             ob.history += '\n%s\n%s' % (datetime.now().isoformat(' '), ob.comment)
             ob.comment = None
         if submit_value:
             if ob.history:
-                ob.history += ugettext('\n button clicked: [%s]') % submit_value
+                ob.history += gettext('\n button clicked: [%s]') % submit_value
         ob.save()
         return ob
 
@@ -85,8 +85,8 @@ class DefaultAppStartForm(StartForm):
     def save(self,  user=None, data=None, commit=True):
         ob = super(DefaultAppStartForm, self).save(commit=False)
         if not ob.history:
-            ob.history = ugettext('Init')
-        ob.history += ugettext('\n%s start instance') % datetime.now().isoformat(' ')
+            ob.history = gettext('Init')
+        ob.history += gettext('\n%s start instance') % datetime.now().isoformat(' ')
         if ob.comment:
             ob.history += '\n---------'
             ob.history += '\n%s' % ob.comment

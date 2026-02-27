@@ -15,10 +15,10 @@ class Image(models.Model):
     
     #@allow_tags
     def graphic(self):
-        return mark_safe('<img name=image%d src=%s>' % (self.id, self.get_file_url()))
+        return mark_safe('<img name=image%d src=%s>' % (self.id, self.file.url))
 
-    def __unicode__(self):
-        return self.info
+    def __str__(self):
+        return self.info or ''
 
 class Graph(models.Model):
     name = models.CharField(max_length=100)
@@ -26,7 +26,7 @@ class Graph(models.Model):
         'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     background = models.ForeignKey(
         'Visual', on_delete=models.CASCADE, null=True, blank=True, related_name='bg_graphes')
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class MetaGraph(models.Model):
@@ -60,4 +60,4 @@ class Visual(models.Model):
 
     #@allow_tags
     def graphic(self):
-        return mark_safe('<img src=%s>' % self.image.get_file_url())
+        return mark_safe('<img src=%s>' % self.image.file.url)

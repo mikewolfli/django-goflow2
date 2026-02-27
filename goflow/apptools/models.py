@@ -5,7 +5,7 @@ from goflow.workflow.models import Transition
 #from goflow.workflow.decorators import allow_tags
 from django.utils.safestring import mark_safe
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.translation import gettext_lazy as _, gettext
 
 
 class DefaultAppModel(models.Model):
@@ -24,9 +24,8 @@ class DefaultAppModel(models.Model):
     history = models.TextField(_('history'), editable=False, null=True, blank=True)
     comment = models.TextField(_('comment'), null=True, blank=True)
     
-    #def __unicode__(self):
     def __str__(self):
-        return ugettext('simulation model %s') % str(self.id)
+        return gettext('simulation model %s') % str(self.id)
     class Admin:
         list_display = ('__str__',)
     class Meta:
@@ -54,7 +53,7 @@ class Image(models.Model):
         '''
         generates an *input* html tag with type=image for html rendering
         '''
-        return mark_safe('<input type=image name=icon src=%s>' % self.get_file_url())
+        return mark_safe('<input type=image name=icon src=%s>' % self.url())
     
     def __str__(self):
         return str(self.file)

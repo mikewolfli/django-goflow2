@@ -1,18 +1,16 @@
+<!DOCTYPE html>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" data-content_root="./">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Overview &#8212; GoFlow 0.51 documentation</title>
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/default.css" />
+    <script src="_static/documentation_options.js?v=40225006"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Workflow Patterns" href="patterns.html" />
@@ -20,8 +18,9 @@
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -29,270 +28,292 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
-  <div class="section" id="overview">
-<span id="id1"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="preface">
-<h2>Preface<a class="headerlink" href="#preface" title="Permalink to this headline">¶</a></h2>
+  <section id="overview">
+<span id="id1"></span><h1>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h1>
+<section id="preface">
+<h2>Preface<a class="headerlink" href="#preface" title="Link to this heading">¶</a></h2>
 <p>This document presents an introduction to “GoFlow”, a workflow engine for django. As there may many new terms which may or may not be familiar to the reader, we will try to define our terms as clearly as possible, but you can always refer to the <a href="#id3"><span class="problematic" id="id4">`glossary`_</span></a> in case additional information is required.</p>
 <p>This is the official documentation for the GoFlow 0.x series.</p>
 <p>The manual has been generated from reStructuredText source markup with
 Sphinx, which should make it much easier to keep it up-to-date in the
 future.</p>
-</div>
-<div class="section" id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">¶</a></h2>
 <p>The main purpose of a workflow management system is to address the problem of “who must do what, when and how”.</p>
 <p>In an activity based workflow management system (such as GoFlow) this problem finds a solution.</p>
 <p>To this end, GoFlow provides a number of key functional elements:</p>
 <blockquote>
 <div><ul class="simple">
-<li>The <strong>Process</strong> defining the sequence of activities to be carried out says what should be done and when by the definition of activities and transitions.</li>
-<li>An <strong>Activity</strong> (the <em>what</em> part of the workflow) represents something to be done: giving authorization, updating a database, sending an e-mail, loading a truck, filling a form, printing a document and so on.</li>
-<li>A <strong>Transition</strong> defines the appropriate sequence of activities for a process (the <em>when</em> part of the issue).</li>
-<li>Each activity will have an associated <strong>Application</strong> designed to carry out the job: the <em>how</em> part.</li>
-<li>The <em>who</em> part is generally the <strong>User</strong> assigned to carry out the activity, through its application. Usually activity applications will be used by someone, a person, but in many cases the entity assigned to an activity might be an automatic system. Afterall, why should you have a person waste time updating a database if it can be done in software directly?</li>
+<li><p>The <strong>Process</strong> defining the sequence of activities to be carried out says what should be done and when by the definition of activities and transitions.</p></li>
+<li><p>An <strong>Activity</strong> (the <em>what</em> part of the workflow) represents something to be done: giving authorization, updating a database, sending an e-mail, loading a truck, filling a form, printing a document and so on.</p></li>
+<li><p>A <strong>Transition</strong> defines the appropriate sequence of activities for a process (the <em>when</em> part of the issue).</p></li>
+<li><p>Each activity will have an associated <strong>Application</strong> designed to carry out the job: the <em>how</em> part.</p></li>
+<li><p>The <em>who</em> part is generally the <strong>User</strong> assigned to carry out the activity, through its application. Usually activity applications will be used by someone, a person, but in many cases the entity assigned to an activity might be an automatic system. Afterall, why should you have a person waste time updating a database if it can be done in software directly?</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="id2">
-<h2>Overview<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id2">
+<h2>Overview<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
 <p>GoFlow is an activity based workflow management system that is designed as django component closely with the Django Web Application Framework.</p>
 <p>Being activity based means that the processes, the workflows, are made of activities to be completed in order to get something done. This differs from entity based workflows where the focus is set on a given document and the states it has to go through in order to be completed.</p>
 <p>For example, the process describing a research in your campus library can be handled as an activity based process: you have to get a signed authorization by your teacher, go find your books of interest using either the computer catalogs or the librarian’s help, and then check-out the books you need (signing the appropriate stuff). This is a list of activities to be carried out in order to get some books out of the library.
 There is no main document in this process.</p>
 <p>Another example of an activity based process might be represented by the fund request submission process. A teacher of the university has to submit a request for buying a new computer. The process starts by filling in a form where the teacher specifies what he intends to buy and how much this costs. The form will be handled by the administration office and, if the total cost goes beyond a given threshold, it requires the personal authorization by the administration chief. Budget is then checked to see if the teacher has appropriate funds left for the acquisition. In the end an e-mail is sent to the teacher telling him the result of the submission; the request is filed in the request archive and the funding database is updated subtracting the requested cost from the available money left. This process has a main document (the request) but it has a lot of side actions to be carried out as well: signed authorization, archive insertion, database update, e-mail sending. The best way to describe this is through an activity based workflow, where the process is made of activities to be carried out.</p>
 <p>On the other hand simpler processes do not require the complex structure of an actvity based workflow management system, and a simple entity-based workflow would suffice. For example the publication of documents on a web site can be simply modelled by the given document going through the states of new, submitted, and then approved or rejected. In such workflows the document is the main issue, and its available actions are defined by its current state.</p>
-</div>
-<div class="section" id="benefits-of-using-goflow">
-<h2>Benefits of using GoFlow<a class="headerlink" href="#benefits-of-using-goflow" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="to-user">
-<h3>To User<a class="headerlink" href="#to-user" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="efficiency">
-<h4>Efficiency<a class="headerlink" href="#efficiency" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="benefits-of-using-goflow">
+<h2>Benefits of using GoFlow<a class="headerlink" href="#benefits-of-using-goflow" title="Link to this heading">¶</a></h2>
+<section id="to-user">
+<h3>To User<a class="headerlink" href="#to-user" title="Link to this heading">¶</a></h3>
+<section id="efficiency">
+<h4>Efficiency<a class="headerlink" href="#efficiency" title="Link to this heading">¶</a></h4>
 <p>One reason to use a workflow management system is to improve the efficiency and performance of the processes you usually handle. A lot of activities you usually do can actually be carried out by an automatic system. Database update, e-mail sending, research, document archiving and so on are activities that a computer can carry out with no need for human intervention. This means that the activity job will be completed much faster and the human resources can be used in some more valuable way (and they will be grateful for that).</p>
-</div>
-<div class="section" id="formalisation">
-<h4>Formalisation<a class="headerlink" href="#formalisation" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="formalisation">
+<h4>Formalisation<a class="headerlink" href="#formalisation" title="Link to this heading">¶</a></h4>
 <p>Another reason to use a workflow management system is to always have the answer to the question “who must do what, when and how”. Formalizing your process means wasting no time in deciding what to do, having each person performing the right job and being sure that your process can be completed appropriately.</p>
-</div>
-<div class="section" id="compliance">
-<h4>Compliance<a class="headerlink" href="#compliance" title="Permalink to this headline">¶</a></h4>
-</div>
-</div>
-<div class="section" id="to-developer">
-<h3>To Developer<a class="headerlink" href="#to-developer" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="extensibility">
-<h4>Extensibility<a class="headerlink" href="#extensibility" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="simplicity">
-<h4>Simplicity<a class="headerlink" href="#simplicity" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="django-integration">
-<h4>Django Integration<a class="headerlink" href="#django-integration" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="python-language">
-<h4>Python Language<a class="headerlink" href="#python-language" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="web-configuration-of-workflow">
-<h4>Web configuration of Workflow<a class="headerlink" href="#web-configuration-of-workflow" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="speed-of-development">
-<h4>Speed of Development<a class="headerlink" href="#speed-of-development" title="Permalink to this headline">¶</a></h4>
-</div>
-</div>
-</div>
-<div class="section" id="the-process-definition">
-<h2>The Process Definition<a class="headerlink" href="#the-process-definition" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="compliance">
+<h4>Compliance<a class="headerlink" href="#compliance" title="Link to this heading">¶</a></h4>
+</section>
+</section>
+<section id="to-developer">
+<h3>To Developer<a class="headerlink" href="#to-developer" title="Link to this heading">¶</a></h3>
+<section id="extensibility">
+<h4>Extensibility<a class="headerlink" href="#extensibility" title="Link to this heading">¶</a></h4>
+</section>
+<section id="simplicity">
+<h4>Simplicity<a class="headerlink" href="#simplicity" title="Link to this heading">¶</a></h4>
+</section>
+<section id="django-integration">
+<h4>Django Integration<a class="headerlink" href="#django-integration" title="Link to this heading">¶</a></h4>
+</section>
+<section id="internationalization">
+<h4>Internationalization<a class="headerlink" href="#internationalization" title="Link to this heading">¶</a></h4>
+<p>GoFlow supports Django’s i18n stack, including URL-prefix language routing,
+session/cookie selection, and browser <code class="docutils literal notranslate"><span class="pre">Accept-Language</span></code> detection. Supported
+languages: en, fr, zh-hans, zh-hant, ja, de, es, it.</p>
+</section>
+<section id="advanced-flow-patterns">
+<h4>Advanced flow patterns<a class="headerlink" href="#advanced-flow-patterns" title="Link to this heading">¶</a></h4>
+<p>GoFlow supports advanced execution patterns:</p>
+<ul class="simple">
+<li><p>Parallel branches: split activities with <code class="docutils literal notranslate"><span class="pre">split_mode=and</span></code> and join with
+<code class="docutils literal notranslate"><span class="pre">join_mode=and</span></code> to wait for all branches.</p></li>
+<li><p>Timeout transitions: guard transitions with
+<code class="docutils literal notranslate"><span class="pre">workitem.time_out(3,</span> <span class="pre">unit='days')</span></code> and run the cron helper.</p></li>
+<li><p>Exception paths: route to recovery activities by setting
+<code class="docutils literal notranslate"><span class="pre">instance.condition</span> <span class="pre">=</span> <span class="pre">'EXCEPTION'</span></code>.</p></li>
+</ul>
+</section>
+<section id="python-language">
+<h4>Python Language<a class="headerlink" href="#python-language" title="Link to this heading">¶</a></h4>
+</section>
+<section id="web-configuration-of-workflow">
+<h4>Web configuration of Workflow<a class="headerlink" href="#web-configuration-of-workflow" title="Link to this heading">¶</a></h4>
+</section>
+<section id="speed-of-development">
+<h4>Speed of Development<a class="headerlink" href="#speed-of-development" title="Link to this heading">¶</a></h4>
+</section>
+</section>
+</section>
+<section id="the-process-definition">
+<h2>The Process Definition<a class="headerlink" href="#the-process-definition" title="Link to this heading">¶</a></h2>
 <p>The goal of a process definition is to give answer the question “who must do what, when and how”.</p>
 <p>Activities and transitions describe the process you want to model (the what and when part). You can see them as the “bubbles and arrows” description of what has to be done and when.</p>
 <p>Applications describe the how part and are associated with activities. Users and roles describe the who part.</p>
-<div class="section" id="activities-what">
-<h3>Activities (What)<a class="headerlink" href="#activities-what" title="Permalink to this headline">¶</a></h3>
+<section id="activities-what">
+<h3>Activities (What)<a class="headerlink" href="#activities-what" title="Link to this heading">¶</a></h3>
 <p>Each activity can be of three different kinds: application, sub-process or routing. Usually each activity of the process definition describes something that has do be done, some kind of work. This work can be either carried out by an application or by a sub process definition that better refines the job to be done.</p>
 <p>Sometimes an activity will be assigned the simple job of handling the routing of work in the process. In this case the activity is just a dummy activity that simply chooses what to do next.</p>
 <p>Each activity has one incoming guard for collecting incoming transitions that lead to it. The activity incoming guard can be either set to and or xor for two different behaviour:</p>
 <blockquote>
 <div><ul class="simple">
-<li>and: means that all the activities that lead to this activity have to be
-completed in order to enable this activity to work.</li>
-<li>xor: means that just one of the activities that lead to this activity has to be
-completed in order to enable this activity to work.</li>
+<li><p>and: means that all the activities that lead to this activity have to be
+completed in order to enable this activity to work.</p></li>
+<li><p>xor: means that just one of the activities that lead to this activity has to be
+completed in order to enable this activity to work.</p></li>
 </ul>
 </div></blockquote>
 <p>Each activity also has one outgoing guard for collecting outgoing transitions getting out of it. Again, the activity outgoing guard can be either set to and or xor for two different behaviours:</p>
 <blockquote>
 <div><ul class="simple">
-<li>and: means that this activity will trigger the work of all the activities it
+<li><p>and: means that this activity will trigger the work of all the activities it
 connects to; doing this the flow in the process will be split in parallel
-(concurrent) flows.</li>
-<li>xor: means that this activity will trigger the work of just one of the
+(concurrent) flows.</p></li>
+<li><p>xor: means that this activity will trigger the work of just one of the
 activities it connects to, depending on condition evaluation (see transitions
-below).</li>
+below).</p></li>
 </ul>
 </div></blockquote>
 <p>Work performed by an activity will be triggered in different ways as determined by the start mode setting of the activity itself. It can be set to either:</p>
 <blockquote>
 <div><ul class="simple">
-<li>automatic: the activity will run its application as soon as an instance
+<li><p>automatic: the activity will run its application as soon as an instance
 workitem reaches it. There will be no worklist for users: it will be openflow
-itself taking care of starting the activity application on the workitem.</li>
-<li>manual: openflow will wait for user intervention to start the activity
+itself taking care of starting the activity application on the workitem.</p></li>
+<li><p>manual: openflow will wait for user intervention to start the activity
 application: usually this is done through the call to the “callApplication” API
 of workflow. This worklist the user is using (like the default worklist in
-openflow does).</li>
+openflow does).</p></li>
 </ul>
 </div></blockquote>
 <p>When an application completes its job the activity finish mode will be evaluated. It can be set to either:</p>
 <blockquote>
 <div><ul class="simple">
-<li>automatic: as soon as a “completeWorkitem” api is called (supposedly by the activity
+<li><p>automatic: as soon as a “completeWorkitem” api is called (supposedly by the activity
 application upon ending its work) the instance will be automatically
 finish mode this will not be done, and user (again, the activity application upon
 have to call the “forwardWorkitem” api. This enables the user to choose a given path
 (transition) for the instance to follow. So mainly this mode is reserved for manually
 steering the instance in alternative paths of the process. (Remember that you can
-automatically steer the instance giving condition to transitions: see below).</li>
+automatically steer the instance giving condition to transitions: see below).</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="transitions-when">
-<h3>Transitions (When)<a class="headerlink" href="#transitions-when" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="transitions-when">
+<h3>Transitions (When)<a class="headerlink" href="#transitions-when" title="Link to this heading">¶</a></h3>
 <p>Transitions connect activities together. A transition connecting activity A with activity B states that as soon as A is finished B has to be started.</p>
 <p>Transitions can be guarded by conditions. A transition condition will be evaluated if the “from” activity has choose one and only one path to be followed (ie: the activity has an xor outgoing guard).</p>
-</div>
-<div class="section" id="applications-how">
-<h3>Applications (How)<a class="headerlink" href="#applications-how" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="applications-how">
+<h3>Applications (How)<a class="headerlink" href="#applications-how" title="Link to this heading">¶</a></h3>
 <p>An application is assigned to each activity in order to carry out the job the activity has to do.</p>
 <p>Applications can be anything triggered by an url call: python scripts, dtml forms, sql queries, Zope applications or even external applications like word or other custom and dedicated applications.</p>
 <p>What the application is required to do is to invoke the appropriate api for interacting with GoFlow. For example the application will need to invoke the Openflow completeWorkitem to signal Openflow that its job is finished and a new activity can be started.</p>
-</div>
-<div class="section" id="users-roles-who">
-<h3>Users &amp; Roles (Who)<a class="headerlink" href="#users-roles-who" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="users-roles-who">
+<h3>Users &amp; Roles (Who)<a class="headerlink" href="#users-roles-who" title="Link to this heading">¶</a></h3>
 <p>Users are assigned to applications through roles.</p>
 <p>The available roles for openflow are the django-defined roles. To add a role just add a group role to the folder where you build your application.</p>
 <p>One user can be listed in one or more roles. Roles can list one or more activities. Each user will be able to work on all activities listed in roles he is listed in.</p>
 <p>Actually each role will keep three different lists:</p>
 <blockquote>
 <div><ul class="simple">
-<li>users list: list of users assigned to the role</li>
-<li>enabled activities: list of process activities that users listed in this role can
-work on</li>
-<li>assignable activities: list of process activities that users listed in this
-role can assign to other users</li>
+<li><p>users list: list of users assigned to the role</p></li>
+<li><p>enabled activities: list of process activities that users listed in this role can
+work on</p></li>
+<li><p>assignable activities: list of process activities that users listed in this
+role can assign to other users</p></li>
 </ul>
 </div></blockquote>
-</div>
-</div>
-<div class="section" id="the-process-instance">
-<h2>The Process Instance<a class="headerlink" href="#the-process-instance" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="the-process-instance">
+<h2>The Process Instance<a class="headerlink" href="#the-process-instance" title="Link to this heading">¶</a></h2>
 <p>A process definition gives the instructions for completing some work. A process instance, in turn, is an actual execution of a process definition.</p>
 <p>For example, if the process definition describes what should be done for submitting a fund request, a process instance of that process definition is an actual submission for funding.</p>
-<div class="section" id="workitems-tracking-the-history">
-<h3>Workitems: tracking the history<a class="headerlink" href="#workitems-tracking-the-history" title="Permalink to this headline">¶</a></h3>
+<section id="workitems-tracking-the-history">
+<h3>Workitems: tracking the history<a class="headerlink" href="#workitems-tracking-the-history" title="Link to this heading">¶</a></h3>
 <p>We call workitem the execution of a single activity of the process definition. Workitems are created every time an activity is triggered. Workitems are never destroyed, even when an activity completes its job, the workitem created to represent the execution of that activity is just set to a complete state. A process instance is a collection of workitems: one per activity executed (or in execution).</p>
 <p>One of the most important jobs of a workitem is to keep track of events during the execution of its activity. Since the process instance keeps track of all its workitems, and each workitem keeps track of all the events that happen during the execution of the activity, the complete history of everyting that has happened is recorded in each process instance.</p>
 <p>This is very useful for two reasons:</p>
 <blockquote>
 <div><ul class="simple">
-<li>you can have access to an event log of every single instance begun in your process</li>
-<li>you can learn from analysis of these reports how to better design your process,
-considering load balancing, completion times, and so on.</li>
+<li><p>you can have access to an event log of every single instance begun in your process</p></li>
+<li><p>you can learn from analysis of these reports how to better design your process,
+considering load balancing, completion times, and so on.</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="worklist-and-assigning-work">
-<h3>Worklist and assigning work<a class="headerlink" href="#worklist-and-assigning-work" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="worklist-and-assigning-work">
+<h3>Worklist and assigning work<a class="headerlink" href="#worklist-and-assigning-work" title="Link to this heading">¶</a></h3>
 <p>To each user is associated a worklist: a list of workitems pending on activities the user is supposed to perform. The worklist is not set to a given size: it grows when activities require additional work to be done, and it shrinks as the work on activities is completed.</p>
 <p>Users are presented their worklists to let them know what is to be done. In Openflow three policies exist for work assignment: pull, manual push and automatic push.</p>
 <ul class="simple">
-<li>pull policy means that users will choose what to do, as if the work to be done was gathered in a common pool where users go fetch what they want to take care of</li>
-<li>manual push policy means the user is assigned work by another user</li>
-<li>automatic push policy means the user is automatically assigned work by the engine itself</li>
+<li><p>pull policy means that users will choose what to do, as if the work to be done was gathered in a common pool where users go fetch what they want to take care of</p></li>
+<li><p>manual push policy means the user is assigned work by another user</p></li>
+<li><p>automatic push policy means the user is automatically assigned work by the engine itself</p></li>
 </ul>
 <p>You can see this as having the process instance workitems assigned to users: pulling will be self assignment and pushing will be assignment by somebody else (or by the engine itself).</p>
 <p>Whichever policy is used for assigning work, once a user is assigned some work he will be the only one enabled to carry it out: Other users will not see the assigned work in their worklist.</p>
-</div>
-<div class="section" id="exception-handling">
-<h3>Exception Handling<a class="headerlink" href="#exception-handling" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="exception-handling">
+<h3>Exception Handling<a class="headerlink" href="#exception-handling" title="Link to this heading">¶</a></h3>
 <p>Exception handling is necessary for unforeseen situations when users have to handle something that the process was not designed to handle.</p>
 <p>Instead of a normal handling of a workitem the user can make it “fall out” of the normal process flow. The fallen (exceptional) token will then be available to any user assigned to handle exceptions. As soon as the workitem is fixed, it can be inserted into any activity of the process to resume the process flow. In this way the user can change the workitem data anyway he wants, to adjust to the exceptional situation.</p>
-</div>
-<div class="section" id="focus-on-flexibility">
-<h3>Focus on Flexibility<a class="headerlink" href="#focus-on-flexibility" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="focus-on-flexibility">
+<h3>Focus on Flexibility<a class="headerlink" href="#focus-on-flexibility" title="Link to this heading">¶</a></h3>
 <p>In existing workflow management systems flexibility is a major issue. When you design a process definition there is variable (and usually low) chance the process you defined is actually the most appropriate model you could get of the process.</p>
 <p>It is very important to have a way to handle cases that go outside of the set boundary, the “exceptions”. At the same time it is also important to have tools that let you change the process definition even while it is running: it can be dramatic having to stop your processes to change their definitions.</p>
-</div>
-<div class="section" id="dynamic-redesign">
-<h3>Dynamic Redesign<a class="headerlink" href="#dynamic-redesign" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="dynamic-redesign">
+<h3>Dynamic Redesign<a class="headerlink" href="#dynamic-redesign" title="Link to this heading">¶</a></h3>
 <p>A process definition can be changed while in execution (while process instances run the flow). New activities can be added, old ones deleted, transition created or changed and so on. Any invalidating situation that might occur will be handled, causing the appropriate workitem to fall out (go into exceptional state).</p>
 <p>As soon as the process is changed all the current process instances will read the new process definition as the definition to be used.</p>
 <p>Dynamic redesign and exception handling are related to each other. Exception handling allows for dealing with unforeseen events: it should suggest changes in the process definition to handle that situation in the future. On the other hand dynamic redesign will probably put some (or all) process instances into an invalid state: exception handling should be used to recover from these situations.</p>
-</div>
-</div>
-<div class="section" id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="download">
-<h2>Download<a class="headerlink" href="#download" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
+</section>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
+</section>
+<section id="download">
+<h2>Download<a class="headerlink" href="#download" title="Link to this heading">¶</a></h2>
+</section>
+</section>
 
 
           </div>
+          
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Overview</a><ul>
-<li><a class="reference internal" href="#preface">Preface</a></li>
-<li><a class="reference internal" href="#summary">Summary</a></li>
-<li><a class="reference internal" href="#id2">Overview</a></li>
-<li><a class="reference internal" href="#benefits-of-using-goflow">Benefits of using GoFlow</a><ul>
-<li><a class="reference internal" href="#to-user">To User</a><ul>
-<li><a class="reference internal" href="#efficiency">Efficiency</a></li>
-<li><a class="reference internal" href="#formalisation">Formalisation</a></li>
-<li><a class="reference internal" href="#compliance">Compliance</a></li>
+<h1 class="logo"><a href="index.html">GoFlow</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preface">Preface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#benefits-of-using-goflow">Benefits of using GoFlow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-process-definition">The Process Definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-process-instance">The Process Instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#download">Download</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#to-developer">To Developer</a><ul>
-<li><a class="reference internal" href="#extensibility">Extensibility</a></li>
-<li><a class="reference internal" href="#simplicity">Simplicity</a></li>
-<li><a class="reference internal" href="#django-integration">Django Integration</a></li>
-<li><a class="reference internal" href="#python-language">Python Language</a></li>
-<li><a class="reference internal" href="#web-configuration-of-workflow">Web configuration of Workflow</a></li>
-<li><a class="reference internal" href="#speed-of-development">Speed of Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns.html">Workflow Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">GoFlow User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">GoFlow FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">What’s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">GoFlow License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">GoFlow Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="definitions.html">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/index.html">GoFlow Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#the-process-definition">The Process Definition</a><ul>
-<li><a class="reference internal" href="#activities-what">Activities (What)</a></li>
-<li><a class="reference internal" href="#transitions-when">Transitions (When)</a></li>
-<li><a class="reference internal" href="#applications-how">Applications (How)</a></li>
-<li><a class="reference internal" href="#users-roles-who">Users &amp; Roles (Who)</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#the-process-instance">The Process Instance</a><ul>
-<li><a class="reference internal" href="#workitems-tracking-the-history">Workitems: tracking the history</a></li>
-<li><a class="reference internal" href="#worklist-and-assigning-work">Worklist and assigning work</a></li>
-<li><a class="reference internal" href="#exception-handling">Exception Handling</a></li>
-<li><a class="reference internal" href="#focus-on-flexibility">Focus on Flexibility</a></li>
-<li><a class="reference internal" href="#dynamic-redesign">Dynamic Redesign</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#features">Features</a></li>
-<li><a class="reference internal" href="#requirements">Requirements</a></li>
-<li><a class="reference internal" href="#download">Download</a></li>
-</ul>
-</li>
-</ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -302,35 +323,24 @@ considering load balancing, completion times, and so on.</li>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/overview.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2008, Eric Simorre.
+      &#169;2008, Eric Simorre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |
       <a href="_sources/overview.rst.txt"

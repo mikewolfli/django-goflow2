@@ -26,14 +26,12 @@ def mywork(user):
 
         {% include "goflow/workitems.html" %}
     
-    when using *render_to_response* shortcut, don't forget
-    to add a *RequestContext* as following::
+    when using *render* shortcut, pass the request to
+    include the context processors::
 
         def some_view(request):
         # ...
-        return render_to_response('my_template.html',
-                                  my_data_dictionary,
-                                  context_instance=RequestContext(request))
+        return render(request, 'my_template.html', my_data_dictionary)
     '''
     workitems = WorkItem.objects.list_safe(user=user, noauto=True)
     return {'workitems':workitems}

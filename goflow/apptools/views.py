@@ -1,8 +1,8 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
-from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
+from django.apps import apps
 
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import admin
@@ -14,7 +14,6 @@ from goflow.workflow.models import Process, Application, Transition
 from goflow.runtime.models import ProcessInstance, WorkItem
 
 from django.db import models
-from django.contrib.auth.models import User
 from django.forms.models import modelform_factory
 
 from django.contrib.auth.decorators import permission_required
@@ -22,7 +21,7 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
 
 from django.conf import settings
-from django.utils.translation import ugettext
+from django.utils.translation import gettext
 
 from goflow.workflow.logger import Log; log = Log('goflow.apptools.views')
 
@@ -65,7 +64,7 @@ def start_application(request, app_label=None, model_name=None, process_name=Non
     if not template:
         template = 'start_%s.html' % app_label
     if not form_class:
-        model = models.get_model(app_label, model_name)
+        model = apps.get_model(app_label, model_name)
         form_class = modelform_factory(model)
         is_form_used = False
     else:
@@ -92,9 +91,9 @@ def start_application(request, app_label=None, model_name=None, process_name=Non
                 if is_form_used:
                     raise
                     log.error(
-                        ugettext("the save method of the form must accept parameters user and data"))
+                        gettext("the save method of the form must accept parameters user and data"))
                 else:
-                    log.error(ugettext("forme save error: %s"), str(v))
+                    log.error(gettext("forme save error: %s"), str(v))
 
             if ob:
                 if with_formset:
@@ -486,11 +485,11 @@ def image_update(request):
     Icon images by their url; this view is useful to wrap all local
     images in a row. 
     '''
-    rep = ugettext('<h1>Update Icons from Images</h1>')
+    rep = gettext('<h1>Update Icons from Images</h1>')
     for im in Image.objects.all():
         if Icon.objects.filter(url__endswith=str(im.url)).count() == 0:
             ic, created = Icon.objects.get_or_create(category='local-' + im.category, url=im.url())
-            if created: rep += ugettext('<br> %s added ') % im.url()
-    rep += ugettext('<hr><p><b><a href=../>return</a></b>')
+            if created: rep += gettext('<br> %s added ') % im.url()
+    rep += gettext('<hr><p><b><a href=../>return</a></b>')
     return HttpResponse(rep)
     

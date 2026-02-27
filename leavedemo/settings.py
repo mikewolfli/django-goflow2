@@ -2,7 +2,7 @@
 import os
 import sys
 from os.path import dirname, join
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 _dir = dirname(__file__)
 
@@ -65,16 +65,24 @@ DATABASES = {
     },
 }
 '''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'leavedemo',
-        'USER': 'postgres',
-        'PASSWORD': '1q2w3e4r',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+if os.environ.get('GOFLOW_USE_PG', '').lower() in ('1', 'true', 'yes'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('GOFLOW_PG_DB', 'leavedemo'),
+            'USER': os.environ.get('GOFLOW_PG_USER', 'postgres'),
+            'PASSWORD': os.environ.get('GOFLOW_PG_PASSWORD', ''),
+            'HOST': os.environ.get('GOFLOW_PG_HOST', '127.0.0.1'),
+            'PORT': os.environ.get('GOFLOW_PG_PORT', '5432'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(_dir, 'sqlite.db3'),
+        }
+    }
 
 
 
@@ -89,7 +97,13 @@ LANGUAGE_CODE = 'zh-hans'
 
 LANGUAGES = (
     ('en', _('English')),
-    ('zh-hans', _('Simple-Chinese')),
+    ('fr', _('French')),
+    ('zh-hans', _('Simplified Chinese')),
+    ('zh-hant', _('Traditional Chinese')),
+    ('ja', _('Japanese')),
+    ('de', _('German')),
+    ('es', _('Spanish')),
+    ('it', _('Italian')),
 )
 
 LOCALE_PATHS = (
@@ -101,6 +115,7 @@ SITE_ID = 1
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Absolute path to the directory that holds user uploaded files.
 # Example: "/home/static/static.lawrence.com/"
@@ -117,7 +132,7 @@ MEDIA_URL = '/files/'
 STATIC_URL = '/static/'
 STATIC_ROOT = ''
 
-STATICFILES_DIRS = (os.path.join('static'),)
+STATICFILES_DIRS = (join(_dir, 'static'),)
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -204,10 +219,8 @@ INSTALLED_APPS = (
     'goflow.runtime',
     'goflow.apptools',
     'leavedemo.leave',
+    'ninja_simple_jwt',
 )
-
-# user profile model
-AUTH_PROFILE_MODULE = 'workflow.userprofile'
 
 #username and password
 TEST_USERS = (
@@ -222,3 +235,17 @@ WF_PUSH_APPS_PREFIX = 'leavedemo.leave.pushapplications'
 DEFAULT_FROM_EMAIL = 'goflow <goflow@alwaysdata.net>'
 EMAIL_HOST = 'smtp.alwaysdata.com'
 EMAIL_SUBJECT_PREFIX = '[Goflow notification]'
+
+NINJA_SIMPLE_JWT = {
+    "USE_STATELESS_AUTH": True,
+}
+
+# Permissions/roles are managed by the main Django auth system.
+GOFLOW_AUTO_CREATE_PROCESS_GROUPS = False
+
+# API access controls (optional)
+# Set to None to allow all processes/content types.
+GOFLOW_API_ALLOWED_PROCESS_TITLES = ("leave", "Gestion des absences")
+GOFLOW_API_ALLOWED_CONTENT_TYPES = ("leave.leaverequest",)
+GOFLOW_API_REQUIRE_OBJECT_OWNERSHIP = True
+GOFLOW_API_OBJECT_OWNER_FIELDS = ("requester",)

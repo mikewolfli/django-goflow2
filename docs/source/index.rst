@@ -13,6 +13,7 @@ Contents
    overview.rst
    patterns.rst
    tutorials.rst
+   api.rst
    install.rst
    faq.rst
    changes.rst

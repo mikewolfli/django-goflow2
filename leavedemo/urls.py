@@ -1,5 +1,7 @@
 import django
 from django.urls import path, re_path, include
+from django.conf.urls.i18n import i18n_patterns
+from django.views.i18n import set_language
 from django.conf import settings
 from django.views.generic import RedirectView
 from django.views.generic import TemplateView
@@ -14,8 +16,9 @@ from leavedemo.leave import views as leavedemo_leave_views
 from leavedemo.leave import auto as leave_auto
 from os.path import join, dirname
 from django.views import static as django_views_static
-from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views import generic as django_view_generic
+from .api import api
 
 from leavedemo.leave.forms import StartRequestForm, CheckRequestForm, RequesterForm, LeaveAttachmentFormSet
 
@@ -25,11 +28,16 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
+    path('i18n/setlang/', set_language, name='set_language'),
+    path('api/', api.urls),
+]
+
+urlpatterns += i18n_patterns(
     re_path(r'^.*/accounts/login.*switch/(?P<username>.*)/(?P<password>.*)/$', goflow_workflow_views.debug_switch_user, {'redirect':'/leave/'}),
     re_path(r'^.*/switch/(?P<username>.*)/(?P<password>.*)/$', goflow_workflow_views.debug_switch_user),
     # user connection
-    re_path(r'^.*/logout/$', auth_views.logout, name='logout'),
-    re_path(r'^.*/accounts/login/$', auth_views.login, {'template_name':'goflow/login.html'},name='login'),
+    re_path(r'^.*/logout/$', LogoutView.as_view(), name='logout'),
+    re_path(r'^.*/accounts/login/$', LoginView.as_view(template_name='goflow/login.html'),name='login'),
     
     # static
     re_path(r'^images/(?P<path>.*)$', django_views_static.serve, {'document_root': join(_dir, 'static/img'), 'show_indexes': True}),
@@ -79,4 +87,4 @@ urlpatterns = [
 
 
     
-]
+)

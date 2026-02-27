@@ -22,6 +22,6 @@ urlpatterns += [
 
 urlpatterns += [
     path('mywork/', mywork, {'template':'sample/mywork.html'}),
-    path('mywork/activate/<int:id>)/', activate),
+    path('mywork/activate/<int:id>/', activate),
     path('mywork/complete/<int:id>/', complete)
 ]

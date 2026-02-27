@@ -1,0 +1,664 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Workflow Designer - {{ process.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.26.0/dist/cytoscape.min.js"></script>
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --panel: #ffffff;
+      --ink: #1c1c1c;
+      --accent: #1b4d3e;
+      --muted: #6b6b6b;
+      --border: #e5dacb;
+    }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    header {
+      padding: 16px 24px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0.5px;
+    }
+    .status-pill {
+      margin-left: 12px;
+      font-size: 12px;
+      color: #0f2f26;
+      background: #e7f1ed;
+      border: 1px solid #cfe2db;
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-pill.error {
+      color: #7a1c14;
+      background: #fdecea;
+      border-color: #f5c2bd;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 16px;
+      padding: 16px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .panel h2 {
+      margin: 0 0 12px 0;
+      font-size: 16px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    label {
+      font-size: 12px;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    button {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+    }
+    button.secondary {
+      background: transparent;
+      color: var(--accent);
+    }
+    .canvas {
+      height: 720px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .hintbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .hintbar span {
+      background: #f1e7d7;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+    #toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: #1b4d3e;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+      font-size: 13px;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .canvas {
+        height: 520px;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>
+    Workflow Designer - {{ process.title }}
+    <span id="statusIndicator" class="status-pill">
+      <svg class="status-icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+        <circle cx="6" cy="6" r="5" fill="currentColor" />
+      </svg>
+      Status: idle
+    </span>
+  </h1>
+</header>
+
+<div class="layout">
+  <section class="panel">
+    <h2>Process Settings</h2>
+    <div class="row">
+      <div>
+        <label>Begin Activity</label>
+        <select id="beginSelect"></select>
+      </div>
+      <div>
+        <label>End Activity</label>
+        <select id="endSelect"></select>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="saveButton">Save</button>
+      <button id="reloadButton" class="secondary">Reload</button>
+      <button id="undoButton" class="secondary">Undo</button>
+      <button id="redoButton" class="secondary">Redo</button>
+      <button id="deleteButton" class="secondary">Delete Selected</button>
+      <button id="helpButton" class="secondary">Shortcuts</button>
+    </div>
+    <p class="muted">Drag nodes to reposition. Box select for multi-select. Save to persist layout.</p>
+    <div class="hintbar">
+      <span>Ctrl/Cmd+S Save</span>
+      <span>Ctrl/Cmd+R Reload</span>
+      <span>Ctrl/Cmd+Z Undo</span>
+      <span>Del Delete</span>
+    </div>
+
+    <h2>Activities</h2>
+    <div class="row">
+      <div>
+        <label>Title</label>
+        <input id="activityTitle" placeholder="Start" />
+      </div>
+      <div>
+        <label>Kind</label>
+        <select id="activityKind">
+          <option value="standard">standard</option>
+          <option value="dummy">dummy</option>
+          <option value="subflow">subflow</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Autostart</label>
+        <select id="activityAutostart">
+          <option value="false">false</option>
+          <option value="true">true</option>
+        </select>
+      </div>
+      <div>
+        <label>Autofinish</label>
+        <select id="activityAutofinish">
+          <option value="true">true</option>
+          <option value="false">false</option>
+        </select>
+      </div>
+    </div>
+    <button id="addActivity">Add Activity</button>
+
+    <h2>Transitions</h2>
+    <div class="row">
+      <div>
+        <label>From</label>
+        <select id="transitionFrom"></select>
+      </div>
+      <div>
+        <label>To</label>
+        <select id="transitionTo"></select>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Name</label>
+        <input id="transitionName" placeholder="approve" />
+      </div>
+      <div>
+        <label>Condition</label>
+        <input id="transitionCondition" placeholder="instance.condition == 'OK'" />
+      </div>
+    </div>
+    <button id="addTransition">Add Transition</button>
+  </section>
+
+  <section class="panel">
+    <h2>Canvas</h2>
+    <div id="cy" class="canvas"></div>
+  </section>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<div id="helpOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45);">
+  <div style="max-width:520px; margin:80px auto; background:#fff; border-radius:10px; padding:20px;">
+    <h3 style="margin-top:0;">Keyboard Shortcuts</h3>
+    <ul style="padding-left:18px;">
+      <li>Ctrl/Cmd + S: Save</li>
+      <li>Ctrl/Cmd + R: Reload</li>
+      <li>Ctrl/Cmd + Z: Undo</li>
+      <li>Ctrl/Cmd + Y: Redo</li>
+      <li>Delete/Backspace: Delete selected</li>
+      <li>Double-click node: Rename</li>
+      <li>Click edge: Edit label/condition</li>
+    </ul>
+    <div style="text-align:right;">
+      <button id="closeHelp" class="secondary">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const processId = {{ process.id }};
+  const csrfToken = '{{ csrf_token }}';
+  let activities = [];
+  let transitions = [];
+  let deletedActivities = new Set();
+  let deletedTransitions = new Set();
+  let beginId = null;
+  let endId = null;
+  let history = [];
+  let historyIndex = -1;
+  let cy = null;
+  let toastTimer = null;
+
+  function iconSvg(isError) {
+    if (isError) {
+      return `
+        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <circle cx="6" cy="6" r="5" fill="currentColor" />
+          <rect x="5.5" y="3" width="1" height="4" fill="#fff" />
+          <rect x="5.5" y="8" width="1" height="1" fill="#fff" />
+        </svg>
+      `;
+    }
+    return `
+      <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+        <circle cx="6" cy="6" r="5" fill="currentColor" />
+        <path d="M3.2 6.1l1.7 1.7 3.9-3.9" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    `;
+  }
+
+  function showToast(message, isError = false) {
+    const toast = document.getElementById('toast');
+    if (toastTimer) {
+      clearTimeout(toastTimer);
+    }
+    toast.innerHTML = `${iconSvg(isError)} ${isError ? '[ERR]' : '[OK]'} ${message}`;
+    toast.style.background = isError ? '#b42318' : '#1b4d3e';
+    toast.classList.add('show');
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 1800);
+  }
+
+  function setStatus(text, isError = false) {
+    const status = document.getElementById('statusIndicator');
+    status.innerHTML = `${iconSvg(isError)} Status: ${text}`;
+    status.classList.toggle('error', isError);
+  }
+
+  function recordHistory() {
+    if (!cy) return;
+    const snapshot = JSON.parse(JSON.stringify(cy.json()));
+    history = history.slice(0, historyIndex + 1);
+    history.push(snapshot);
+    historyIndex = history.length - 1;
+  }
+
+  function applyHistory(index) {
+    if (!cy || index < 0 || index >= history.length) return;
+    cy.json(history[index]);
+    historyIndex = index;
+  }
+
+  function buildCytoscape() {
+    cy = cytoscape({
+      container: document.getElementById('cy'),
+      elements: [],
+      style: [
+        {
+          selector: 'node',
+          style: {
+            'label': 'data(label)',
+            'background-color': '#1b4d3e',
+            'color': '#ffffff',
+            'text-valign': 'center',
+            'text-halign': 'center',
+            'font-size': '12px',
+            'width': 'label',
+            'height': 'label',
+            'padding': '12px',
+            'shape': 'round-rectangle',
+          }
+        },
+        {
+          selector: 'edge',
+          style: {
+            'curve-style': 'bezier',
+            'target-arrow-shape': 'triangle',
+            'label': 'data(label)',
+            'font-size': '10px',
+            'text-background-color': '#ffffff',
+            'text-background-opacity': 1,
+            'text-background-padding': '2px',
+          }
+        },
+        {
+          selector: ':selected',
+          style: {
+            'border-width': 2,
+            'border-color': '#f4a261',
+            'line-color': '#f4a261',
+            'target-arrow-color': '#f4a261',
+          }
+        }
+      ],
+      boxSelectionEnabled: true,
+    });
+
+    cy.on('dragfree', 'node', recordHistory);
+    cy.on('add remove', recordHistory);
+
+    cy.on('dblclick', 'node', (event) => {
+      const node = event.target;
+      const title = prompt('Rename activity', node.data('label'));
+      if (title && title.trim()) {
+        node.data('label', title.trim());
+        recordHistory();
+        updateSelectors();
+      }
+    });
+
+    cy.on('tap', 'edge', (event) => {
+      const edge = event.target;
+      const current = edge.data('condition') || edge.data('name') || '';
+      const text = prompt('Transition condition or name', current);
+      if (text === null) return;
+      const trimmed = text.trim();
+      edge.data('condition', trimmed);
+      edge.data('name', trimmed);
+      edge.data('label', trimmed);
+      recordHistory();
+    });
+  }
+
+  function updateSelectors() {
+    const beginSelect = document.getElementById('beginSelect');
+    const endSelect = document.getElementById('endSelect');
+    const fromSelect = document.getElementById('transitionFrom');
+    const toSelect = document.getElementById('transitionTo');
+    [beginSelect, endSelect, fromSelect, toSelect].forEach(sel => {
+      sel.innerHTML = '';
+    });
+    activities.forEach(a => {
+      if (deletedActivities.has(a.id)) return;
+      const option = new Option(a.title, a.id);
+      beginSelect.add(option.cloneNode(true));
+      endSelect.add(option.cloneNode(true));
+      fromSelect.add(option.cloneNode(true));
+      toSelect.add(option.cloneNode(true));
+    });
+    if (beginId) beginSelect.value = beginId;
+    if (endId) endSelect.value = endId;
+  }
+
+  function loadGraph() {
+    setStatus('loading');
+    fetch(`/workflow/designer/${processId}/graph/`)
+      .then(r => r.json())
+      .then(data => {
+        activities = data.activities;
+        transitions = data.transitions;
+        deletedActivities = new Set();
+        deletedTransitions = new Set();
+        beginId = data.process.begin_id;
+        endId = data.process.end_id;
+
+        buildCytoscape();
+        const elements = [];
+        activities.forEach(a => {
+          const node = {
+            data: {
+              id: String(a.id),
+              label: a.title,
+              kind: a.kind,
+              autostart: a.autostart,
+              autofinish: a.autofinish,
+            },
+          };
+          if (a.position) {
+            node.position = a.position;
+            node.locked = false;
+          }
+          elements.push(node);
+        });
+        transitions.forEach(t => {
+          elements.push({
+            data: {
+              id: String(t.id),
+              source: String(t.input_id),
+              target: String(t.output_id),
+              name: t.name || '',
+              condition: t.condition || '',
+              label: (t.condition || t.name || ''),
+            }
+          });
+        });
+        cy.add(elements);
+        cy.layout({ name: 'preset', fit: true, padding: 40 }).run();
+        updateSelectors();
+        recordHistory();
+        showToast('Reloaded');
+        setStatus('ready');
+      })
+      .catch(() => {
+        showToast('Reload failed', true);
+        setStatus('error', true);
+      });
+  }
+
+  document.getElementById('addActivity').addEventListener('click', () => {
+    const title = document.getElementById('activityTitle').value.trim() || 'Activity';
+    const kind = document.getElementById('activityKind').value;
+    const autostart = document.getElementById('activityAutostart').value === 'true';
+    const autofinish = document.getElementById('activityAutofinish').value === 'true';
+    const clientId = `tmp-${Date.now()}`;
+    activities.push({
+      client_id: clientId,
+      id: clientId,
+      title,
+      kind,
+      autostart,
+      autofinish,
+    });
+    cy.add({ data: { id: clientId, label: title, kind, autostart, autofinish } });
+    updateSelectors();
+    recordHistory();
+  });
+
+  document.getElementById('addTransition').addEventListener('click', () => {
+    const inputId = document.getElementById('transitionFrom').value;
+    const outputId = document.getElementById('transitionTo').value;
+    if (!inputId || !outputId) return;
+    const name = document.getElementById('transitionName').value.trim();
+    const condition = document.getElementById('transitionCondition').value.trim();
+    const clientId = `tmp-${Date.now()}`;
+    transitions.push({
+      client_id: clientId,
+      id: clientId,
+      input_id: inputId,
+      output_id: outputId,
+      name,
+      condition,
+    });
+    cy.add({
+      data: {
+        id: clientId,
+        source: inputId,
+        target: outputId,
+        name,
+        condition,
+        label: condition || name || '',
+      },
+    });
+    recordHistory();
+  });
+
+  function deleteSelected() {
+    const selected = cy.$(':selected');
+    selected.forEach(element => {
+      if (element.isNode()) {
+        deletedActivities.add(element.data('id'));
+      } else {
+        deletedTransitions.add(element.data('id'));
+      }
+    });
+    cy.remove(selected);
+    updateSelectors();
+  }
+
+  document.getElementById('deleteButton').addEventListener('click', deleteSelected);
+
+  document.getElementById('undoButton').addEventListener('click', () => {
+    applyHistory(historyIndex - 1);
+  });
+
+  document.getElementById('redoButton').addEventListener('click', () => {
+    applyHistory(historyIndex + 1);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (!cy) return;
+    if ((event.key === 'Delete' || event.key === 'Backspace') && cy.$(':selected').length) {
+      event.preventDefault();
+      deleteSelected();
+      return;
+    }
+    if (event.ctrlKey || event.metaKey) {
+      if (event.key.toLowerCase() === 's') {
+        event.preventDefault();
+        saveGraph();
+      }
+      if (event.key.toLowerCase() === 'r') {
+        event.preventDefault();
+        loadGraph();
+      }
+      if (event.key.toLowerCase() === 'z') {
+        event.preventDefault();
+        applyHistory(historyIndex - 1);
+      }
+      if (event.key.toLowerCase() === 'y') {
+        event.preventDefault();
+        applyHistory(historyIndex + 1);
+      }
+    }
+  });
+
+  function saveGraph() {
+    setStatus('saving');
+    beginId = document.getElementById('beginSelect').value || null;
+    endId = document.getElementById('endSelect').value || null;
+
+    const positions = {};
+    cy.nodes().forEach(node => {
+      positions[node.id()] = node.position();
+    });
+
+    const payload = {
+      activities: cy.nodes().map(node => ({
+        id: node.id().startsWith('tmp-') ? null : node.id(),
+        client_id: node.id(),
+        title: node.data('label'),
+        kind: node.data('kind') || 'standard',
+        autostart: !!node.data('autostart'),
+        autofinish: node.data('autofinish') !== false,
+        position: positions[node.id()],
+      })),
+      transitions: cy.edges().map(edge => ({
+        id: edge.id().startsWith('tmp-') ? null : edge.id(),
+        client_id: edge.id(),
+        input_id: edge.data('source'),
+        output_id: edge.data('target'),
+        name: edge.data('name') || '',
+        condition: edge.data('condition') || '',
+      })),
+      deleted_activity_ids: Array.from(deletedActivities),
+      deleted_transition_ids: Array.from(deletedTransitions),
+      begin_id: beginId,
+      end_id: endId,
+      positions: positions,
+    };
+
+    fetch(`/workflow/designer/${processId}/graph/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
+      },
+      body: JSON.stringify(payload),
+    }).then(() => {
+      showToast('Saved');
+      setStatus('saved');
+      loadGraph();
+    }).catch(() => {
+      showToast('Save failed', true);
+      setStatus('error', true);
+    });
+  }
+
+  document.getElementById('saveButton').addEventListener('click', saveGraph);
+
+  document.getElementById('reloadButton').addEventListener('click', loadGraph);
+
+  const helpOverlay = document.getElementById('helpOverlay');
+  document.getElementById('helpButton').addEventListener('click', () => {
+    helpOverlay.style.display = 'block';
+  });
+  document.getElementById('closeHelp').addEventListener('click', () => {
+    helpOverlay.style.display = 'none';
+  });
+  helpOverlay.addEventListener('click', (event) => {
+    if (event.target === helpOverlay) {
+      helpOverlay.style.display = 'none';
+    }
+  });
+
+  loadGraph();
+</script>
+</body>
+</html>

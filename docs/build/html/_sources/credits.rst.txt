@@ -2,9 +2,9 @@
 
 .. _credits:
 
-============
+==============
 GoFlow Credits
-============
+==============
 
 We are grateful to x, y and z for support of this project.
 

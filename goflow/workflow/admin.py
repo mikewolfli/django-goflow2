@@ -1,10 +1,12 @@
 from django.contrib import admin
 from django.db.models import *
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
 from goflow.workflow.models import Transition, Process, Application, PushApplication, Activity, UserProfile
+
+User = get_user_model()
 
 
 class TransitionInline(admin.StackedInline):
@@ -60,7 +62,7 @@ admin.site.register(Activity, ActivityAdmin)
 
 class TransitionAdmin(admin.ModelAdmin):
     save_as = True
-    list_display = ('__unicode__', 'input', 'output', 'condition', 'description', 'process')
+    list_display = ('__str__', 'input', 'output', 'condition', 'description', 'process')
     list_filter = ('process',)
     fieldsets = (
               (None, {'fields':(

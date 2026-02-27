@@ -1,18 +1,16 @@
+<!DOCTYPE html>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" data-content_root="./">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>GoFlow FAQ &#8212; GoFlow 0.51 documentation</title>
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/default.css" />
+    <script src="_static/documentation_options.js?v=40225006"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="What’s new" href="changes.html" />
@@ -20,8 +18,9 @@
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -29,63 +28,97 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
-  <div class="section" id="goflow-faq">
-<span id="faq"></span><h1>GoFlow FAQ<a class="headerlink" href="#goflow-faq" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="what-is-this-all-about">
-<h2>What is this all about?<a class="headerlink" href="#what-is-this-all-about" title="Permalink to this headline">¶</a></h2>
+  <section id="goflow-faq">
+<span id="faq"></span><h1>GoFlow FAQ<a class="headerlink" href="#goflow-faq" title="Link to this heading">¶</a></h1>
+<section id="what-is-this-all-about">
+<h2>What is this all about?<a class="headerlink" href="#what-is-this-all-about" title="Link to this heading">¶</a></h2>
 <p>To understand what is <code class="docutils literal notranslate"><span class="pre">activity</span> <span class="pre">based</span> <span class="pre">workflow</span></code> take a look at <a class="reference external" href="http://www.openflow.it/Documentation/documentation/OpenFlowIntroduction">OpenFlow</a></p>
-</div>
-<div class="section" id="when-should-i-use-pushapplication-and-when-should-i-use-roles-in-activity-definition-what-happens-if-i-select-both">
-<h2>When should I use PushApplication and when should I use Roles in Activity definition? What happens if I select both?<a class="headerlink" href="#when-should-i-use-pushapplication-and-when-should-i-use-roles-in-activity-definition-what-happens-if-i-select-both" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="when-should-i-use-pushapplication-and-when-should-i-use-roles-in-activity-definition-what-happens-if-i-select-both">
+<h2>When should I use PushApplication and when should I use Roles in Activity definition? What happens if I select both?<a class="headerlink" href="#when-should-i-use-pushapplication-and-when-should-i-use-roles-in-activity-definition-what-happens-if-i-select-both" title="Link to this heading">¶</a></h2>
 <p>When an Activity is activated (automatically or manually by calling activate API method) it is assigned to the User that is returned by PushApplication. If there is no PushApplication then Activity is assigned to selected Roles. If you choose both, then only PushApplication is used.</p>
-</div>
-<div class="section" id="what-are-autostart-and-autofinish-in-activity-definition">
-<h2>What are AutoStart and AutoFinish in Activity definition<a class="headerlink" href="#what-are-autostart-and-autofinish-in-activity-definition" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="what-are-autostart-and-autofinish-in-activity-definition">
+<h2>What are AutoStart and AutoFinish in Activity definition<a class="headerlink" href="#what-are-autostart-and-autofinish-in-activity-definition" title="Link to this heading">¶</a></h2>
 <p>AutoStart and AutoFinish are start mode and finish mode as described here: <a class="reference external" href="http://www.openflow.it/Documentation/documentation/OpenFlowIntroduction">http://www.openflow.it/Documentation/documentation/OpenFlowIntroduction</a> For example if AutoStart is not checked, then to start Activity it is necessary to call activate API function on it. If AutoStart is checked, then it is automatically activated as soon as previous activities are finished (depending on guard condition: xor, and)</p>
-</div>
-<div class="section" id="how-should-i-define-a-transition-condition">
-<h2>How should I define a transition condition ?<a class="headerlink" href="#how-should-i-define-a-transition-condition" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="how-should-i-define-a-transition-condition">
+<h2>How should I define a transition condition ?<a class="headerlink" href="#how-should-i-define-a-transition-condition" title="Link to this heading">¶</a></h2>
 <p>transitions have a condition attribute: it is a python expression that returns a boolean. the variables that can be used in the boolean expression are instance and workitem. examples:</p>
 <blockquote>
 <div><ul class="simple">
-<li>OK: the user has pushed the OK button</li>
-<li>instance.condition == “OK”: the user has pushed the OK button</li>
-<li>workitem.time_out(delay=5, unit=’days’): the task is waiting for 5 days or more (NYI but soon)</li>
+<li><p>OK: the user has pushed the OK button</p></li>
+<li><p>instance.condition == “OK”: the user has pushed the OK button</p></li>
+<li><p>workitem.time_out(delay=5, unit=’days’): the task is waiting for 5 days or more (NYI but soon)</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="is-it-valid-to-reuse-activities">
-<h2>Is it valid to reuse Activities?<a class="headerlink" href="#is-it-valid-to-reuse-activities" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="is-it-valid-to-reuse-activities">
+<h2>Is it valid to reuse Activities?<a class="headerlink" href="#is-it-valid-to-reuse-activities" title="Link to this heading">¶</a></h2>
 <p>The good practise is to reuse Applications, not Activities: Applications should be reused because they take time to build; Activities are just containers for applications, with some parameters to fit the process needs.</p>
 <p>You can customize application with parameters:</p>
 <blockquote>
 <div><ul class="simple">
-<li>at global level, in urls.py files</li>
-<li>at process level, in activities (application parameters field)</li>
+<li><p>at global level, in urls.py files</p></li>
+<li><p>at process level, in activities (application parameters field)</p></li>
 </ul>
 </div></blockquote>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
+          
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">GoFlow FAQ</a><ul>
-<li><a class="reference internal" href="#what-is-this-all-about">What is this all about?</a></li>
-<li><a class="reference internal" href="#when-should-i-use-pushapplication-and-when-should-i-use-roles-in-activity-definition-what-happens-if-i-select-both">When should I use PushApplication and when should I use Roles in Activity definition? What happens if I select both?</a></li>
-<li><a class="reference internal" href="#what-are-autostart-and-autofinish-in-activity-definition">What are AutoStart and AutoFinish in Activity definition</a></li>
-<li><a class="reference internal" href="#how-should-i-define-a-transition-condition">How should I define a transition condition ?</a></li>
-<li><a class="reference internal" href="#is-it-valid-to-reuse-activities">Is it valid to reuse Activities?</a></li>
+<h1 class="logo"><a href="index.html">GoFlow</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns.html">Workflow Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">GoFlow User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GoFlow FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-this-all-about">What is this all about?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#when-should-i-use-pushapplication-and-when-should-i-use-roles-in-activity-definition-what-happens-if-i-select-both">When should I use PushApplication and when should I use Roles in Activity definition? What happens if I select both?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-are-autostart-and-autofinish-in-activity-definition">What are AutoStart and AutoFinish in Activity definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-should-i-define-a-transition-condition">How should I define a transition condition ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#is-it-valid-to-reuse-activities">Is it valid to reuse Activities?</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">What’s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">GoFlow License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">GoFlow Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="definitions.html">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/index.html">GoFlow Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -95,35 +128,24 @@
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/faq.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2008, Eric Simorre.
+      &#169;2008, Eric Simorre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |
       <a href="_sources/faq.rst.txt"

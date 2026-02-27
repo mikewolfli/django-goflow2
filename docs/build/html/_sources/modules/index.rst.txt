@@ -35,20 +35,6 @@ goflow.graphics2
    goflow.graphics2.models.rst
    goflow.graphics2.views.rst
 
-goflow.instances
------------------
-
-.. toctree::
-   :maxdepth: 2
-      
-   goflow.instances.rst
-   goflow.instances.api.rst
-   goflow.instances.forms.rst
-   goflow.instances.models.rst
-   goflow.instances.views.rst
-   goflow.instances.urls.rst
-   goflow.instances.urls_admin.rst
-
 goflow.workflow
 -----------------
 

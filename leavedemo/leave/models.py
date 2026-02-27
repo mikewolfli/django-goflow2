@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.contrib.auth.models import Group, User
+from django.conf import settings
 from django.utils.safestring import mark_safe
 # Create your models here.
 
@@ -29,9 +29,9 @@ class LeaveRequest(models.Model):
     reason = models.TextField(null=True, blank=True)
     reason_denial = models.TextField(null=True, blank=True, verbose_name='reason of denial')
     requester = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True)
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     
-    def __unicode__(self):
+    def __str__(self):
         return 'leaverequest-%s' % str(self.pk)
 
 class Manager(models.Model):
@@ -40,19 +40,19 @@ class Manager(models.Model):
                        ('supervisor','Supervisor'),
                        )
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='manager_set')
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='manager_set')
     category = models.CharField(max_length=50, choices=MANAGER_CHOICES, help_text='secretary, supervisor, ...')
-    users = models.ManyToManyField(User, related_name='managers')
-    def __unicode__(self):
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='managers')
+    def __str__(self):
         return '%s as %s' % (self.user.username, self.category)
     
 class Account(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='accounts')
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='accounts')
     category = models.CharField(max_length=50, help_text='vacations, rtt, ..')
     days = models.IntegerField(default=0)
     
-    def __unicode__(self):
+    def __str__(self):
         return '%s-%s' % (self.user.username, self.category)
 
         
@@ -67,8 +67,6 @@ class LeaveAttachment(models.Model):
         return mark_safe('<img src="%s" width="25" height="25" />' % self.attachment.url)
 
     image_tag.short_description = 'Image'
-    image_tag.allow_tags = True
-
     class Meta:
         verbose_name = "Leave Attachment"
         verbose_name_plural = verbose_name

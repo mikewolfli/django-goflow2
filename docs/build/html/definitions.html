@@ -1,27 +1,26 @@
+<!DOCTYPE html>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" data-content_root="./">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Definitions &#8212; GoFlow 0.51 documentation</title>
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/default.css" />
+    <script src="_static/documentation_options.js?v=40225006"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="GoFlow Modules" href="modules/index.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="credits.html" />
+    <link rel="prev" title="GoFlow Credits" href="credits.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -29,254 +28,249 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
-  <div class="section" id="definitions">
-<span id="id1"></span><h1>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="introduction-concepts">
-<h2>Introduction &amp; Concepts<a class="headerlink" href="#introduction-concepts" title="Permalink to this headline">¶</a></h2>
+  <section id="definitions">
+<span id="id1"></span><h1>Definitions<a class="headerlink" href="#definitions" title="Link to this heading">¶</a></h1>
+<section id="introduction-concepts">
+<h2>Introduction &amp; Concepts<a class="headerlink" href="#introduction-concepts" title="Link to this heading">¶</a></h2>
 <p>GoFlow is an “activity based” workflow. Workflow processes are implemented as a set of activities that must be completed to achieve some result. In GoFlow, the logic of activities lies in python view scripts. The presentation consists of a django (or any other kind of) template. GoFlow provides three main modules:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Workflow API,</li>
-<li>Workflow Runtime</li>
-<li>Workflow Admin.</li>
+<li><p>Workflow API,</p></li>
+<li><p>Workflow Runtime</p></li>
+<li><p>Workflow Admin.</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="id2">
-<h2>Definitions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="process">
-<h3>Process<a class="headerlink" href="#process" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id2">
+<h2>Definitions<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<section id="process">
+<h3>Process<a class="headerlink" href="#process" title="Link to this heading">¶</a></h3>
 <p>A process is defined as a set of activities that must be done to achieve some goal. Business interactions are mapped to GoFlow processes to automate them. Process activities are connected using transitions defining what has to be done after each activity is completed.</p>
-</div>
-<div class="section" id="activity">
-<h3>Activity<a class="headerlink" href="#activity" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="activity">
+<h3>Activity<a class="headerlink" href="#activity" title="Link to this heading">¶</a></h3>
 <p>An activity is a task that must be completed as a part of a process. In GoFlow activities are mapped to python scripts. This way an activity can do anything that can be done from a python script.</p>
-</div>
-<div class="section" id="transitions">
-<h3>Transitions<a class="headerlink" href="#transitions" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="transitions">
+<h3>Transitions<a class="headerlink" href="#transitions" title="Link to this heading">¶</a></h3>
 <p>Transitions defines which activity or activities come before an activity is executed and after it is completed.</p>
-</div>
-<div class="section" id="role">
-<h3>Role<a class="headerlink" href="#role" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="role">
+<h3>Role<a class="headerlink" href="#role" title="Link to this heading">¶</a></h3>
 <p>Roles define who can perform an associated activity. Roles are defined at a per-process level.</p>
-</div>
-<div class="section" id="processinstance">
-<h3>ProcessInstance<a class="headerlink" href="#processinstance" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="processinstance">
+<h3>ProcessInstance<a class="headerlink" href="#processinstance" title="Link to this heading">¶</a></h3>
 <p>An instance is an occurrence of a process being executed. An instance is created when a process is started. The instance passes through the process activities until the process is terminated.</p>
-</div>
-<div class="section" id="workitem">
-<h3>WorkItem<a class="headerlink" href="#workitem" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="workitem">
+<h3>WorkItem<a class="headerlink" href="#workitem" title="Link to this heading">¶</a></h3>
 <p>A workitem is added to the instance when an activity is completed. Workitems thus represent completed activities.</p>
-</div>
-</div>
-<div class="section" id="activity-types">
-<h2>Activity Types<a class="headerlink" href="#activity-types" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="activity-types">
+<h2>Activity Types<a class="headerlink" href="#activity-types" title="Link to this heading">¶</a></h2>
 <p>GoFlow defines seven basic activity types that can be used to design a process. They are:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Start</li>
-<li>End</li>
-<li>Activity</li>
-<li>Switch</li>
-<li>Split</li>
-<li>Join</li>
-<li>Standalone</li>
+<li><p>Start</p></li>
+<li><p>End</p></li>
+<li><p>Activity</p></li>
+<li><p>Switch</p></li>
+<li><p>Split</p></li>
+<li><p>Join</p></li>
+<li><p>Standalone</p></li>
 </ul>
 </div></blockquote>
-<div class="section" id="start-activity">
-<h3>Start Activity<a class="headerlink" href="#start-activity" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="start-activities">
-<h4>Start activities<a class="headerlink" href="#start-activities" title="Permalink to this headline">¶</a></h4>
+<section id="start-activity">
+<h3>Start Activity<a class="headerlink" href="#start-activity" title="Link to this heading">¶</a></h3>
+<section id="start-activities">
+<h4>Start activities<a class="headerlink" href="#start-activities" title="Link to this heading">¶</a></h4>
 <blockquote>
-<div>Start activities are represented using a circle. Every process must have at least one start activity. Start is the only activity type that can be executed without the presence of an instance in the activity because instances are created when a start activity is executed. Processes with many start activities are awkward but possible in GoFlow. No transitions can lead to a start activity and only one outgoing transition is allowed per start activity.</div></blockquote>
-</div>
-</div>
-<div class="section" id="end-activity">
-<h3>End Activity<a class="headerlink" href="#end-activity" title="Permalink to this headline">¶</a></h3>
+<div><p>Start activities are represented using a circle. Every process must have at least one start activity. Start is the only activity type that can be executed without the presence of an instance in the activity because instances are created when a start activity is executed. Processes with many start activities are awkward but possible in GoFlow. No transitions can lead to a start activity and only one outgoing transition is allowed per start activity.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="end-activity">
+<h3>End Activity<a class="headerlink" href="#end-activity" title="Link to this heading">¶</a></h3>
 <p>The end activity represents the end of a process. When an instance reaches the end activity the process is considered completed. Process must have exactly one end activity. This doesn√¢‚Ç¨‚Ñ¢t mean that processes can√¢‚Ç¨‚Ñ¢t end in different ways, since the end activity represents only that the process ends. How the process ends depends on the activities visited before the end activity. The end activity is represented in GoFlow using a double circle. The end activity can have many inbound transitions. Outbound transitions are not allowed.</p>
 <p>Rules: Valid processes must have at least one begin activity and exactly one end activity. There must be at least one path leading from a start activity to the end activity.</p>
-</div>
-<div class="section" id="normal-activity">
-<h3>Normal Activity<a class="headerlink" href="#normal-activity" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="normal-activity">
+<h3>Normal Activity<a class="headerlink" href="#normal-activity" title="Link to this heading">¶</a></h3>
 <p>Normal activities don√¢‚Ç¨‚Ñ¢t have a special meaning so they are used to represent tasks that should be done as a part of a process. A rectangle is used to represent these activities. Normal activities can receive many inbound transitions but can only have one outbound transition.</p>
-</div>
-<div class="section" id="switch-activity">
-<h3>Switch Activity<a class="headerlink" href="#switch-activity" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="switch-activity">
+<h3>Switch Activity<a class="headerlink" href="#switch-activity" title="Link to this heading">¶</a></h3>
 <p>A switch activity represents a point of decision in a process. Instances reaching a switch activity are evaluated and depending on some conditions the instance can be routed to different activities. Switch activities can have many inbound transitions and many outbound transitions. Switch activities are represented using a diamond.</p>
-</div>
-<div class="section" id="split-activity">
-<h3>Split Activity<a class="headerlink" href="#split-activity" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="split-activity">
+<h3>Split Activity<a class="headerlink" href="#split-activity" title="Link to this heading">¶</a></h3>
 <p>Sometimes two or more activities in a process can be done independently in parallel. A split activity is used to split an instance and route it to many activities. This way an instance can be in many activities at the same time. Split activities represent subflows in a workflow. A split activity can receive many inbound transitions and can have many outbound transitions. Split activities are represented by a triangle.</p>
-</div>
-<div class="section" id="join-activity">
-<h3>Join Activity<a class="headerlink" href="#join-activity" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="join-activity">
+<h3>Join Activity<a class="headerlink" href="#join-activity" title="Link to this heading">¶</a></h3>
 <p>A join activity is used to regroup instances splitted from a split activity. When an instance reaches a join activity the engine verifies that the instance is present also in some other activity. If so, the instance must wait in the join activity until all activities leading to the join activity are completed. Once all activities reach the join activity the instance can be directed to the next activity. Join activities can have many inbound transitions (more than one is expected) and can only have one outbound activity. Join activities are represented using an inverted triangle.</p>
-</div>
-<div class="section" id="standalone-activity">
-<h3>Standalone Activity<a class="headerlink" href="#standalone-activity" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="standalone-activity">
+<h3>Standalone Activity<a class="headerlink" href="#standalone-activity" title="Link to this heading">¶</a></h3>
 <p>Standalone activities are represented by hexagons. A standalone activity is not part of the normal flow of the process so they are not related to instances. A standalone activity can be executed any time by an user with the required permissions. These activities are ideal for data management related to the process, listings, adding items, removing items, etc. Many processes can be designed as a set of standalone activities if there’s no order relationship between the different activities in the process. Other processes consist of a main process flow and a set of auxiliary standalone activities. Standalone activities can√¢‚Ç¨‚Ñ¢t have inbound nor outbound transitions.</p>
-</div>
-</div>
-<div class="section" id="autorouting-interactiveness">
-<h2>AutoRouting &amp; Interactiveness<a class="headerlink" href="#autorouting-interactiveness" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="autorouting">
-<h3>AutoRouting<a class="headerlink" href="#autorouting" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="autorouting-interactiveness">
+<h2>AutoRouting &amp; Interactiveness<a class="headerlink" href="#autorouting-interactiveness" title="Link to this heading">¶</a></h2>
+<section id="autorouting">
+<h3>AutoRouting<a class="headerlink" href="#autorouting" title="Link to this heading">¶</a></h3>
 <p>When an activitiy is completed the engine may or may not automatically route the instance to the next activity in the process. Activities with the “AutoRouting” setting activated automatically route the instance to the next process activity when the activity is completed. If the activity is not “AutoRouting” the user must “send” the activity after completion to let the instance continue. This can be used in activities where the user can edit information and review it many times before deciding that the activity is completed.</p>
-</div>
-<div class="section" id="interactiveness">
-<h3>Interactiveness<a class="headerlink" href="#interactiveness" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="interactiveness">
+<h3>Interactiveness<a class="headerlink" href="#interactiveness" title="Link to this heading">¶</a></h3>
 <p>In GoFlow activities can be automatic or interactive. Interactive activities are activities that require some kind of interaction from the user. These activities usually present a form asking the user to fill some data. After the information is submitted the activity is completed. Automatic activities in contrast are executed automatically by the GoFlow engine without any user interaction. Frequently automatic activities are hidden from the user view of a process.</p>
 <blockquote>
 <div><ul class="simple">
-<li>Auto-routed activities have red arrows going out of them.</li>
-<li>Non-auto-routed activities have black arrows going out of them.</li>
-<li>Interactive activities have blue borders.</li>
-<li>Automatic activities have black borders.</li>
+<li><p>Auto-routed activities have red arrows going out of them.</p></li>
+<li><p>Non-auto-routed activities have black arrows going out of them.</p></li>
+<li><p>Interactive activities have blue borders.</p></li>
+<li><p>Automatic activities have black borders.</p></li>
 </ul>
 </div></blockquote>
-</div>
-</div>
-<div class="section" id="sample-process">
-<h2>Sample Process<a class="headerlink" href="#sample-process" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="sample-process">
+<h2>Sample Process<a class="headerlink" href="#sample-process" title="Link to this heading">¶</a></h2>
 <p>The picture on the left shows the graph of a process. This process defines requests to a shared CD collection. The start activity (interactive) is where the user picks a CD. Then the manager must verify that the CD is available in the “Approve loan” activity. If the CD is available, the manager sends the CD to the user, and the request is accepted. If not, the request is rejected. The standalone activity “Browse CDs” can be used by the user or the manager to browse the CD collection.</p>
-</div>
-<div class="section" id="modules">
-<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Link to this heading">¶</a></h2>
 <p>GoFlow defines three modules:</p>
 <blockquote>
 <div><ul class="simple">
-<li>The Process Manager</li>
-<li>The User Interafce</li>
-<li>The Process Monitor</li>
+<li><p>The Process Manager</p></li>
+<li><p>The User Interafce</p></li>
+<li><p>The Process Monitor</p></li>
 </ul>
 </div></blockquote>
-<div class="section" id="process-manager">
-<h3>Process Manager<a class="headerlink" href="#process-manager" title="Permalink to this headline">¶</a></h3>
+<section id="process-manager">
+<h3>Process Manager<a class="headerlink" href="#process-manager" title="Link to this heading">¶</a></h3>
 <p>The process manager is the module used to create and modify processes. This module is normally used by an administrator and process designers to create processes. The process manager covers the following functionality:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Create process and process versions</li>
-<li>Create, rename, edit and delete activities</li>
-<li>View a graph of the process activities</li>
-<li>Check if a process is valid</li>
-<li>Activate/de-activate a process</li>
-<li>Edit the source code of activities (python scripts) and templates (Smarty templates)</li>
-<li>Define roles and define what roles are allowed to execute what activities</li>
-<li>Map users to roles</li>
-<li>Export processes to XML files (backup)</li>
-<li>Load processes from XML files (restore)</li>
+<li><p>Create process and process versions</p></li>
+<li><p>Create, rename, edit and delete activities</p></li>
+<li><p>View a graph of the process activities</p></li>
+<li><p>Check if a process is valid</p></li>
+<li><p>Activate/de-activate a process</p></li>
+<li><p>Edit the source code of activities (python scripts) and templates (Smarty templates)</p></li>
+<li><p>Define roles and define what roles are allowed to execute what activities</p></li>
+<li><p>Map users to roles</p></li>
+<li><p>Export processes to XML files (backup)</p></li>
+<li><p>Load processes from XML files (restore)</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="user-interface">
-<h3>User Interface<a class="headerlink" href="#user-interface" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="user-interface">
+<h3>User Interface<a class="headerlink" href="#user-interface" title="Link to this heading">¶</a></h3>
 <p>The user interface is used by the users to browse processes where they can start new instances, or run activities to which their role has permissions and belong to a particular instance. Users can execute activities, and see the results and some statistics about work asssigned to them.</p>
-</div>
-<div class="section" id="the-process-monitor">
-<h3>The Process Monitor<a class="headerlink" href="#the-process-monitor" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="the-process-monitor">
+<h3>The Process Monitor<a class="headerlink" href="#the-process-monitor" title="Link to this heading">¶</a></h3>
 <p>The process monitor is used to monitor and control the execution of processes. The following list shows some features of the process monitor API.</p>
 <blockquote>
 <div><ul class="simple">
-<li>List processes, process activities and number of instances per activity</li>
-<li>List active instances and exceptions</li>
-<li>Browse instances and modify instance properties</li>
-<li>Send instances to some activity</li>
-<li>Assign or reassign an instance to some user</li>
-<li>Abort instances</li>
-<li>View statistics about completed processes, execution time, and time spent per activity</li>
+<li><p>List processes, process activities and number of instances per activity</p></li>
+<li><p>List active instances and exceptions</p></li>
+<li><p>Browse instances and modify instance properties</p></li>
+<li><p>Send instances to some activity</p></li>
+<li><p>Assign or reassign an instance to some user</p></li>
+<li><p>Abort instances</p></li>
+<li><p>View statistics about completed processes, execution time, and time spent per activity</p></li>
 </ul>
 </div></blockquote>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
           </div>
+          
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Definitions</a><ul>
-<li><a class="reference internal" href="#introduction-concepts">Introduction &amp; Concepts</a></li>
-<li><a class="reference internal" href="#id2">Definitions</a><ul>
-<li><a class="reference internal" href="#process">Process</a></li>
-<li><a class="reference internal" href="#activity">Activity</a></li>
-<li><a class="reference internal" href="#transitions">Transitions</a></li>
-<li><a class="reference internal" href="#role">Role</a></li>
-<li><a class="reference internal" href="#processinstance">ProcessInstance</a></li>
-<li><a class="reference internal" href="#workitem">WorkItem</a></li>
+<h1 class="logo"><a href="index.html">GoFlow</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns.html">Workflow Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">GoFlow User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">GoFlow FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">What’s new</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">GoFlow License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">GoFlow Credits</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Definitions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction-concepts">Introduction &amp; Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#activity-types">Activity Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#autorouting-interactiveness">AutoRouting &amp; Interactiveness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sample-process">Sample Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#activity-types">Activity Types</a><ul>
-<li><a class="reference internal" href="#start-activity">Start Activity</a><ul>
-<li><a class="reference internal" href="#start-activities">Start activities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/index.html">GoFlow Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
-</li>
-<li><a class="reference internal" href="#end-activity">End Activity</a></li>
-<li><a class="reference internal" href="#normal-activity">Normal Activity</a></li>
-<li><a class="reference internal" href="#switch-activity">Switch Activity</a></li>
-<li><a class="reference internal" href="#split-activity">Split Activity</a></li>
-<li><a class="reference internal" href="#join-activity">Join Activity</a></li>
-<li><a class="reference internal" href="#standalone-activity">Standalone Activity</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#autorouting-interactiveness">AutoRouting &amp; Interactiveness</a><ul>
-<li><a class="reference internal" href="#autorouting">AutoRouting</a></li>
-<li><a class="reference internal" href="#interactiveness">Interactiveness</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#sample-process">Sample Process</a></li>
-<li><a class="reference internal" href="#modules">Modules</a><ul>
-<li><a class="reference internal" href="#process-manager">Process Manager</a></li>
-<li><a class="reference internal" href="#user-interface">User Interface</a></li>
-<li><a class="reference internal" href="#the-process-monitor">The Process Monitor</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="credits.html" title="previous chapter">&lt;no title&gt;</a></li>
+      <li>Previous: <a href="credits.html" title="previous chapter">GoFlow Credits</a></li>
       <li>Next: <a href="modules/index.html" title="next chapter">GoFlow Modules</a></li>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/definitions.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2008, Eric Simorre.
+      &#169;2008, Eric Simorre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |
       <a href="_sources/definitions.rst.txt"

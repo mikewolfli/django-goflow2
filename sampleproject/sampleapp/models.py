@@ -1,6 +1,5 @@
 from django.db import models
-
-from django.contrib.auth.models import User
+from django.conf import settings
 
 class SampleModel(models.Model):
     '''
@@ -9,7 +8,7 @@ class SampleModel(models.Model):
     date = models.DateField(auto_now_add=True)
     text = models.CharField(max_length = 100)
     number = models.IntegerField(null=True, blank=True)
-    requester = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='requester')
+    requester = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='requester')
     
-    def __unicode__(self):
+    def __str__(self):
         return self.text

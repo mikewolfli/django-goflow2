@@ -55,4 +55,4 @@ class Log(object):
 
     def event(self, msg, workitem):
         # self._event.create(name=msg, workitem=workitem)
-        self.log.info(u'EVENT: [%s] %s' % (workitem.__unicode__(), msg))
+        self.log.info('EVENT: [%s] %s' % (str(workitem), msg))

@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.contrib.auth.models import Group, User, Permission
+from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.urls.base import resolve
 
@@ -58,9 +58,6 @@ class Activity(models.Model):
         ''' returns the number of inputing transitions.
         '''
         return Transition.objects.filter(output=self, process=self.process).count()
-
-    def __unicode__(self):
-        return '%s (%s)' % (self.title, self.process.title)
 
     def __str__(self):
         return '%s (%s)' % (self.title, self.process.title)
@@ -151,9 +148,6 @@ class Process(models.Model):
     def __str__(self):
         return self.title
 
-    def __unicode__(self):
-        return self.title
-
     # @allow_tags
     def summary(self):
         return mark_safe('<pre>%s</pre>' % self.description)
@@ -177,6 +171,8 @@ class Process(models.Model):
         return t
 
     def create_authorized_group_if_not_exists(self):
+        if not getattr(settings, "GOFLOW_AUTO_CREATE_PROCESS_GROUPS", True):
+            return
         g, created = Group.objects.get_or_create(name=self.title)
         if created:
             ptype = ContentType.objects.get_for_model(Process)
@@ -212,6 +208,12 @@ class Process(models.Model):
             pass
 
 
+class WorkflowLayout(models.Model):
+    process = models.OneToOneField(Process, on_delete=models.CASCADE, related_name="layout")
+    layout = models.JSONField(default=dict, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 class Application(models.Model):
     """ An application is a python view that can be called by URL.
 
@@ -229,9 +231,6 @@ class Application(models.Model):
                                default='w', help_text='http://[host]/[settings.WF_APPS_PREFIX/][url]/[suffix]')
     detected_as_auto = None
 
-    def __unicode__(self):
-        return self.url
-
     def __str__(self):
         return self.url
 
@@ -246,7 +245,7 @@ class Application(models.Model):
             else:
                 path = '%s?workitem_id=%d' % (path, workitem.id)
         if extern_for_user:
-            profile = UserProfile.objects.get(user=user)
+            profile = UserProfile.objects.get(user=extern_for_user)
             path = 'http://%s%s' % (profile.web_host, path)
         return path
 
@@ -359,9 +358,6 @@ class PushApplication(models.Model):
         handler = self.get_handler()
         return handler(workitem, **kwargs)
 
-    def __unicode__(self):
-        return self.url
-
     def __str__(self):
         return self.url
 
@@ -404,9 +400,6 @@ class Transition(models.Model):
         if self.input.process != self.process or self.output.process != self.process:
             raise Exception("a transition and its activities must be linked to the same process")
         models.Model.save(self)
-
-    def __unicode__(self):
-        return self.name or 't%s' % str(self.pk)
 
     def __str__(self):
         return self.name or 't%s' % str(self.pk)
