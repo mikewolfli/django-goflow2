@@ -27,6 +27,7 @@ from goflow.workflow.logger import Log; log = Log('goflow.apptools.views')
 
 from goflow.workflow.notification import send_mail
 from goflow.workflow.safe_expressions import parse_params_mapping
+from django.utils.module_loading import import_string
 
 from django.contrib import messages
 
@@ -136,7 +137,8 @@ def default_app(request, id, template='goflow/default_app.html', redirect='../..
         workitem = WorkItem.objects.get_safe(id, user=request.user)
         inst = workitem.instance
         ob = inst.wfobject()
-        form = DefaultAppForm(data, instance=ob)
+        form_class = resolve_form_class(workitem.activity, DefaultAppForm)
+        form = form_class(data, instance=ob)
         if form.is_valid():
             # data = form.cleaned_data
             submit_value = request.POST[submit_name]
@@ -154,7 +156,8 @@ def default_app(request, id, template='goflow/default_app.html', redirect='../..
         workitem = WorkItem.objects.get_safe(id, user=request.user)
         inst = workitem.instance
         ob = inst.wfobject()
-        form = DefaultAppForm(instance=ob)
+        form_class = resolve_form_class(workitem.activity, DefaultAppForm)
+        form = form_class(instance=ob)
         # add header with activity description, submit buttons dynamically
         if workitem.activity.split_mode == 'x':
             tlist = workitem.activity.transition_inputs.all()
@@ -163,6 +166,7 @@ def default_app(request, id, template='goflow/default_app.html', redirect='../..
                 for t in tlist:
                     submit_values.append(_cond_to_button_value(t.condition))
     
+    template = resolve_form_template(workitem.activity, template)
     return render(request, template, {'form': form,
                                          'activity':workitem.activity,
                                          'workitem':workitem,
@@ -234,6 +238,8 @@ def edit_model(request, id, form_class, cmp_attr=None, template=None, template_d
         obj = getattr(obj, cmp_attr)
     
     template = override_app_params(activity, 'template', template)
+    template = resolve_form_template(activity, template)
+    form_class = resolve_form_class(activity, form_class)
     redirect = override_app_params(activity, 'redirect', redirect)
     submit_name = override_app_params(activity, 'submit_name', submit_name)
     ok_values = override_app_params(activity, 'ok_values', ok_values)
@@ -317,6 +323,7 @@ def view_application(request, id, template='goflow/view_application.html', redir
     obj = instance.wfobject()
     
     template = override_app_params(activity, 'template', template)
+    template = resolve_form_template(activity, template)
     redirect = override_app_params(activity, 'redirect', redirect)
     submit_name = override_app_params(activity, 'submit_name', submit_name)
     ok_values = override_app_params(activity, 'ok_values', ok_values)
@@ -411,6 +418,21 @@ def override_app_params(activity, name, value):
     except Exception as v:
         log.error('_override_app_params %s %s - %s', activity, name, v)
     return value
+
+
+def resolve_form_template(activity, fallback):
+    if activity and activity.form_template:
+        return activity.form_template
+    return fallback
+
+
+def resolve_form_class(activity, fallback):
+    if activity and activity.form_class:
+        try:
+            return import_string(activity.form_class)
+        except Exception as v:
+            log.error('resolve_form_class %s - %s', activity.form_class, v)
+    return fallback
 
 
 @login_required

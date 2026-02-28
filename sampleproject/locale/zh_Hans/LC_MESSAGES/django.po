@@ -10,3 +10,47 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: settings.py:187
+msgid "English"
+msgstr "英语"
+
+#: settings.py:188
+msgid "French"
+msgstr "法语"
+
+#: settings.py:189
+msgid "Simplified Chinese"
+msgstr "简体中文"
+
+#: settings.py:190
+msgid "Traditional Chinese"
+msgstr "繁体中文"
+
+#: settings.py:191
+msgid "Japanese"
+msgstr "日语"
+
+#: settings.py:192
+msgid "Korean"
+msgstr "韩语"
+
+#: settings.py:193
+msgid "German"
+msgstr "德语"
+
+#: settings.py:194
+msgid "Spanish"
+msgstr "西班牙语"
+
+#: settings.py:195
+msgid "Italian"
+msgstr "意大利语"
+
+#: settings.py:196
+msgid "Portuguese"
+msgstr "葡萄牙语"
+
+#: settings.py:197
+msgid "Russian"
+msgstr "俄语"

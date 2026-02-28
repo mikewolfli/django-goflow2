@@ -1,7 +1,9 @@
 import django.db.models
 from django.apps import apps
+from django.contrib.auth import get_user_model
 from goflow.workflow.models import *
 DEBUG = True
+User = get_user_model()
 
 def log(section, variable):
     if DEBUG:
@@ -47,7 +49,8 @@ class ProcessBuilder(object):
     def add_activity(self, title='', description='', kind='standard',
             push_application=None, pushapp_param='', application='',
             app_param='', autostart=False, autofinish=True,
-            join_mode='and', split_mode='xor', roles=[]):
+            join_mode='and', split_mode='xor', roles=[], node_type='standard',
+            form_template=None, form_class=None):
         '''
         creates a single activity instance
         '''
@@ -55,7 +58,8 @@ class ProcessBuilder(object):
             process=self.process, push_application=push_application,
             pushapp_param=pushapp_param, application=application,
             app_param=repr(app_param), autostart=autostart, autofinish=autofinish,
-            join_mode=join_mode, split_mode=split_mode
+            join_mode=join_mode, split_mode=split_mode,
+            node_type=node_type, form_template=form_template, form_class=form_class,
         )
         log('activity', activity)
         activity.save()
@@ -67,21 +71,29 @@ class ProcessBuilder(object):
 
     def add_activities(self, activities):
         _activities = []
-        for title, kind, pushapp, app, autostart, autofinish, join, split, roles in activities:
+        for item in activities:
+            if len(item) == 9:
+                title, kind, pushapp, app, autostart, autofinish, join, split, roles = item
+                node_type = 'standard'
+                form_template = None
+                form_class = None
+            else:
+                title, kind, pushapp, app, autostart, autofinish, join, split, roles, node_type, form_template, form_class = item
             _activities.append(self.add_activity(
                 title=title, kind=kind, push_application=self.add_pushapp(pushapp),
                 application=self.add_application(url=self.applications[app]['url']),
                 app_param=self.applications[app]['parameters'],
                 autostart=autostart, autofinish=autofinish,
-                join_mode=join, split_mode=split, roles=roles
+                join_mode=join, split_mode=split, roles=roles,
+                node_type=node_type, form_template=form_template, form_class=form_class,
             ))
         return _activities
 
-    def add_transition(self, input_output=(None, None), name='', condition=''):
+    def add_transition(self, input_output=(None, None), name='', condition='', pre_hook=None, post_hook=None):
         input=self.activities[input_output[0]]
         output=self.activities[input_output[1]]
         t = Transition(name=name, process=self.process, input=input,
-            output=output, condition=condition)
+            output=output, condition=condition, pre_hook=pre_hook, post_hook=post_hook)
         log('transition', t)
         t.save()
         self.transitions[name] = t
@@ -89,8 +101,13 @@ class ProcessBuilder(object):
 
     def add_transitions(self, transitions):
         ts = []
-        for input_output, name, condition in transitions:
-             ts.append(self.add_transition(input_output, name, condition))
+        for item in transitions:
+            if len(item) == 3:
+                input_output, name, condition = item
+                pre_hook, post_hook = None, None
+            else:
+                input_output, name, condition, pre_hook, post_hook = item
+            ts.append(self.add_transition(input_output, name, condition, pre_hook, post_hook))
         return ts
 
     def create_process(self, title='', begin=None, end=None,

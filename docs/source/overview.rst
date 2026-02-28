@@ -9,7 +9,7 @@ Overview
 Preface
 +++++++
 
-This document presents an introduction to "GoFlow", a workflow engine for django. As there may many new terms which may or may not be familiar to the reader, we will try to define our terms as clearly as possible, but you can always refer to the `glossary`_ in case additional information is required.
+This document presents an introduction to "GoFlow", a workflow engine for django. As there may many new terms which may or may not be familiar to the reader, we will try to define our terms as clearly as possible, but you can always refer to the :ref:`glossary` in case additional information is required.
 
 This is the official documentation for the GoFlow 0.x series. 
 

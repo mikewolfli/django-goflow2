@@ -35,12 +35,22 @@ class Activity(models.Model):
                     ('dummy', 'dummy'),
                     ('subflow', 'subflow'),
                     )
+    NODE_TYPE_CHOICES = (
+                    ('standard', 'standard'),
+                    ('approval', 'approval'),
+                    ('review', 'review'),
+                    ('service', 'service'),
+                    ('notification', 'notification'),
+                    ('gateway', 'gateway'),
+                    ('script', 'script'),
+                    )
     COMP_CHOICES = (
                     ('and', 'and'),
                     ('xor', 'xor'),
                     )
     title = models.CharField(max_length=100)
     kind = models.CharField(max_length=10, choices=KIND_CHOICES, verbose_name='type', default='standard')
+    node_type = models.CharField(max_length=20, choices=NODE_TYPE_CHOICES, default='standard')
     process = models.ForeignKey('Process', on_delete=models.CASCADE, related_name='activities')
     push_application = models.ForeignKey(
         'PushApplication', related_name='push_activities', on_delete=models.CASCADE, null=True, blank=True)
@@ -50,6 +60,18 @@ class Activity(models.Model):
                                 help_text='leave it blank for prototyping the process without coding')
     app_param = models.CharField(max_length=100, verbose_name='parameters',
                                  help_text='parameters dictionary', null=True, blank=True)
+    form_template = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text='template path for task form rendering',
+    )
+    form_class = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text='callable path for a Django Form/ModelForm',
+    )
     subflow = models.ForeignKey('Process', related_name='parent_activities',
                                 on_delete=models.CASCADE, null=True, blank=True)
     roles = models.ManyToManyField(Group, related_name='activities', blank=True)
@@ -514,8 +536,20 @@ class Transition(models.Model):
         Activity, on_delete=models.CASCADE, related_name='transition_inputs')
     condition = models.CharField(max_length=200, null=True, blank=True,
                                  help_text='ex: eq:APPROVED | timeout:3d | instance.condition=="OK"')
+    pre_hook = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text='callable path executed before transition evaluation',
+    )
     output = models.ForeignKey(
         Activity, on_delete=models.CASCADE, related_name='transition_outputs')
+    post_hook = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text='callable path executed after transition evaluation',
+    )
     description = models.CharField(max_length=100, null=True, blank=True)
     precondition = models.SlugField(null=True, blank=True, help_text='object method that return True if transition is posible')
 

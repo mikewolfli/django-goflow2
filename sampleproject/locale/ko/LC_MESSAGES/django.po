@@ -1,0 +1,62 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-27 23:44+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+#: settings.py:187
+msgid "English"
+msgstr "영어"
+
+#: settings.py:188
+msgid "French"
+msgstr "프랑스어"
+
+#: settings.py:189
+msgid "Simplified Chinese"
+msgstr "중국어 간체"
+
+#: settings.py:190
+msgid "Traditional Chinese"
+msgstr "중국어 번체"
+
+#: settings.py:191
+msgid "Japanese"
+msgstr "일본어"
+
+#: settings.py:192
+msgid "Korean"
+msgstr "한국어"
+
+#: settings.py:193
+msgid "German"
+msgstr "독일어"
+
+#: settings.py:194
+msgid "Spanish"
+msgstr "스페인어"
+
+#: settings.py:195
+msgid "Italian"
+msgstr "이탈리아어"
+
+#: settings.py:196
+msgid "Portuguese"
+msgstr "포르투갈어"
+
+#: settings.py:197
+msgid "Russian"
+msgstr "러시아어"

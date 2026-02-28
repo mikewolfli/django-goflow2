@@ -22,6 +22,7 @@ from goflow.workflow.safe_expressions import (
     parse_params_mapping,
 )
 from goflow.tenancy import apply_tenant_filter, get_tenant_context
+from django.utils.module_loading import import_string
 from django.conf import settings
 
 # from goflow.workflow.decorators import allow_tags
@@ -521,6 +522,12 @@ class WorkItem(models.Model):
         
         for destination in self.get_destinations(timeout_forwarding):
             self._forward_workitem_to_activity(destination)
+            try:
+                from goflow.runtime.signals import transition_fired
+
+                transition_fired.send(sender=WorkItem, workitem=self, activity=destination)
+            except Exception:
+                pass
             if self.activity.split_mode == 'xor': break
 
     def _forward_workitem_to_activity(self, target_activity):
@@ -702,6 +709,14 @@ class WorkItem(models.Model):
         '''
         if not transition.condition:
             return True
+        if transition.pre_hook:
+            try:
+                handler = import_string(transition.pre_hook)
+                if handler(workitem=self, transition=transition) is False:
+                    return False
+            except Exception as v:
+                log.error('transition pre_hook error %s', v)
+                return False
         instance = self.instance
         wfobject = instance.wfobject()
         log.debug('eval_transition_condition %s - %s',
@@ -717,10 +732,37 @@ class WorkItem(models.Model):
             # boolean expr
             if type(result) == type(True):
                 log.debug('eval_transition_condition boolean %s', str(result))
+                if result and transition.post_hook:
+                    try:
+                        handler = import_string(transition.post_hook)
+                        handler(workitem=self, transition=transition)
+                    except Exception as v:
+                        log.error('transition post_hook error %s', v)
+                if result:
+                    try:
+                        from goflow.runtime.signals import transition_evaluated
+
+                        transition_evaluated.send(sender=Transition, transition=transition, workitem=self, result=True)
+                    except Exception:
+                        pass
                 return result
             if type(result) == type(''):
                 log.debug('eval_transition_condition cmp instance.condition %s', str(instance.condition == result))
-                return (instance.condition == result)
+                matched = (instance.condition == result)
+                if matched and transition.post_hook:
+                    try:
+                        handler = import_string(transition.post_hook)
+                        handler(workitem=self, transition=transition)
+                    except Exception as v:
+                        log.error('transition post_hook error %s', v)
+                if matched:
+                    try:
+                        from goflow.runtime.signals import transition_evaluated
+
+                        transition_evaluated.send(sender=Transition, transition=transition, workitem=self, result=True)
+                    except Exception:
+                        pass
+                return matched
         except Exception as v:
             log.debug('eval_transition_condition [%s]: %s', transition.condition, v)
             return (instance.condition == transition.condition)

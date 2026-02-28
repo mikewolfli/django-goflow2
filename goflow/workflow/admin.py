@@ -78,13 +78,13 @@ class TransitionAdminForm(forms.ModelForm):
 class ActivityAdmin(admin.ModelAdmin):
     form = ActivityAdminForm
     save_as = True
-    list_display = ('title', 'description', 'kind', 'application',
+    list_display = ('title', 'description', 'kind', 'node_type', 'application',
                     'join_mode', 'split_mode', 'autostart', 'autofinish', 'process')
     list_filter = ('process', 'kind')
     fieldsets = (
-              (None, {'fields':(('kind', 'subflow'), ('title', 'process'), 'description')}),
+              (None, {'fields':(('kind', 'node_type', 'subflow'), ('title', 'process'), 'description')}),
               ('Push application', {'fields':(('push_application', 'pushapp_param'),)}),
-              ('Application', {'fields':(('application', 'app_param'),)}),
+              ('Application', {'fields':(('application', 'app_param'), 'form_template', 'form_class')}),
               ('I/O modes', {'fields':(('join_mode', 'split_mode'),)}),
               ('Execution modes', {'fields':(('autostart', 'autofinish'),)}),
               ('Permissions', {'fields':('roles', 'allowed_groups', 'allowed_users')}),
@@ -102,11 +102,13 @@ class TransitionAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'input', 'output', 'condition', 'description', 'process')
     list_filter = ('process',)
     fieldsets = (
-              (None, {'fields':(
+            (None, {'fields':(
                                 ('name', 'description'),
                                 'process',
                                 ('input', 'output'),
-                                'condition', 'precondition'
+                        'condition',
+                        ('pre_hook', 'post_hook'),
+                        'precondition'
                                 )
                      }),
               )

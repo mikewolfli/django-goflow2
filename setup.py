@@ -8,7 +8,7 @@ README_PATH = BASE_DIR / 'README.md'
 
 setup(
     name='django-goflow2',
-    version='1.1',
+    version='1.2',
     description='Fork from Eric Simorre\'s django-goflow, updated for modern Python and Django 4/5/6',
     long_description=README_PATH.read_text(encoding='utf-8'),
     long_description_content_type='text/markdown',

@@ -1,0 +1,807 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-27 23:44+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: apptools/forms.py:21 apptools/forms.py:46
+#: runtime/templates/goflow/sample_task_form.html:11
+msgid "Priority"
+msgstr "우선순위"
+
+#: apptools/forms.py:22
+msgid "normal"
+msgstr "보통"
+
+#: apptools/forms.py:22
+msgid "urgent"
+msgstr "긴급"
+
+#: apptools/forms.py:22
+msgid "emergency"
+msgstr "비상"
+
+#: apptools/forms.py:67 apptools/forms.py:88
+msgid "Init"
+msgstr "초기화"
+
+#: apptools/forms.py:70
+#, python-format
+msgid ""
+"\n"
+"Activity: [%s]"
+msgstr ""
+
+#: apptools/forms.py:75
+#, python-format
+msgid ""
+"\n"
+" button clicked: [%s]"
+msgstr ""
+
+#: apptools/forms.py:89
+#, python-format
+msgid ""
+"\n"
+"%s start instance"
+msgstr ""
+
+#: apptools/forms.py:118
+msgid "(select a content-type)"
+msgstr "(콘텐츠 유형 선택)"
+
+#: apptools/forms.py:119
+msgid "content type"
+msgstr "콘텐츠 유형"
+
+#: apptools/forms.py:120
+msgid ""
+"clone all instances of the selected content type and push them in the test "
+"process of the application"
+msgstr ""
+
+#: apptools/models.py:24
+msgid "history"
+msgstr "이력"
+
+#: apptools/models.py:25
+msgid "comment"
+msgstr "코멘트"
+
+#: apptools/models.py:28
+#, python-format
+msgid "simulation model %s"
+msgstr "시뮬레이션 모델 %s"
+
+#: apptools/models.py:32
+msgid "Simulation object"
+msgstr "시뮬레이션 객체"
+
+#: apptools/models.py:38
+msgid "category"
+msgstr "카테고리"
+
+#: apptools/models.py:39
+msgid "file"
+msgstr "파일"
+
+#: apptools/models.py:62
+msgid "Image"
+msgstr "이미지"
+
+#: apptools/models.py:71
+msgid "catagory"
+msgstr "카테고리"
+
+#: apptools/models.py:93
+msgid "Icon"
+msgstr "아이콘"
+
+#: apptools/models.py:101
+msgid "action"
+msgstr "동작"
+
+#: apptools/models.py:102
+msgid "label"
+msgstr "라벨"
+
+#: apptools/models.py:103
+msgid "icon"
+msgstr "아이콘"
+
+#: apptools/models.py:123
+msgid "Image Button"
+msgstr "이미지 버튼"
+
+#: apptools/templates/admin/apptools/icon/change_list.html:11
+#: apptools/templates/admin/workflow/transition/change_list.html:17
+#: workflow/templates/admin/workflow/application/change_list.html:16
+#, python-format
+msgid "Add %(name)s"
+msgstr "%(name)s 추가"
+
+#: apptools/templates/admin/workflow/application/change_form.html:17
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:17
+#: apptools/templates/admin/workflow/transition/change_list.html:8
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:12
+#: workflow/templates/admin/workflow/application/change_form.html:17
+#: workflow/templates/admin/workflow/application/change_list.html:8
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:17
+#: workflow/templates/goflow/base.html:52
+msgid "Home"
+msgstr "홈"
+
+#: apptools/templates/admin/workflow/application/change_form.html:20
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:20
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:14
+#: runtime/templates/admin/index.html:33
+#: workflow/templates/admin/workflow/application/change_form.html:20
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:20
+msgid "Add"
+msgstr "추가"
+
+#: apptools/templates/admin/workflow/application/change_form.html:27
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:27
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:20
+#: workflow/templates/admin/workflow/application/change_form.html:27
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:27
+msgid "History"
+msgstr "이력"
+
+#: apptools/templates/admin/workflow/application/change_form.html:28
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:28
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:21
+#: workflow/templates/admin/workflow/application/change_form.html:28
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:28
+msgid "View on site"
+msgstr "사이트에서 보기"
+
+#: apptools/templates/admin/workflow/application/change_form.html:39
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:39
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:31
+#: workflow/templates/admin/workflow/application/change_form.html:39
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:39
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Please correct the error below."
+msgstr[1] "Please correct the errors below."
+
+#: apptools/templates/admin/workflow/transition/change_list.html:27
+#: workflow/templates/admin/workflow/application/change_list.html:33
+msgid "Filter"
+msgstr "필터"
+
+#: apptools/views.py:96
+msgid "the save method of the form must accept parameters user and data"
+msgstr "폼의 save 메서드는 user 및 data 매개변수를 받아야 합니다"
+
+#: apptools/views.py:98
+#, python-format
+msgid "forme save error: %s"
+msgstr "폼 저장 오류: %s"
+
+#: apptools/views.py:511
+msgid "<h1>Update Icons from Images</h1>"
+msgstr "<h1>이미지에서 아이콘 업데이트</h1>"
+
+#: apptools/views.py:515
+#, python-format
+msgid "<br> %s added "
+msgstr "<br> %s 추가됨 "
+
+#: apptools/views.py:516
+msgid "<hr><p><b><a href=../>return</a></b>"
+msgstr "<hr><p><b><a href=../>돌아가기</a></b>"
+
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:49
+msgid "Ordering"
+msgstr "정렬"
+
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:52
+msgid "Order:"
+msgstr "순서:"
+
+#: runtime/templates/admin/index.html:13
+msgid "Django administration"
+msgstr "Django 관리"
+
+#: runtime/templates/admin/index.html:22
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr "%(name)s 애플리케이션에서 사용 가능한 모델."
+
+#: runtime/templates/admin/index.html:23
+#, python-format
+msgid "%(name)s"
+msgstr "%(name)s"
+
+#: runtime/templates/admin/index.html:39
+msgid "Change"
+msgstr "변경"
+
+#: runtime/templates/admin/index.html:49
+msgid "You don't have permission to edit anything."
+msgstr "편집 권한이 없습니다."
+
+#: runtime/templates/admin/index.html:57
+msgid "Workflows"
+msgstr "워크플로"
+
+#: runtime/templates/admin/index.html:76
+msgid "Recent Actions"
+msgstr "최근 작업"
+
+#: runtime/templates/admin/index.html:77
+msgid "My Actions"
+msgstr "내 작업"
+
+#: runtime/templates/admin/index.html:81
+msgid "None available"
+msgstr "사용 가능한 항목 없음"
+
+#: runtime/templates/goflow/monitor.html:6
+msgid "Workflow Monitor"
+msgstr "워크플로 모니터"
+
+#: runtime/templates/goflow/monitor.html:10
+msgid "Instances"
+msgstr "인스턴스"
+
+#: runtime/templates/goflow/monitor.html:12
+#: runtime/templates/goflow/monitor.html:22
+msgid "Total"
+msgstr "전체"
+
+#: runtime/templates/goflow/monitor.html:13
+msgid "Running"
+msgstr "실행 중"
+
+#: runtime/templates/goflow/monitor.html:14
+#: runtime/templates/goflow/monitor.html:23
+msgid "Active"
+msgstr "활성"
+
+#: runtime/templates/goflow/monitor.html:15
+msgid "Complete"
+msgstr "완료"
+
+#: runtime/templates/goflow/monitor.html:20
+#: runtime/templates/goflow/monitor.html:41
+msgid "Workitems"
+msgstr "작업 항목"
+
+#: runtime/templates/goflow/monitor.html:24
+msgid "Inactive"
+msgstr "비활성"
+
+#: runtime/templates/goflow/monitor.html:25
+msgid "Blocked"
+msgstr "차단됨"
+
+#: runtime/templates/goflow/monitor.html:26
+msgid "Fallout"
+msgstr "오류"
+
+#: runtime/templates/goflow/monitor.html:31
+msgid "SLA"
+msgstr "서비스 수준 협약"
+
+#: runtime/templates/goflow/monitor.html:33
+msgid "Warned"
+msgstr "경고됨"
+
+#: runtime/templates/goflow/monitor.html:34
+msgid "Breached"
+msgstr "위반됨"
+
+#: runtime/templates/goflow/monitor.html:39
+msgid "Top Processes"
+msgstr "상위 프로세스"
+
+#: runtime/templates/goflow/monitor.html:41
+msgid "Process"
+msgstr "프로세스"
+
+#: runtime/templates/goflow/monitor.html:48
+msgid "No data"
+msgstr "데이터 없음"
+
+#: runtime/templates/goflow/monitor.html:54
+msgid "Recent Audit Events"
+msgstr "최근 감사 이벤트"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Time"
+msgstr "시간"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Action"
+msgstr "작업"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Actor"
+msgstr "수행자"
+
+#: runtime/templates/goflow/monitor.html:64
+msgid "No events"
+msgstr "이벤트 없음"
+
+#: runtime/templates/goflow/monitor.html:70
+msgid "Recent Fallout"
+msgstr "최근 오류"
+
+#: runtime/templates/goflow/monitor.html:72
+msgid "Workitem"
+msgstr "작업 항목"
+
+#: runtime/templates/goflow/monitor.html:72
+#: workflow/templates/goflow/workflow_designer.html:583
+msgid "Activity"
+msgstr "액티비티"
+
+#: runtime/templates/goflow/monitor.html:72
+msgid "Updated"
+msgstr "업데이트됨"
+
+#: runtime/templates/goflow/monitor.html:80
+msgid "No fallout"
+msgstr "오류 없음"
+
+#: runtime/templates/goflow/sample_task_form.html:9
+msgid "Sample Task"
+msgstr "샘플 작업"
+
+#: runtime/templates/goflow/sample_task_form.html:10
+msgid "Request #123"
+msgstr "요청 #123"
+
+#: runtime/templates/goflow/sample_task_form.html:12
+msgid "Urgent"
+msgstr "긴급"
+
+#: runtime/templates/goflow/sample_task_form.html:13
+msgid "Needs review"
+msgstr "검토 필요"
+
+#: runtime/templates/goflow/sample_task_form.html:21
+msgid "Comment"
+msgstr "코멘트"
+
+#: runtime/templates/goflow/sample_task_form.html:24
+msgid "Approve"
+msgstr "승인"
+
+#: runtime/templates/goflow/sample_task_form.html:25
+msgid "Reject"
+msgstr "반려"
+
+#: runtime/views.py:83
+#, python-format
+msgid "process %s disabled."
+msgstr "프로세스 %s 가 비활성화되었습니다."
+
+#: runtime/views.py:98
+msgid "completion page."
+msgstr "완료 페이지."
+
+#: workflow/templates/goflow/base.html:37
+msgid "Welcome,"
+msgstr "환영합니다,"
+
+#: workflow/templates/goflow/base.html:40
+msgid "Change password"
+msgstr "비밀번호 변경"
+
+#: workflow/templates/goflow/base.html:41
+msgid "Log out"
+msgstr "로그아웃"
+
+#: workflow/templates/goflow/base.html:43
+msgid "Log in"
+msgstr "로그인"
+
+#: workflow/templates/goflow/base_site.html:5
+#: workflow/templates/goflow/base_site.html:10
+#: workflow/templates/goflow/login.html:5
+msgid "GoFlow"
+msgstr "GoFlow"
+
+#: workflow/templates/goflow/workflow_designer.html:6
+#: workflow/templates/goflow/workflow_designer.html:176
+msgid "Workflow Designer"
+msgstr "워크플로 디자이너"
+
+#: workflow/templates/goflow/workflow_designer.html:181
+#: workflow/templates/goflow/workflow_designer.html:394
+msgid "Status"
+msgstr "상태"
+
+#: workflow/templates/goflow/workflow_designer.html:181
+msgid "idle"
+msgstr "대기"
+
+#: workflow/templates/goflow/workflow_designer.html:188
+msgid "Process Settings"
+msgstr "프로세스 설정"
+
+#: workflow/templates/goflow/workflow_designer.html:191
+msgid "Begin Activity"
+msgstr "시작 액티비티"
+
+#: workflow/templates/goflow/workflow_designer.html:195
+msgid "End Activity"
+msgstr "종료 액티비티"
+
+#: workflow/templates/goflow/workflow_designer.html:200
+msgid "Save"
+msgstr "저장"
+
+#: workflow/templates/goflow/workflow_designer.html:201
+msgid "Reload"
+msgstr "새로고침"
+
+#: workflow/templates/goflow/workflow_designer.html:202
+msgid "Undo"
+msgstr "실행 취소"
+
+#: workflow/templates/goflow/workflow_designer.html:203
+msgid "Redo"
+msgstr "다시 실행"
+
+#: workflow/templates/goflow/workflow_designer.html:204
+msgid "Delete Selected"
+msgstr "선택 삭제"
+
+#: workflow/templates/goflow/workflow_designer.html:205
+msgid "Shortcuts"
+msgstr "단축키"
+
+#: workflow/templates/goflow/workflow_designer.html:207
+msgid ""
+"Drag nodes to reposition. Box select for multi-select. Save to persist "
+"layout."
+msgstr ""
+
+#: workflow/templates/goflow/workflow_designer.html:209
+msgid "Ctrl/Cmd+S Save"
+msgstr "Ctrl/Cmd+S 저장"
+
+#: workflow/templates/goflow/workflow_designer.html:210
+msgid "Ctrl/Cmd+R Reload"
+msgstr "Ctrl/Cmd+R 새로고침"
+
+#: workflow/templates/goflow/workflow_designer.html:211
+msgid "Ctrl/Cmd+Z Undo"
+msgstr "Ctrl/Cmd+Z 실행 취소"
+
+#: workflow/templates/goflow/workflow_designer.html:212
+msgid "Del Delete"
+msgstr "Del 삭제"
+
+#: workflow/templates/goflow/workflow_designer.html:218
+msgid "Activities"
+msgstr "액티비티"
+
+#: workflow/templates/goflow/workflow_designer.html:221
+msgid "Title"
+msgstr "제목"
+
+#: workflow/templates/goflow/workflow_designer.html:222
+msgid "Start"
+msgstr "시작"
+
+#: workflow/templates/goflow/workflow_designer.html:225
+msgid "Kind"
+msgstr "종류"
+
+#: workflow/templates/goflow/workflow_designer.html:235
+msgid "Node Type"
+msgstr "노드 유형"
+
+#: workflow/templates/goflow/workflow_designer.html:245
+msgid ""
+"gateway: use kind=dummy, no form fields; script: usually autostart + "
+"autofinish."
+msgstr ""
+
+#: workflow/templates/goflow/workflow_designer.html:248
+msgid "Form Template"
+msgstr "폼 템플릿"
+
+#: workflow/templates/goflow/workflow_designer.html:254
+msgid "Form Class"
+msgstr "폼 클래스"
+
+#: workflow/templates/goflow/workflow_designer.html:261
+msgid "Autostart"
+msgstr "자동 시작"
+
+#: workflow/templates/goflow/workflow_designer.html:268
+msgid "Autofinish"
+msgstr "자동 완료"
+
+#: workflow/templates/goflow/workflow_designer.html:275
+msgid "Add Activity"
+msgstr "액티비티 추가"
+
+#: workflow/templates/goflow/workflow_designer.html:277
+msgid "Transitions"
+msgstr "전이"
+
+#: workflow/templates/goflow/workflow_designer.html:280
+msgid "From"
+msgstr "시작"
+
+#: workflow/templates/goflow/workflow_designer.html:284
+msgid "To"
+msgstr "도착"
+
+#: workflow/templates/goflow/workflow_designer.html:290
+msgid "Name"
+msgstr "이름"
+
+#: workflow/templates/goflow/workflow_designer.html:291
+msgid "approve"
+msgstr "승인"
+
+#: workflow/templates/goflow/workflow_designer.html:294
+msgid "Condition"
+msgstr "조건"
+
+#: workflow/templates/goflow/workflow_designer.html:306
+msgid ""
+"Condition DSL: eq:VALUE, ne:VALUE, in:A,B,C, timeout:3d (or safe expression)."
+msgstr ""
+
+#: workflow/templates/goflow/workflow_designer.html:307
+msgid "Add Transition"
+msgstr "전이 추가"
+
+#: workflow/templates/goflow/workflow_designer.html:311
+msgid "Canvas"
+msgstr "캔버스"
+
+#: workflow/templates/goflow/workflow_designer.html:320
+msgid "Keyboard Shortcuts"
+msgstr "키보드 단축키"
+
+#: workflow/templates/goflow/workflow_designer.html:322
+msgid "Ctrl/Cmd + S: Save"
+msgstr "Ctrl/Cmd + S: 저장"
+
+#: workflow/templates/goflow/workflow_designer.html:323
+msgid "Ctrl/Cmd + R: Reload"
+msgstr "Ctrl/Cmd + R: 새로고침"
+
+#: workflow/templates/goflow/workflow_designer.html:324
+msgid "Ctrl/Cmd + Z: Undo"
+msgstr "Ctrl/Cmd + Z: 실행 취소"
+
+#: workflow/templates/goflow/workflow_designer.html:325
+msgid "Ctrl/Cmd + Y: Redo"
+msgstr "Ctrl/Cmd + Y: 다시 실행"
+
+#: workflow/templates/goflow/workflow_designer.html:326
+msgid "Delete/Backspace: Delete selected"
+msgstr "Delete/Backspace: 선택 삭제"
+
+#: workflow/templates/goflow/workflow_designer.html:327
+msgid "Double-click node: Rename"
+msgstr "노드를 더블클릭: 이름 변경"
+
+#: workflow/templates/goflow/workflow_designer.html:328
+msgid "Click edge: Edit label/condition"
+msgstr "엣지 클릭: 라벨/조건 편집"
+
+#: workflow/templates/goflow/workflow_designer.html:331
+msgid "Close"
+msgstr "닫기"
+
+#: workflow/templates/goflow/workflow_designer.html:389
+msgid "Validation errors"
+msgstr "검증 오류"
+
+#: workflow/templates/goflow/workflow_designer.html:483
+msgid "Rename activity"
+msgstr "액티비티 이름 변경"
+
+#: workflow/templates/goflow/workflow_designer.html:494
+msgid "Transition condition or name"
+msgstr "전이 조건 또는 이름"
+
+#: workflow/templates/goflow/workflow_designer.html:525
+msgid "loading"
+msgstr "로딩 중"
+
+#: workflow/templates/goflow/workflow_designer.html:573
+msgid "Reloaded"
+msgstr "새로고침 완료"
+
+#: workflow/templates/goflow/workflow_designer.html:574
+msgid "ready"
+msgstr "준비됨"
+
+#: workflow/templates/goflow/workflow_designer.html:577
+msgid "Reload failed"
+msgstr "새로고침 실패"
+
+#: workflow/templates/goflow/workflow_designer.html:578
+#: workflow/templates/goflow/workflow_designer.html:757
+msgid "error"
+msgstr "오류"
+
+#: workflow/templates/goflow/workflow_designer.html:697
+msgid "saving"
+msgstr "저장 중"
+
+#: workflow/templates/goflow/workflow_designer.html:744
+#: workflow/templates/goflow/workflow_designer.html:756
+msgid "Save failed"
+msgstr "저장 실패"
+
+#: workflow/templates/goflow/workflow_designer.html:747
+msgid "validation error"
+msgstr "검증 오류"
+
+#: workflow/templates/goflow/workflow_designer.html:751
+msgid "Saved"
+msgstr "저장됨"
+
+#: workflow/templates/goflow/workflow_designer.html:752
+msgid "saved"
+msgstr "저장됨"
+
+#: workflow/views.py:75
+msgid "user is not active"
+msgstr "사용자가 활성 상태가 아닙니다"
+
+#: workflow/views.py:77
+msgid "authentication failed"
+msgstr "인증에 실패했습니다"
+
+#: workflow/views.py:84
+msgid "user page."
+msgstr "사용자 페이지."
+
+#: workflow/views.py:131 workflow/views.py:305
+msgid "Forbidden"
+msgstr "접근 금지"
+
+#: workflow/views.py:155
+msgid "At least one activity is required."
+msgstr "최소 한 개의 액티비티가 필요합니다."
+
+#: workflow/views.py:163
+msgid "Untitled"
+msgstr "제목 없음"
+
+#: workflow/views.py:165
+msgid "Every activity must have a title."
+msgstr "모든 액티비티에는 제목이 있어야 합니다."
+
+#: workflow/views.py:167
+msgid "Activity titles must be 100 characters or fewer."
+msgstr "액티비티 제목은 100자 이하여야 합니다."
+
+#: workflow/views.py:173
+#, python-format
+msgid "Activity kind must be one of: %(choices)s."
+msgstr "액티비티 종류는 다음 중 하나여야 합니다: %(choices)s."
+
+#: workflow/views.py:179
+#, python-format
+msgid "Activity node type must be one of: %(choices)s."
+msgstr "액티비티 노드 유형은 다음 중 하나여야 합니다: %(choices)s."
+
+#: workflow/views.py:190
+#, python-format
+msgid "Activity \"%(title)s\": gateway nodes must use kind=dummy."
+msgstr "액티비티 \"%(title)s\": gateway 노드는 kind=dummy를 사용해야 합니다."
+
+#: workflow/views.py:194
+#, python-format
+msgid ""
+"Activity \"%(title)s\": gateway nodes cannot bind form_template or "
+"form_class."
+msgstr ""
+
+#: workflow/views.py:199
+#, python-format
+msgid "Activity \"%(title)s\": %(node_type)s nodes should enable autostart."
+msgstr "액티비티 \"%(title)s\": %(node_type)s 노드는 autostart 활성화를 권장합니다."
+
+#: workflow/views.py:205
+#, python-format
+msgid "Activity \"%(title)s\": script nodes should enable autofinish."
+msgstr "액티비티 \"%(title)s\": script 노드는 autofinish 활성화를 권장합니다."
+
+#: workflow/views.py:210
+#, python-format
+msgid "Activity \"%(title)s\": notification nodes should not use form_class."
+msgstr "액티비티 \"%(title)s\": notification 노드는 form_class를 사용하지 않아야 합니다."
+
+#: workflow/views.py:216
+msgid "Activity titles must be unique."
+msgstr "액티비티 제목은 고유해야 합니다."
+
+#: workflow/views.py:220
+msgid "Begin activity must exist in the workflow."
+msgstr "시작 액티비티가 워크플로에 존재해야 합니다."
+
+#: workflow/views.py:222
+msgid "End activity must exist in the workflow."
+msgstr "종료 액티비티가 워크플로에 존재해야 합니다."
+
+#: workflow/views.py:224
+msgid "Begin activity is required."
+msgstr "시작 액티비티는 필수입니다."
+
+#: workflow/views.py:226
+msgid "End activity is required."
+msgstr "종료 액티비티는 필수입니다."
+
+#: workflow/views.py:228
+msgid "Begin and End activities must be different."
+msgstr "시작 액티비티와 종료 액티비티는 서로 달라야 합니다."
+
+#: workflow/views.py:232
+msgid "At least one transition is required."
+msgstr "최소 한 개의 전이가 필요합니다."
+
+#: workflow/views.py:243
+msgid "Transitions must connect valid activities."
+msgstr "전이는 유효한 액티비티를 연결해야 합니다."
+
+#: workflow/views.py:245
+msgid "Transitions cannot point to the same activity."
+msgstr "전이가 같은 액티비티를 가리킬 수 없습니다."
+
+#: workflow/views.py:247
+msgid "Transitions must have a name or condition."
+msgstr "전이에는 이름 또는 조건이 필요합니다."
+
+#: workflow/views.py:251
+msgid "Duplicate transitions are not allowed."
+msgstr "중복 전이는 허용되지 않습니다."
+
+#: workflow/views.py:267
+msgid "All activities must be connected by at least one transition."
+msgstr "모든 액티비티는 최소 한 개의 전이로 연결되어야 합니다."
+
+#: workflow/views.py:270
+msgid "Begin activity cannot have incoming transitions."
+msgstr "시작 액티비티에는 들어오는 전이가 있으면 안 됩니다."
+
+#: workflow/views.py:272
+msgid "Begin activity must have at least one outgoing transition."
+msgstr "시작 액티비티에는 최소 한 개의 나가는 전이가 필요합니다."
+
+#: workflow/views.py:274
+msgid "End activity cannot have outgoing transitions."
+msgstr "종료 액티비티에는 나가는 전이가 있으면 안 됩니다."
+
+#: workflow/views.py:276
+msgid "End activity must have at least one incoming transition."
+msgstr "종료 액티비티에는 최소 한 개의 들어오는 전이가 필요합니다."
+
+#: workflow/views.py:279
+msgid "Only one default (empty) transition is allowed per activity."
+msgstr "각 액티비티당 기본(빈) 전이는 하나만 허용됩니다."
+
+#: workflow/views.py:298
+msgid "All activities must be reachable from Begin."
+msgstr "모든 액티비티는 Begin에서 도달 가능해야 합니다."

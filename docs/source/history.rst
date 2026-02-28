@@ -17,6 +17,10 @@ Roadmap
 Current Status
 ++++++++++++++
 
+* Release ``1.2`` published with comprehensive i18n completion and locale catalog refresh.
+
+* ``.po`` / ``.mo`` catalogs synchronized across ``goflow``, ``leavedemo``, and ``sampleproject``.
+
 Future Features
 +++++++++++++++
 

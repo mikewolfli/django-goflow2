@@ -1,0 +1,807 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-27 23:44+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: apptools/forms.py:21 apptools/forms.py:46
+#: runtime/templates/goflow/sample_task_form.html:11
+msgid "Priority"
+msgstr "優先級"
+
+#: apptools/forms.py:22
+msgid "normal"
+msgstr "一般"
+
+#: apptools/forms.py:22
+msgid "urgent"
+msgstr "緊急"
+
+#: apptools/forms.py:22
+msgid "emergency"
+msgstr "特急"
+
+#: apptools/forms.py:67 apptools/forms.py:88
+msgid "Init"
+msgstr "初始化"
+
+#: apptools/forms.py:70
+#, python-format
+msgid ""
+"\n"
+"Activity: [%s]"
+msgstr ""
+
+#: apptools/forms.py:75
+#, python-format
+msgid ""
+"\n"
+" button clicked: [%s]"
+msgstr ""
+
+#: apptools/forms.py:89
+#, python-format
+msgid ""
+"\n"
+"%s start instance"
+msgstr ""
+
+#: apptools/forms.py:118
+msgid "(select a content-type)"
+msgstr "（選擇內容類型）"
+
+#: apptools/forms.py:119
+msgid "content type"
+msgstr "內容類型"
+
+#: apptools/forms.py:120
+msgid ""
+"clone all instances of the selected content type and push them in the test "
+"process of the application"
+msgstr ""
+
+#: apptools/models.py:24
+msgid "history"
+msgstr "歷史"
+
+#: apptools/models.py:25
+msgid "comment"
+msgstr "備註"
+
+#: apptools/models.py:28
+#, python-format
+msgid "simulation model %s"
+msgstr "模擬模型 %s"
+
+#: apptools/models.py:32
+msgid "Simulation object"
+msgstr "模擬物件"
+
+#: apptools/models.py:38
+msgid "category"
+msgstr "分類"
+
+#: apptools/models.py:39
+msgid "file"
+msgstr "檔案"
+
+#: apptools/models.py:62
+msgid "Image"
+msgstr "圖片"
+
+#: apptools/models.py:71
+msgid "catagory"
+msgstr "分類"
+
+#: apptools/models.py:93
+msgid "Icon"
+msgstr "圖示"
+
+#: apptools/models.py:101
+msgid "action"
+msgstr "動作"
+
+#: apptools/models.py:102
+msgid "label"
+msgstr "標籤"
+
+#: apptools/models.py:103
+msgid "icon"
+msgstr "圖示"
+
+#: apptools/models.py:123
+msgid "Image Button"
+msgstr "圖像按鈕"
+
+#: apptools/templates/admin/apptools/icon/change_list.html:11
+#: apptools/templates/admin/workflow/transition/change_list.html:17
+#: workflow/templates/admin/workflow/application/change_list.html:16
+#, python-format
+msgid "Add %(name)s"
+msgstr "新增 %(name)s"
+
+#: apptools/templates/admin/workflow/application/change_form.html:17
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:17
+#: apptools/templates/admin/workflow/transition/change_list.html:8
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:12
+#: workflow/templates/admin/workflow/application/change_form.html:17
+#: workflow/templates/admin/workflow/application/change_list.html:8
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:17
+#: workflow/templates/goflow/base.html:52
+msgid "Home"
+msgstr "首頁"
+
+#: apptools/templates/admin/workflow/application/change_form.html:20
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:20
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:14
+#: runtime/templates/admin/index.html:33
+#: workflow/templates/admin/workflow/application/change_form.html:20
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:20
+msgid "Add"
+msgstr "新增"
+
+#: apptools/templates/admin/workflow/application/change_form.html:27
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:27
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:20
+#: workflow/templates/admin/workflow/application/change_form.html:27
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:27
+msgid "History"
+msgstr "歷史"
+
+#: apptools/templates/admin/workflow/application/change_form.html:28
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:28
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:21
+#: workflow/templates/admin/workflow/application/change_form.html:28
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:28
+msgid "View on site"
+msgstr "在站點中查看"
+
+#: apptools/templates/admin/workflow/application/change_form.html:39
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:39
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:31
+#: workflow/templates/admin/workflow/application/change_form.html:39
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:39
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Please correct the error below."
+msgstr[1] "Please correct the errors below."
+
+#: apptools/templates/admin/workflow/transition/change_list.html:27
+#: workflow/templates/admin/workflow/application/change_list.html:33
+msgid "Filter"
+msgstr "篩選"
+
+#: apptools/views.py:96
+msgid "the save method of the form must accept parameters user and data"
+msgstr "表單的 save 方法必須接受 user 和 data 參數"
+
+#: apptools/views.py:98
+#, python-format
+msgid "forme save error: %s"
+msgstr "表單儲存錯誤：%s"
+
+#: apptools/views.py:511
+msgid "<h1>Update Icons from Images</h1>"
+msgstr "<h1>從圖片更新圖示</h1>"
+
+#: apptools/views.py:515
+#, python-format
+msgid "<br> %s added "
+msgstr "<br> 已新增 %s "
+
+#: apptools/views.py:516
+msgid "<hr><p><b><a href=../>return</a></b>"
+msgstr "<hr><p><b><a href=../>返回</a></b>"
+
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:49
+msgid "Ordering"
+msgstr "排序"
+
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:52
+msgid "Order:"
+msgstr "順序："
+
+#: runtime/templates/admin/index.html:13
+msgid "Django administration"
+msgstr "Django 管理介面"
+
+#: runtime/templates/admin/index.html:22
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr "%(name)s 應用中可用的模型。"
+
+#: runtime/templates/admin/index.html:23
+#, python-format
+msgid "%(name)s"
+msgstr "%(name)s"
+
+#: runtime/templates/admin/index.html:39
+msgid "Change"
+msgstr "修改"
+
+#: runtime/templates/admin/index.html:49
+msgid "You don't have permission to edit anything."
+msgstr "你沒有編輯任何內容的權限。"
+
+#: runtime/templates/admin/index.html:57
+msgid "Workflows"
+msgstr "流程"
+
+#: runtime/templates/admin/index.html:76
+msgid "Recent Actions"
+msgstr "最近操作"
+
+#: runtime/templates/admin/index.html:77
+msgid "My Actions"
+msgstr "我的操作"
+
+#: runtime/templates/admin/index.html:81
+msgid "None available"
+msgstr "無可用項目"
+
+#: runtime/templates/goflow/monitor.html:6
+msgid "Workflow Monitor"
+msgstr "工作流程監控"
+
+#: runtime/templates/goflow/monitor.html:10
+msgid "Instances"
+msgstr "實例"
+
+#: runtime/templates/goflow/monitor.html:12
+#: runtime/templates/goflow/monitor.html:22
+msgid "Total"
+msgstr "總數"
+
+#: runtime/templates/goflow/monitor.html:13
+msgid "Running"
+msgstr "執行中"
+
+#: runtime/templates/goflow/monitor.html:14
+#: runtime/templates/goflow/monitor.html:23
+msgid "Active"
+msgstr "啟用"
+
+#: runtime/templates/goflow/monitor.html:15
+msgid "Complete"
+msgstr "完成"
+
+#: runtime/templates/goflow/monitor.html:20
+#: runtime/templates/goflow/monitor.html:41
+msgid "Workitems"
+msgstr "工作項目"
+
+#: runtime/templates/goflow/monitor.html:24
+msgid "Inactive"
+msgstr "未啟用"
+
+#: runtime/templates/goflow/monitor.html:25
+msgid "Blocked"
+msgstr "已阻塞"
+
+#: runtime/templates/goflow/monitor.html:26
+msgid "Fallout"
+msgstr "異常"
+
+#: runtime/templates/goflow/monitor.html:31
+msgid "SLA"
+msgstr "服務等級協議"
+
+#: runtime/templates/goflow/monitor.html:33
+msgid "Warned"
+msgstr "已預警"
+
+#: runtime/templates/goflow/monitor.html:34
+msgid "Breached"
+msgstr "已逾期"
+
+#: runtime/templates/goflow/monitor.html:39
+msgid "Top Processes"
+msgstr "熱門流程"
+
+#: runtime/templates/goflow/monitor.html:41
+msgid "Process"
+msgstr "流程"
+
+#: runtime/templates/goflow/monitor.html:48
+msgid "No data"
+msgstr "無資料"
+
+#: runtime/templates/goflow/monitor.html:54
+msgid "Recent Audit Events"
+msgstr "最近稽核事件"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Time"
+msgstr "時間"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Action"
+msgstr "動作"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Actor"
+msgstr "操作者"
+
+#: runtime/templates/goflow/monitor.html:64
+msgid "No events"
+msgstr "無事件"
+
+#: runtime/templates/goflow/monitor.html:70
+msgid "Recent Fallout"
+msgstr "最近異常"
+
+#: runtime/templates/goflow/monitor.html:72
+msgid "Workitem"
+msgstr "工作項目"
+
+#: runtime/templates/goflow/monitor.html:72
+#: workflow/templates/goflow/workflow_designer.html:583
+msgid "Activity"
+msgstr "活動"
+
+#: runtime/templates/goflow/monitor.html:72
+msgid "Updated"
+msgstr "更新時間"
+
+#: runtime/templates/goflow/monitor.html:80
+msgid "No fallout"
+msgstr "無異常"
+
+#: runtime/templates/goflow/sample_task_form.html:9
+msgid "Sample Task"
+msgstr "範例任務"
+
+#: runtime/templates/goflow/sample_task_form.html:10
+msgid "Request #123"
+msgstr "申請 #123"
+
+#: runtime/templates/goflow/sample_task_form.html:12
+msgid "Urgent"
+msgstr "緊急"
+
+#: runtime/templates/goflow/sample_task_form.html:13
+msgid "Needs review"
+msgstr "需要審核"
+
+#: runtime/templates/goflow/sample_task_form.html:21
+msgid "Comment"
+msgstr "註解"
+
+#: runtime/templates/goflow/sample_task_form.html:24
+msgid "Approve"
+msgstr "核准"
+
+#: runtime/templates/goflow/sample_task_form.html:25
+msgid "Reject"
+msgstr "駁回"
+
+#: runtime/views.py:83
+#, python-format
+msgid "process %s disabled."
+msgstr "流程 %s 已停用。"
+
+#: runtime/views.py:98
+msgid "completion page."
+msgstr "完成頁面。"
+
+#: workflow/templates/goflow/base.html:37
+msgid "Welcome,"
+msgstr "歡迎，"
+
+#: workflow/templates/goflow/base.html:40
+msgid "Change password"
+msgstr "變更密碼"
+
+#: workflow/templates/goflow/base.html:41
+msgid "Log out"
+msgstr "登出"
+
+#: workflow/templates/goflow/base.html:43
+msgid "Log in"
+msgstr "登入"
+
+#: workflow/templates/goflow/base_site.html:5
+#: workflow/templates/goflow/base_site.html:10
+#: workflow/templates/goflow/login.html:5
+msgid "GoFlow"
+msgstr "GoFlow"
+
+#: workflow/templates/goflow/workflow_designer.html:6
+#: workflow/templates/goflow/workflow_designer.html:176
+msgid "Workflow Designer"
+msgstr "流程設計器"
+
+#: workflow/templates/goflow/workflow_designer.html:181
+#: workflow/templates/goflow/workflow_designer.html:394
+msgid "Status"
+msgstr "狀態"
+
+#: workflow/templates/goflow/workflow_designer.html:181
+msgid "idle"
+msgstr "閒置"
+
+#: workflow/templates/goflow/workflow_designer.html:188
+msgid "Process Settings"
+msgstr "流程設定"
+
+#: workflow/templates/goflow/workflow_designer.html:191
+msgid "Begin Activity"
+msgstr "開始活動"
+
+#: workflow/templates/goflow/workflow_designer.html:195
+msgid "End Activity"
+msgstr "結束活動"
+
+#: workflow/templates/goflow/workflow_designer.html:200
+msgid "Save"
+msgstr "儲存"
+
+#: workflow/templates/goflow/workflow_designer.html:201
+msgid "Reload"
+msgstr "重新載入"
+
+#: workflow/templates/goflow/workflow_designer.html:202
+msgid "Undo"
+msgstr "復原"
+
+#: workflow/templates/goflow/workflow_designer.html:203
+msgid "Redo"
+msgstr "重做"
+
+#: workflow/templates/goflow/workflow_designer.html:204
+msgid "Delete Selected"
+msgstr "刪除已選項"
+
+#: workflow/templates/goflow/workflow_designer.html:205
+msgid "Shortcuts"
+msgstr "快捷鍵"
+
+#: workflow/templates/goflow/workflow_designer.html:207
+msgid ""
+"Drag nodes to reposition. Box select for multi-select. Save to persist "
+"layout."
+msgstr ""
+
+#: workflow/templates/goflow/workflow_designer.html:209
+msgid "Ctrl/Cmd+S Save"
+msgstr "Ctrl/Cmd+S 儲存"
+
+#: workflow/templates/goflow/workflow_designer.html:210
+msgid "Ctrl/Cmd+R Reload"
+msgstr "Ctrl/Cmd+R 重新載入"
+
+#: workflow/templates/goflow/workflow_designer.html:211
+msgid "Ctrl/Cmd+Z Undo"
+msgstr "Ctrl/Cmd+Z 復原"
+
+#: workflow/templates/goflow/workflow_designer.html:212
+msgid "Del Delete"
+msgstr "Del 刪除"
+
+#: workflow/templates/goflow/workflow_designer.html:218
+msgid "Activities"
+msgstr "活動列表"
+
+#: workflow/templates/goflow/workflow_designer.html:221
+msgid "Title"
+msgstr "標題"
+
+#: workflow/templates/goflow/workflow_designer.html:222
+msgid "Start"
+msgstr "開始"
+
+#: workflow/templates/goflow/workflow_designer.html:225
+msgid "Kind"
+msgstr "類型"
+
+#: workflow/templates/goflow/workflow_designer.html:235
+msgid "Node Type"
+msgstr "節點類型"
+
+#: workflow/templates/goflow/workflow_designer.html:245
+msgid ""
+"gateway: use kind=dummy, no form fields; script: usually autostart + "
+"autofinish."
+msgstr ""
+
+#: workflow/templates/goflow/workflow_designer.html:248
+msgid "Form Template"
+msgstr "表單範本"
+
+#: workflow/templates/goflow/workflow_designer.html:254
+msgid "Form Class"
+msgstr "表單類別"
+
+#: workflow/templates/goflow/workflow_designer.html:261
+msgid "Autostart"
+msgstr "自動啟動"
+
+#: workflow/templates/goflow/workflow_designer.html:268
+msgid "Autofinish"
+msgstr "自動完成"
+
+#: workflow/templates/goflow/workflow_designer.html:275
+msgid "Add Activity"
+msgstr "新增活動"
+
+#: workflow/templates/goflow/workflow_designer.html:277
+msgid "Transitions"
+msgstr "轉移"
+
+#: workflow/templates/goflow/workflow_designer.html:280
+msgid "From"
+msgstr "從"
+
+#: workflow/templates/goflow/workflow_designer.html:284
+msgid "To"
+msgstr "到"
+
+#: workflow/templates/goflow/workflow_designer.html:290
+msgid "Name"
+msgstr "名稱"
+
+#: workflow/templates/goflow/workflow_designer.html:291
+msgid "approve"
+msgstr "核准"
+
+#: workflow/templates/goflow/workflow_designer.html:294
+msgid "Condition"
+msgstr "條件"
+
+#: workflow/templates/goflow/workflow_designer.html:306
+msgid ""
+"Condition DSL: eq:VALUE, ne:VALUE, in:A,B,C, timeout:3d (or safe expression)."
+msgstr ""
+
+#: workflow/templates/goflow/workflow_designer.html:307
+msgid "Add Transition"
+msgstr "新增轉移"
+
+#: workflow/templates/goflow/workflow_designer.html:311
+msgid "Canvas"
+msgstr "畫布"
+
+#: workflow/templates/goflow/workflow_designer.html:320
+msgid "Keyboard Shortcuts"
+msgstr "鍵盤快捷鍵"
+
+#: workflow/templates/goflow/workflow_designer.html:322
+msgid "Ctrl/Cmd + S: Save"
+msgstr "Ctrl/Cmd + S：儲存"
+
+#: workflow/templates/goflow/workflow_designer.html:323
+msgid "Ctrl/Cmd + R: Reload"
+msgstr "Ctrl/Cmd + R：重新載入"
+
+#: workflow/templates/goflow/workflow_designer.html:324
+msgid "Ctrl/Cmd + Z: Undo"
+msgstr "Ctrl/Cmd + Z：復原"
+
+#: workflow/templates/goflow/workflow_designer.html:325
+msgid "Ctrl/Cmd + Y: Redo"
+msgstr "Ctrl/Cmd + Y：重做"
+
+#: workflow/templates/goflow/workflow_designer.html:326
+msgid "Delete/Backspace: Delete selected"
+msgstr "Delete/Backspace：刪除已選項"
+
+#: workflow/templates/goflow/workflow_designer.html:327
+msgid "Double-click node: Rename"
+msgstr "雙擊節點：重新命名"
+
+#: workflow/templates/goflow/workflow_designer.html:328
+msgid "Click edge: Edit label/condition"
+msgstr "點擊連線：編輯標籤/條件"
+
+#: workflow/templates/goflow/workflow_designer.html:331
+msgid "Close"
+msgstr "關閉"
+
+#: workflow/templates/goflow/workflow_designer.html:389
+msgid "Validation errors"
+msgstr "驗證錯誤"
+
+#: workflow/templates/goflow/workflow_designer.html:483
+msgid "Rename activity"
+msgstr "重新命名活動"
+
+#: workflow/templates/goflow/workflow_designer.html:494
+msgid "Transition condition or name"
+msgstr "轉移條件或名稱"
+
+#: workflow/templates/goflow/workflow_designer.html:525
+msgid "loading"
+msgstr "載入中"
+
+#: workflow/templates/goflow/workflow_designer.html:573
+msgid "Reloaded"
+msgstr "已重新載入"
+
+#: workflow/templates/goflow/workflow_designer.html:574
+msgid "ready"
+msgstr "就緒"
+
+#: workflow/templates/goflow/workflow_designer.html:577
+msgid "Reload failed"
+msgstr "重新載入失敗"
+
+#: workflow/templates/goflow/workflow_designer.html:578
+#: workflow/templates/goflow/workflow_designer.html:757
+msgid "error"
+msgstr "錯誤"
+
+#: workflow/templates/goflow/workflow_designer.html:697
+msgid "saving"
+msgstr "儲存中"
+
+#: workflow/templates/goflow/workflow_designer.html:744
+#: workflow/templates/goflow/workflow_designer.html:756
+msgid "Save failed"
+msgstr "儲存失敗"
+
+#: workflow/templates/goflow/workflow_designer.html:747
+msgid "validation error"
+msgstr "驗證錯誤"
+
+#: workflow/templates/goflow/workflow_designer.html:751
+msgid "Saved"
+msgstr "已儲存"
+
+#: workflow/templates/goflow/workflow_designer.html:752
+msgid "saved"
+msgstr "已儲存"
+
+#: workflow/views.py:75
+msgid "user is not active"
+msgstr "使用者未啟用"
+
+#: workflow/views.py:77
+msgid "authentication failed"
+msgstr "驗證失敗"
+
+#: workflow/views.py:84
+msgid "user page."
+msgstr "使用者頁面。"
+
+#: workflow/views.py:131 workflow/views.py:305
+msgid "Forbidden"
+msgstr "禁止存取"
+
+#: workflow/views.py:155
+msgid "At least one activity is required."
+msgstr "至少需要一個活動。"
+
+#: workflow/views.py:163
+msgid "Untitled"
+msgstr "未命名"
+
+#: workflow/views.py:165
+msgid "Every activity must have a title."
+msgstr "每個活動都必須有標題。"
+
+#: workflow/views.py:167
+msgid "Activity titles must be 100 characters or fewer."
+msgstr "活動標題不可超過 100 個字元。"
+
+#: workflow/views.py:173
+#, python-format
+msgid "Activity kind must be one of: %(choices)s."
+msgstr "活動類型必須是以下其中之一：%(choices)s。"
+
+#: workflow/views.py:179
+#, python-format
+msgid "Activity node type must be one of: %(choices)s."
+msgstr "活動節點類型必須是以下其中之一：%(choices)s。"
+
+#: workflow/views.py:190
+#, python-format
+msgid "Activity \"%(title)s\": gateway nodes must use kind=dummy."
+msgstr "活動「%(title)s」：gateway 節點必須使用 kind=dummy。"
+
+#: workflow/views.py:194
+#, python-format
+msgid ""
+"Activity \"%(title)s\": gateway nodes cannot bind form_template or "
+"form_class."
+msgstr ""
+
+#: workflow/views.py:199
+#, python-format
+msgid "Activity \"%(title)s\": %(node_type)s nodes should enable autostart."
+msgstr "活動「%(title)s」：%(node_type)s 節點建議啟用 autostart。"
+
+#: workflow/views.py:205
+#, python-format
+msgid "Activity \"%(title)s\": script nodes should enable autofinish."
+msgstr "活動「%(title)s」：script 節點建議啟用 autofinish。"
+
+#: workflow/views.py:210
+#, python-format
+msgid "Activity \"%(title)s\": notification nodes should not use form_class."
+msgstr "活動「%(title)s」：notification 節點不應使用 form_class。"
+
+#: workflow/views.py:216
+msgid "Activity titles must be unique."
+msgstr "活動標題必須唯一。"
+
+#: workflow/views.py:220
+msgid "Begin activity must exist in the workflow."
+msgstr "開始活動必須存在於流程中。"
+
+#: workflow/views.py:222
+msgid "End activity must exist in the workflow."
+msgstr "結束活動必須存在於流程中。"
+
+#: workflow/views.py:224
+msgid "Begin activity is required."
+msgstr "開始活動為必填。"
+
+#: workflow/views.py:226
+msgid "End activity is required."
+msgstr "結束活動為必填。"
+
+#: workflow/views.py:228
+msgid "Begin and End activities must be different."
+msgstr "開始與結束活動必須不同。"
+
+#: workflow/views.py:232
+msgid "At least one transition is required."
+msgstr "至少需要一條轉移。"
+
+#: workflow/views.py:243
+msgid "Transitions must connect valid activities."
+msgstr "轉移必須連接有效活動。"
+
+#: workflow/views.py:245
+msgid "Transitions cannot point to the same activity."
+msgstr "轉移不可指向同一活動。"
+
+#: workflow/views.py:247
+msgid "Transitions must have a name or condition."
+msgstr "轉移必須有名稱或條件。"
+
+#: workflow/views.py:251
+msgid "Duplicate transitions are not allowed."
+msgstr "不允許重複轉移。"
+
+#: workflow/views.py:267
+msgid "All activities must be connected by at least one transition."
+msgstr "所有活動都必須至少由一條轉移連接。"
+
+#: workflow/views.py:270
+msgid "Begin activity cannot have incoming transitions."
+msgstr "開始活動不可有入向轉移。"
+
+#: workflow/views.py:272
+msgid "Begin activity must have at least one outgoing transition."
+msgstr "開始活動必須至少有一條出向轉移。"
+
+#: workflow/views.py:274
+msgid "End activity cannot have outgoing transitions."
+msgstr "結束活動不可有出向轉移。"
+
+#: workflow/views.py:276
+msgid "End activity must have at least one incoming transition."
+msgstr "結束活動必須至少有一條入向轉移。"
+
+#: workflow/views.py:279
+msgid "Only one default (empty) transition is allowed per activity."
+msgstr "每個活動只允許一條預設（空）轉移。"
+
+#: workflow/views.py:298
+msgid "All activities must be reachable from Begin."
+msgstr "所有活動都必須可從 Begin 到達。"

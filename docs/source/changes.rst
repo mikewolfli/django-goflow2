@@ -8,6 +8,40 @@ What's new
 
 .. contents::
 
+Release 1.2
++++++++++++
+
+New Features
+************
+
+* Expanded locale coverage and completed translation updates across:
+
+	* ``goflow/locale``
+	* ``leavedemo/locale``
+	* ``sampleproject/locale``
+
+* Added and completed language packs for:
+
+	* ``zh_Hant``, ``ja``, ``ko``, ``fr``, ``de``, ``it``, ``es``, ``pt``, ``ru``
+
+* Normalized and completed ``zh_Hans`` entries by manually aligning msgids with current templates/views and ensuring entry parity with the main locale set.
+
+* Added i18n inspection utilities under ``scripts/`` for auditing empty/missing entries and same-as-msgid residue.
+
+Bug Fixes
+*********
+
+* Fixed missing/empty localized entries in ``zh_Hans`` catalogs.
+
+* Removed inconsistencies between legacy and current msgid formats in ``zh_Hans`` catalogs.
+
+* Recompiled locale catalogs so generated ``.mo`` files are up to date for all active projects.
+
+Backwards Incompatible Changes
+******************************
+
+* None.
+
 Release 1.1
 +++++++++++
 
@@ -42,6 +76,10 @@ New Features
 * Added developer guide, UI component partials, and workflow designer validation.
 
 * Added optional UI component styles and expanded workflow designer validation rules.
+
+* Added transition hooks, monitoring enhancements, and validation/simulation management commands.
+
+* Added activity form binding fields, node types, and transition pre/post hook support.
 
 * Added transition condition normalization and safer condition parsing with explicit DSL support:
 

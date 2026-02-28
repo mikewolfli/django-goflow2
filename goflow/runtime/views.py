@@ -5,7 +5,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from django.contrib.auth.decorators import login_required
 
-from goflow.runtime.models import WorkItem, ProcessInstance
+from goflow.runtime.models import WorkItem, ProcessInstance, AuditEvent
+from django.db.models import Count
 from goflow.tenancy import apply_tenant_filter
 from django.utils.translation import gettext_lazy as _, gettext
 
@@ -101,6 +102,13 @@ def _app_response(workitem):
 def monitor(request, template='goflow/monitor.html'):
     instances = apply_tenant_filter(ProcessInstance.objects, user=request.user)
     workitems = apply_tenant_filter(WorkItem.objects, user=request.user)
+    recent_audits = AuditEvent.objects.order_by('-created_at')[:10]
+    fallout_items = workitems.filter(status='fallout').order_by('-date')[:10]
+    process_stats = (
+        workitems.values('instance__process__title')
+        .annotate(total=Count('id'))
+        .order_by('-total')[:10]
+    )
 
     context = {
         'instances_total': instances.count(),
@@ -114,6 +122,9 @@ def monitor(request, template='goflow/monitor.html'):
         'workitems_fallout': workitems.filter(status='fallout').count(),
         'sla_warned': workitems.filter(sla_warned_at__isnull=False).count(),
         'sla_breached': workitems.filter(sla_breached_at__isnull=False).count(),
+        'recent_audits': recent_audits,
+        'fallout_items': fallout_items,
+        'process_stats': process_stats,
     }
     return render(request, template, context)
 

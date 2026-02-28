@@ -21,6 +21,8 @@ This template demonstrates how to compose the task header, actions, and styles.
 
    <div class="module">
      {% include "goflow/components/task_header.html" with title="Sample Task" subtitle="Request #123" %}
+    {% include "goflow/components/task_meta.html" with label="Priority" value="Urgent" %}
+    {% include "goflow/components/task_notice.html" with tone="warning" message="Needs review" %}
 
      <form method="post">
        {% csrf_token %}
@@ -32,3 +34,24 @@ This template demonstrates how to compose the task header, actions, and styles.
      </form>
    </div>
    {% endblock %}
+
+Designer Modeling Example
+-------------------------
+
+Recommended setup for advanced node types in the workflow designer:
+
+- ``gateway`` activity:
+
+  - ``kind=dummy``
+  - no ``form_template`` / ``form_class``
+
+- ``script`` activity:
+
+  - ``autostart=true``
+  - ``autofinish=true``
+
+- ``service`` activity:
+
+  - ``autostart=true``
+
+If these constraints are not met, the designer save API returns explicit validation errors.

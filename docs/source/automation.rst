@@ -136,7 +136,7 @@ Publishing flow:
 
 
 Permissions and Access Control
-+++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++
 
 Activities support explicit allowlists in addition to roles:
 

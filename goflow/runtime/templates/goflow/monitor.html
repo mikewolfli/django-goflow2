@@ -1,36 +1,84 @@
 {% extends "admin/base_site.html" %}
+{% load i18n %}
 {% block coltype %}colMS{% endblock %}
 
 {% block content %}
-<h1>Workflow Monitor</h1>
+<h1>{% trans "Workflow Monitor" %}</h1>
 
 <div id="content-main">
   <div class="module">
-    <h2>Instances</h2>
+    <h2>{% trans "Instances" %}</h2>
     <table>
-      <tr><th>Total</th><td>{{ instances_total }}</td></tr>
-      <tr><th>Running</th><td>{{ instances_running }}</td></tr>
-      <tr><th>Active</th><td>{{ instances_active }}</td></tr>
-      <tr><th>Complete</th><td>{{ instances_complete }}</td></tr>
+      <tr><th>{% trans "Total" %}</th><td>{{ instances_total }}</td></tr>
+      <tr><th>{% trans "Running" %}</th><td>{{ instances_running }}</td></tr>
+      <tr><th>{% trans "Active" %}</th><td>{{ instances_active }}</td></tr>
+      <tr><th>{% trans "Complete" %}</th><td>{{ instances_complete }}</td></tr>
     </table>
   </div>
 
   <div class="module">
-    <h2>Workitems</h2>
+    <h2>{% trans "Workitems" %}</h2>
     <table>
-      <tr><th>Total</th><td>{{ workitems_total }}</td></tr>
-      <tr><th>Active</th><td>{{ workitems_active }}</td></tr>
-      <tr><th>Inactive</th><td>{{ workitems_inactive }}</td></tr>
-      <tr><th>Blocked</th><td>{{ workitems_blocked }}</td></tr>
-      <tr><th>Fallout</th><td>{{ workitems_fallout }}</td></tr>
+      <tr><th>{% trans "Total" %}</th><td>{{ workitems_total }}</td></tr>
+      <tr><th>{% trans "Active" %}</th><td>{{ workitems_active }}</td></tr>
+      <tr><th>{% trans "Inactive" %}</th><td>{{ workitems_inactive }}</td></tr>
+      <tr><th>{% trans "Blocked" %}</th><td>{{ workitems_blocked }}</td></tr>
+      <tr><th>{% trans "Fallout" %}</th><td>{{ workitems_fallout }}</td></tr>
     </table>
   </div>
 
   <div class="module">
-    <h2>SLA</h2>
+    <h2>{% trans "SLA" %}</h2>
     <table>
-      <tr><th>Warned</th><td>{{ sla_warned }}</td></tr>
-      <tr><th>Breached</th><td>{{ sla_breached }}</td></tr>
+      <tr><th>{% trans "Warned" %}</th><td>{{ sla_warned }}</td></tr>
+      <tr><th>{% trans "Breached" %}</th><td>{{ sla_breached }}</td></tr>
+    </table>
+  </div>
+
+  <div class="module">
+    <h2>{% trans "Top Processes" %}</h2>
+    <table>
+      <tr><th>{% trans "Process" %}</th><th>{% trans "Workitems" %}</th></tr>
+      {% for row in process_stats %}
+      <tr>
+        <td>{{ row.instance__process__title }}</td>
+        <td>{{ row.total }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="2">{% trans "No data" %}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="module">
+    <h2>{% trans "Recent Audit Events" %}</h2>
+    <table>
+      <tr><th>{% trans "Time" %}</th><th>{% trans "Action" %}</th><th>{% trans "Actor" %}</th></tr>
+      {% for evt in recent_audits %}
+      <tr>
+        <td>{{ evt.created_at }}</td>
+        <td>{{ evt.action }}</td>
+        <td>{{ evt.actor }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="3">{% trans "No events" %}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="module">
+    <h2>{% trans "Recent Fallout" %}</h2>
+    <table>
+      <tr><th>{% trans "Workitem" %}</th><th>{% trans "Activity" %}</th><th>{% trans "Updated" %}</th></tr>
+      {% for wi in fallout_items %}
+      <tr>
+        <td>{{ wi.id }}</td>
+        <td>{{ wi.activity }}</td>
+        <td>{{ wi.date }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="3">{% trans "No fallout" %}</td></tr>
+      {% endfor %}
     </table>
   </div>
 </div>

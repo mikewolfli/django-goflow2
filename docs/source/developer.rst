@@ -81,3 +81,43 @@ Optional hooks for tenant scoping:
 
 - ``GOFLOW_TENANT_RESOLVER``: returns ``{"tenant_id": ..., "org_id": ...}``
 - ``GOFLOW_TENANT_FILTER``: scopes queryset based on current context
+
+Transition Hooks
+^^^^^^^^^^^^^^^^
+
+Transitions support per-transition hooks:
+
+- ``pre_hook``: called before condition evaluation
+- ``post_hook``: called after a transition is accepted
+
+The callable signature is:
+
+.. code-block:: python
+
+   def hook(workitem=None, transition=None):
+      return True
+
+Modeling Extensions
+^^^^^^^^^^^^^^^^^^^
+
+Activity form binding:
+
+- ``form_template``: template path used by task views
+- ``form_class``: callable path to a Django Form/ModelForm
+
+Node types:
+
+- ``node_type``: standard, approval, review, service, notification, gateway, script
+
+Monitoring
+^^^^^^^^^^
+
+Monitoring dashboard:
+
+- ``/monitor/``
+
+Test and Simulation Tools
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- ``python manage.py goflow_validate``
+- ``python manage.py goflow_simulate --process <name> --count 1``

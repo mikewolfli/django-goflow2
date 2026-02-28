@@ -1,9 +1,9 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Workflow Designer - {{ process.title }}</title>
+  <title>{% trans "Workflow Designer" %} - {{ process.title }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.26.0/dist/cytoscape.min.js"></script>
   <style>
@@ -173,54 +173,56 @@
 <body>
 <header>
   <h1>
-    Workflow Designer - {{ process.title }}
+    {% trans "Workflow Designer" %} - {{ process.title }}
     <span id="statusIndicator" class="status-pill">
       <svg class="status-icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
         <circle cx="6" cy="6" r="5" fill="currentColor" />
       </svg>
-      Status: idle
+      {% trans "Status" %}: {% trans "idle" %}
     </span>
   </h1>
 </header>
 
 <div class="layout">
   <section class="panel">
-    <h2>Process Settings</h2>
+    <h2>{% trans "Process Settings" %}</h2>
     <div class="row">
       <div>
-        <label>Begin Activity</label>
+        <label>{% trans "Begin Activity" %}</label>
         <select id="beginSelect"></select>
       </div>
       <div>
-        <label>End Activity</label>
+        <label>{% trans "End Activity" %}</label>
         <select id="endSelect"></select>
       </div>
     </div>
     <div class="actions">
-      <button id="saveButton">Save</button>
-      <button id="reloadButton" class="secondary">Reload</button>
-      <button id="undoButton" class="secondary">Undo</button>
-      <button id="redoButton" class="secondary">Redo</button>
-      <button id="deleteButton" class="secondary">Delete Selected</button>
-      <button id="helpButton" class="secondary">Shortcuts</button>
+      <button id="saveButton">{% trans "Save" %}</button>
+      <button id="reloadButton" class="secondary">{% trans "Reload" %}</button>
+      <button id="undoButton" class="secondary">{% trans "Undo" %}</button>
+      <button id="redoButton" class="secondary">{% trans "Redo" %}</button>
+      <button id="deleteButton" class="secondary">{% trans "Delete Selected" %}</button>
+      <button id="helpButton" class="secondary">{% trans "Shortcuts" %}</button>
     </div>
-    <p class="muted">Drag nodes to reposition. Box select for multi-select. Save to persist layout.</p>
+    <p class="muted">{% trans "Drag nodes to reposition. Box select for multi-select. Save to persist layout." %}</p>
     <div class="hintbar">
-      <span>Ctrl/Cmd+S Save</span>
-      <span>Ctrl/Cmd+R Reload</span>
-      <span>Ctrl/Cmd+Z Undo</span>
-      <span>Del Delete</span>
+      <span>{% trans "Ctrl/Cmd+S Save" %}</span>
+      <span>{% trans "Ctrl/Cmd+R Reload" %}</span>
+      <span>{% trans "Ctrl/Cmd+Z Undo" %}</span>
+      <span>{% trans "Del Delete" %}</span>
+      <span>◇ gateway</span>
+      <span>▣ script</span>
     </div>
     <div id="validationErrors" class="errors"></div>
 
-    <h2>Activities</h2>
+    <h2>{% trans "Activities" %}</h2>
     <div class="row">
       <div>
-        <label>Title</label>
-        <input id="activityTitle" placeholder="Start" />
+        <label>{% trans "Title" %}</label>
+        <input id="activityTitle" placeholder="{% trans 'Start' %}" />
       </div>
       <div>
-        <label>Kind</label>
+        <label>{% trans "Kind" %}</label>
         <select id="activityKind">
           <option value="standard">standard</option>
           <option value="dummy">dummy</option>
@@ -230,40 +232,66 @@
     </div>
     <div class="row">
       <div>
-        <label>Autostart</label>
+        <label>{% trans "Node Type" %}</label>
+        <select id="activityNodeType">
+          <option value="standard">standard</option>
+          <option value="approval">approval</option>
+          <option value="review">review</option>
+          <option value="service">service</option>
+          <option value="notification">notification</option>
+          <option value="gateway">gateway</option>
+          <option value="script">script</option>
+        </select>
+        <p class="muted" style="margin:6px 0 0 0;">{% trans "gateway: use kind=dummy, no form fields; script: usually autostart + autofinish." %}</p>
+      </div>
+      <div>
+        <label>{% trans "Form Template" %}</label>
+        <input id="activityFormTemplate" placeholder="goflow/sample_task_form.html" />
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>{% trans "Form Class" %}</label>
+        <input id="activityFormClass" placeholder="myapp.forms.ApproveForm" />
+      </div>
+      <div></div>
+    </div>
+    <div class="row">
+      <div>
+        <label>{% trans "Autostart" %}</label>
         <select id="activityAutostart">
           <option value="false">false</option>
           <option value="true">true</option>
         </select>
       </div>
       <div>
-        <label>Autofinish</label>
+        <label>{% trans "Autofinish" %}</label>
         <select id="activityAutofinish">
           <option value="true">true</option>
           <option value="false">false</option>
         </select>
       </div>
     </div>
-    <button id="addActivity">Add Activity</button>
+    <button id="addActivity">{% trans "Add Activity" %}</button>
 
-    <h2>Transitions</h2>
+    <h2>{% trans "Transitions" %}</h2>
     <div class="row">
       <div>
-        <label>From</label>
+        <label>{% trans "From" %}</label>
         <select id="transitionFrom"></select>
       </div>
       <div>
-        <label>To</label>
+        <label>{% trans "To" %}</label>
         <select id="transitionTo"></select>
       </div>
     </div>
     <div class="row">
       <div>
-        <label>Name</label>
-        <input id="transitionName" placeholder="approve" />
+        <label>{% trans "Name" %}</label>
+        <input id="transitionName" placeholder="{% trans 'approve' %}" />
       </div>
       <div>
-        <label>Condition</label>
+        <label>{% trans "Condition" %}</label>
         <input id="transitionCondition" list="transitionConditionPresets" placeholder="eq:APPROVED" />
       </div>
     </div>
@@ -275,12 +303,12 @@
       <option value="instance.condition == 'APPROVED'"></option>
       <option value="workitem.time_out(3, unit='days')"></option>
     </datalist>
-    <p class="muted">Condition DSL: eq:VALUE, ne:VALUE, in:A,B,C, timeout:3d (or safe expression).</p>
-    <button id="addTransition">Add Transition</button>
+    <p class="muted">{% trans "Condition DSL: eq:VALUE, ne:VALUE, in:A,B,C, timeout:3d (or safe expression)." %}</p>
+    <button id="addTransition">{% trans "Add Transition" %}</button>
   </section>
 
   <section class="panel">
-    <h2>Canvas</h2>
+    <h2>{% trans "Canvas" %}</h2>
     <div id="cy" class="canvas"></div>
   </section>
 </div>
@@ -289,18 +317,18 @@
 
 <div id="helpOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45);">
   <div style="max-width:520px; margin:80px auto; background:#fff; border-radius:10px; padding:20px;">
-    <h3 style="margin-top:0;">Keyboard Shortcuts</h3>
+    <h3 style="margin-top:0;">{% trans "Keyboard Shortcuts" %}</h3>
     <ul style="padding-left:18px;">
-      <li>Ctrl/Cmd + S: Save</li>
-      <li>Ctrl/Cmd + R: Reload</li>
-      <li>Ctrl/Cmd + Z: Undo</li>
-      <li>Ctrl/Cmd + Y: Redo</li>
-      <li>Delete/Backspace: Delete selected</li>
-      <li>Double-click node: Rename</li>
-      <li>Click edge: Edit label/condition</li>
+      <li>{% trans "Ctrl/Cmd + S: Save" %}</li>
+      <li>{% trans "Ctrl/Cmd + R: Reload" %}</li>
+      <li>{% trans "Ctrl/Cmd + Z: Undo" %}</li>
+      <li>{% trans "Ctrl/Cmd + Y: Redo" %}</li>
+      <li>{% trans "Delete/Backspace: Delete selected" %}</li>
+      <li>{% trans "Double-click node: Rename" %}</li>
+      <li>{% trans "Click edge: Edit label/condition" %}</li>
     </ul>
     <div style="text-align:right;">
-      <button id="closeHelp" class="secondary">Close</button>
+      <button id="closeHelp" class="secondary">{% trans "Close" %}</button>
     </div>
   </div>
 </div>
@@ -358,12 +386,12 @@
       return;
     }
     panel.style.display = 'block';
-    panel.innerHTML = `<strong>Validation errors</strong><ul>${errors.map(e => `<li>${e}</li>`).join('')}</ul>`;
+    panel.innerHTML = `<strong>{% trans "Validation errors" %}</strong><ul>${errors.map(e => `<li>${e}</li>`).join('')}</ul>`;
   }
 
   function setStatus(text, isError = false) {
     const status = document.getElementById('statusIndicator');
-    status.innerHTML = `${iconSvg(isError)} Status: ${text}`;
+    status.innerHTML = `${iconSvg(isError)} {% trans "Status" %}: ${text}`;
     status.classList.toggle('error', isError);
   }
 
@@ -402,6 +430,27 @@
           }
         },
         {
+          selector: 'node[node_type = "gateway"]',
+          style: {
+            'shape': 'diamond',
+            'background-color': '#6b6b6b',
+            'padding': '16px',
+          }
+        },
+        {
+          selector: 'node[node_type = "script"]',
+          style: {
+            'shape': 'cut-rectangle',
+            'background-color': '#0f2f26',
+          }
+        },
+        {
+          selector: 'node[node_type = "service"]',
+          style: {
+            'shape': 'hexagon',
+          }
+        },
+        {
           selector: 'edge',
           style: {
             'curve-style': 'bezier',
@@ -431,7 +480,7 @@
 
     cy.on('dblclick', 'node', (event) => {
       const node = event.target;
-      const title = prompt('Rename activity', node.data('label'));
+      const title = prompt('{% trans "Rename activity" %}', node.data('label'));
       if (title && title.trim()) {
         node.data('label', title.trim());
         recordHistory();
@@ -442,7 +491,7 @@
     cy.on('tap', 'edge', (event) => {
       const edge = event.target;
       const current = edge.data('condition') || edge.data('name') || '';
-      const text = prompt('Transition condition or name', current);
+      const text = prompt('{% trans "Transition condition or name" %}', current);
       if (text === null) return;
       const trimmed = text.trim();
       edge.data('condition', trimmed);
@@ -473,7 +522,7 @@
   }
 
   function loadGraph() {
-    setStatus('loading');
+    setStatus('{% trans "loading" %}');
     fetch(`/workflow/designer/${processId}/graph/`)
       .then(r => r.json())
       .then(data => {
@@ -492,8 +541,11 @@
               id: String(a.id),
               label: a.title,
               kind: a.kind,
+              node_type: a.node_type || 'standard',
               autostart: a.autostart,
               autofinish: a.autofinish,
+              form_template: a.form_template || '',
+              form_class: a.form_class || '',
             },
           };
           if (a.position) {
@@ -518,30 +570,47 @@
         cy.layout({ name: 'preset', fit: true, padding: 40 }).run();
         updateSelectors();
         recordHistory();
-        showToast('Reloaded');
-        setStatus('ready');
+        showToast('{% trans "Reloaded" %}');
+        setStatus('{% trans "ready" %}');
       })
       .catch(() => {
-        showToast('Reload failed', true);
-        setStatus('error', true);
+        showToast('{% trans "Reload failed" %}', true);
+        setStatus('{% trans "error" %}', true);
       });
   }
 
   document.getElementById('addActivity').addEventListener('click', () => {
-    const title = document.getElementById('activityTitle').value.trim() || 'Activity';
+    const title = document.getElementById('activityTitle').value.trim() || '{% trans "Activity" %}';
     const kind = document.getElementById('activityKind').value;
+    const nodeType = document.getElementById('activityNodeType').value;
     const autostart = document.getElementById('activityAutostart').value === 'true';
     const autofinish = document.getElementById('activityAutofinish').value === 'true';
+    const formTemplate = document.getElementById('activityFormTemplate').value.trim();
+    const formClass = document.getElementById('activityFormClass').value.trim();
     const clientId = `tmp-${Date.now()}`;
     activities.push({
       client_id: clientId,
       id: clientId,
       title,
       kind,
+      node_type: nodeType,
       autostart,
       autofinish,
+      form_template: formTemplate,
+      form_class: formClass,
     });
-    cy.add({ data: { id: clientId, label: title, kind, autostart, autofinish } });
+    cy.add({
+      data: {
+        id: clientId,
+        label: title,
+        kind,
+        node_type: nodeType,
+        autostart,
+        autofinish,
+        form_template: formTemplate,
+        form_class: formClass,
+      }
+    });
     updateSelectors();
     recordHistory();
   });
@@ -625,7 +694,7 @@
   });
 
   function saveGraph() {
-    setStatus('saving');
+    setStatus('{% trans "saving" %}');
     beginId = document.getElementById('beginSelect').value || null;
     endId = document.getElementById('endSelect').value || null;
 
@@ -640,8 +709,11 @@
         client_id: node.id(),
         title: node.data('label'),
         kind: node.data('kind') || 'standard',
+        node_type: node.data('node_type') || 'standard',
         autostart: !!node.data('autostart'),
         autofinish: node.data('autofinish') !== false,
+        form_template: node.data('form_template') || '',
+        form_class: node.data('form_class') || '',
         position: positions[node.id()],
       })),
       transitions: cy.edges().map(edge => ({
@@ -669,20 +741,20 @@
     }).then(async (response) => {
       if (!response.ok) {
         const data = await response.json().catch(() => null);
-        const errors = data && data.errors ? data.errors : ['Save failed'];
+        const errors = data && data.errors ? data.errors : ['{% trans "Save failed" %}'];
         showErrors(errors);
         showToast(errors[0], true);
-        setStatus('validation error', true);
+        setStatus('{% trans "validation error" %}', true);
         throw new Error('save failed');
       }
       showErrors([]);
-      showToast('Saved');
-      setStatus('saved');
+      showToast('{% trans "Saved" %}');
+      setStatus('{% trans "saved" %}');
       loadGraph();
       return response;
     }).catch(() => {
-      showToast('Save failed', true);
-      setStatus('error', true);
+      showToast('{% trans "Save failed" %}', true);
+      setStatus('{% trans "error" %}', true);
     });
   }
 

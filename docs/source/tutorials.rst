@@ -13,8 +13,6 @@ We'll learn here how to use this module, starting with a very simple "Hello worl
 Prerequisites
 +++++++++++++
 
-Prerequisite
-=================
 Create a directory, and copy the directory ``goflow`` to this directory (you can also place it in any directory in your PYTHONPATH).
 
 .. note::
@@ -25,56 +23,63 @@ Create a directory, and copy the directory ``goflow`` to this directory (you can
 Project "Hello World"
 +++++++++++++++++++++
 
-Project "Hello World"
-======================
 We will discover the workflow engine with a very simple application based on a process workflow with a single activity (a single activity, with no transitions: the simplest possible workflow). The purpose of this activity is to receive a message (for example, "Hello world").
 
-    * Start by creating an empty django project (or use an existing project)::
+* Start by creating an empty django project (or use an existing project):
 
-      django-admin startproject myproj
+  .. code-block:: bash
 
-    * Add the following applications in the file ``settings.py``::
+    django-admin startproject myproj
 
-        INSTALLED_APPS = (
-         ...
-         'django.contrib.admin',
-         'django.contrib.auth',
-         'django.contrib.contenttypes',
-         'django.contrib.sessions',
-         'django.contrib.messages',
-         'django.contrib.staticfiles',
-         'goflow.workflow',
-         'goflow.runtime',
-         'goflow.apptools',
-        )
+* Add the following applications in ``settings.py``:
+
+  .. code-block:: python
+
+    INSTALLED_APPS = (
+      ...
+      'django.contrib.admin',
+      'django.contrib.auth',
+      'django.contrib.contenttypes',
+      'django.contrib.sessions',
+      'django.contrib.messages',
+      'django.contrib.staticfiles',
+      'goflow.workflow',
+      'goflow.runtime',
+      'goflow.apptools',
+    )
 
 The `workflow` application contains the "static" model data (modeling
 process), and the ``instances`` application contains the dynamic part or runtime.
 
-    * Set up the database part of the settings file, for example like this::
+* Set up the database part of the settings file, for example like this:
 
-      DATABASES = {
-        'default': {
-          'ENGINE': 'django.db.backends.sqlite3',
-          'NAME': 'data.sqlite3',
-        }
+  .. code-block:: python
+
+    DATABASES = {
+      'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'data.sqlite3',
       }
+    }
 
-    * Add the following lines in the ``urls.py`` file::
+* Add the following lines in ``urls.py``:
 
-      from django.contrib import admin
-      from django.urls import path, include
+  .. code-block:: python
 
-      urlpatterns = [
-        path('admin/', admin.site.urls),
-        path('workflow/', include('goflow.urls')),
-      ]
+    from django.contrib import admin
+    from django.urls import path, include
 
+    urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('workflow/', include('goflow.urls')),
+    ]
 
-    * Now create the database server and start it as follows::
+* Now create the database and start the server:
 
-      python manage.py migrate
-      python manage.py runserver
+  .. code-block:: bash
+
+    python manage.py migrate
+    python manage.py runserver
 
 
 We can now open the console admin [http://localhost:8000/admin/], and discover the data models introduced by GoFlow:
@@ -96,14 +101,14 @@ Return to the admin console, add an entity Process as shown with the screen belo
 
 Use "Hello world" for the title, and optionally provide a description of the new process
 
-    * Register using the ``Save button and continue editing``: you can now see that an 
-      activity ``End`` was added automatically.
+* Register using the ``Save button and continue editing``: you can now see that an 
+  activity ``End`` was added automatically.
 
-    * Create an initial activity by clicking on the icon "+" in the field ``Initial activity``: 
-      enter a title, set the process dropdown to the current process "Hello world", leaving the 
-      default values for other fields.
+* Create an initial activity by clicking on the icon "+" in the field ``Initial activity``: 
+  enter a title, set the process dropdown to the current process "Hello world", leaving the 
+  default values for other fields.
 
-    * Save
+  * Save
 
 We have created our first process workflow:
 
@@ -116,29 +121,29 @@ Indeed, when an activity is not associated with an application, a special testin
 
 Before we start running our process workflow, we must first create a ``Group`` with a single permission to allow users to instantiate it:
 
-    * Add a group named ``Hello world``, give it the permission ``can_instantiate`` on the  
-      content type ``workflow.process``, and save. (note: the name of the group and the name of 
-      the process must be the same)
+* Add a group named ``Hello world``, give it the permission ``can_instantiate`` on the  
+  content type ``workflow.process``, and save. (note: the name of the group and the name of 
+  the process must be the same)
       
-    * Add this group to the current user: this will allow the user to instantiate the process 
-      ``Hello world``.
+* Add this group to the current user: this will allow the user to instantiate the process 
+  ``Hello world``.
 
 We are now ready to execute/test the workflow: go to the dashboard [http://localhost:8000/workflow/]. You will find the process and its definition, and other information on roles and permissions.
 
 Internationalization (optional)
-******************************
++++++++++++++++++++++++++++++++
 
 If you enable i18n URL prefixes, you can visit /en/ or /zh-hans/ and so on.
 You can also POST to /i18n/setlang/ with the "language" field to persist
 the language in session/cookies.
 
-    * Click on the link ``start a simulation instance`` under the process ``Hello world``
+  * Click on the link ``start a simulation instance`` under the process ``Hello world``.
 
 Let's add an activity
-*********************
++++++++++++++++++++++
 
 Let's add our own models
-************************
++++++++++++++++++++++++++++++++
 
 Create a small model for a workflow-backed request. In your app's
 ``models.py``::
@@ -157,7 +162,7 @@ Create a small model for a workflow-backed request. In your app's
       return self.title
 
 And for some code
-*****************
++++++++++++++++++++++++++++++
 
 We will implement a form and a view that starts a workflow instance.
 
@@ -217,14 +222,14 @@ Template ``templates/request/start.html``::
   </form>
 
 Internationalization checklist
-******************************
++++++++++++++++++++++++++++++++
 
 - Wrap user-facing strings with ``gettext_lazy`` or ``{% trans %}``.
 - Run ``django-admin makemessages -a`` and ``compilemessages``.
 - Use ``/i18n/setlang/`` or URL prefixes to switch language.
 
 Process modeling, roles, and auto tasks
-======================================
+++++++++++++++++++++++++++++++++++++++++
 
 This section shows a complete example of:
 
@@ -325,7 +330,7 @@ because it is marked ``autostart=True``.
 - The ``notify`` activity runs automatically; check logs or email output.
 
 Parallel branches, timeouts, and rollback
-========================================
+++++++++++++++++++++++++++++++++++++++++++
 
 This section extends the example to include:
 
@@ -395,10 +400,10 @@ Advanced Tutorial
 +++++++++++++++++
 
 GoFlow Advanced
-============================
+---------------
 
 Prerequisites
-*************
+^^^^^^^^^^^^^
 
 * use goflow svn version as version 0.5 will not work with these tutorials. You can also 
       download the [http://goflow.googlecode.com/files/goflow-0.51.zip v 0.51].
@@ -409,7 +414,7 @@ Prerequisites
 (tutorial draft; screenshots will be added later)
 
 Application Unit Testing
-************************
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 We will simulate here coding an existing application of the demo ``Leave``: ``hrform``.
 

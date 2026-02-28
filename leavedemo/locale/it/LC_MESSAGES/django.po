@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-goflow\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 00:00+0000\n"
+"POT-Creation-Date: 2026-02-27 23:44+0800\n"
 "PO-Revision-Date: 2026-02-27 00:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -10,3 +10,51 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: settings.py:99
+msgid "English"
+msgstr "Inglese"
+
+#: settings.py:100
+msgid "French"
+msgstr "Francese"
+
+#: settings.py:101
+msgid "Simplified Chinese"
+msgstr "Cinese semplificato"
+
+#: settings.py:102
+msgid "Traditional Chinese"
+msgstr "Cinese tradizionale"
+
+#: settings.py:103
+msgid "Japanese"
+msgstr "Giapponese"
+
+#: settings.py:104
+msgid "Korean"
+msgstr "Coreano"
+
+#: settings.py:105
+msgid "German"
+msgstr "Tedesco"
+
+#: settings.py:106
+msgid "Spanish"
+msgstr "Spagnolo"
+
+#: settings.py:107
+msgid "Italian"
+msgstr "Italiano"
+
+#: settings.py:108
+msgid "Portuguese"
+msgstr "Portoghese"
+
+#: settings.py:109
+msgid "Russian"
+msgstr "Russo"
+
+#: templates/leave.html:12
+msgid "Log in"
+msgstr "Accedi"

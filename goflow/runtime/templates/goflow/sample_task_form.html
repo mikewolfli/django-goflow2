@@ -1,19 +1,29 @@
 {% extends "admin/base_site.html" %}
+{% load i18n %}
 {% block coltype %}colMS{% endblock %}
 
 {% block content %}
 {% include "goflow/components/task_styles.html" %}
 
 <div class="module">
-  {% include "goflow/components/task_header.html" with title="Sample Task" subtitle="Request #123" %}
+  {% trans "Sample Task" as sample_task_title %}
+  {% trans "Request #123" as sample_task_subtitle %}
+  {% trans "Priority" as priority_label %}
+  {% trans "Urgent" as urgent_value %}
+  {% trans "Needs review" as needs_review_message %}
+  {% include "goflow/components/task_header.html" with title=sample_task_title subtitle=sample_task_subtitle %}
+  {% include "goflow/components/task_meta.html" with label=priority_label value=urgent_value %}
+  {% include "goflow/components/task_notice.html" with tone="warning" message=needs_review_message %}
 
   <form method="post">
     {% csrf_token %}
     <p>
-      <label for="id_comment">Comment</label><br />
+      <label for="id_comment">{% trans "Comment" %}</label><br />
       <textarea id="id_comment" name="comment" rows="4" cols="50"></textarea>
     </p>
-    {% include "goflow/components/task_actions.html" with primary_label="Approve" secondary_label="Reject" %}
+    {% trans "Approve" as approve_label %}
+    {% trans "Reject" as reject_label %}
+    {% include "goflow/components/task_actions.html" with primary_label=approve_label secondary_label=reject_label %}
   </form>
 </div>
 {% endblock %}

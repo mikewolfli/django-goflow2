@@ -28,26 +28,38 @@ msgstr "初始化"
 
 #: .\apptools\forms.py:70
 #, python-format
-msgid "Activity: [%s]"
-msgstr "活动: [%s] "
+msgid ""
+"\n"
+"Activity: [%s]"
+msgstr ""
+"\n"
+"活动: [%s]"
 
 #: .\apptools\forms.py:75
 #, python-format
-msgid " button clicked: [%s]"
-msgstr "点击按钮: [%s]"
+msgid ""
+"\n"
+" button clicked: [%s]"
+msgstr ""
+"\n"
+"点击按钮: [%s]"
 
 #: .\apptools\forms.py:89
 #, python-format
-msgid "%s start instance"
-msgstr "%s 实例启动"
+msgid ""
+"\n"
+"%s start instance"
+msgstr ""
+"\n"
+"%s 实例启动"
 
 #: .\apptools\forms.py:118
 msgid "(select a content-type)"
-msgstr ""
+msgstr "(选择内容类型)"
 
 #: .\apptools\forms.py:119
 msgid "content type"
-msgstr ""
+msgstr "内容类型"
 
 #: .\apptools\forms.py:120
 msgid ""
@@ -128,7 +140,7 @@ msgstr "用户表单的保存方法必须接受参数和数据"
 
 #: .\apptools\views.py:97
 #, python-format
-msgid "form save error: %s"
+msgid "forme save error: %s"
 msgstr "表单保存错误: %s"
 
 #: .\apptools\views.py:487
@@ -146,11 +158,11 @@ msgstr "<hr><p><b><a href=../>返回</a></b>"
 
 #: .\graphics2\templates\admin\graphics2\processimage\change_form.html:49
 msgid "Ordering"
-msgstr ""
+msgstr "排序"
 
 #: .\graphics2\templates\admin\graphics2\processimage\change_form.html:52
 msgid "Order:"
-msgstr ""
+msgstr "顺序:"
 
 #: .\runtime\templates\admin\index.html:13
 msgid "Django administration"
@@ -159,12 +171,12 @@ msgstr "Django管理"
 #: .\runtime\templates\admin\index.html:22
 #, python-format
 msgid "Models available in the %(name)s application."
-msgstr ""
+msgstr "%(name)s 应用中可用的模型。"
 
 #: .\runtime\templates\admin\index.html:23
 #, python-format
 msgid "%(name)s"
-msgstr ""
+msgstr "%(name)s"
 
 #: .\runtime\templates\admin\index.html:39
 msgid "Change"
@@ -219,7 +231,7 @@ msgstr "登录"
 #: .\workflow\templates\goflow\base_site.html:10
 #: .\workflow\templates\goflow\login.html:5
 msgid "GoFlow"
-msgstr ""
+msgstr "GoFlow"
 
 #: .\workflow\views.py:70
 msgid "user is not active"
@@ -232,3 +244,563 @@ msgstr "授权失败"
 #: .\workflow\views.py:79
 msgid "user page."
 msgstr "用户页面"
+
+#: apptools/forms.py:22
+msgid "normal"
+msgstr "普通"
+
+#: apptools/forms.py:22
+msgid "urgent"
+msgstr "紧急"
+
+#: apptools/forms.py:22
+msgid "emergency"
+msgstr "特急"
+
+#: apptools/models.py:24
+msgid "history"
+msgstr "历史"
+
+#: apptools/models.py:25
+msgid "comment"
+msgstr "备注"
+
+#: apptools/models.py:38
+msgid "category"
+msgstr "分类"
+
+#: apptools/models.py:39
+msgid "file"
+msgstr "文件"
+
+#: apptools/models.py:62
+msgid "Image"
+msgstr "图片"
+
+#: apptools/models.py:71
+msgid "catagory"
+msgstr "分类"
+
+#: apptools/models.py:93
+msgid "Icon"
+msgstr "图标"
+
+#: apptools/models.py:101
+msgid "action"
+msgstr "动作"
+
+#: apptools/models.py:102
+msgid "label"
+msgstr "标签"
+
+#: apptools/models.py:103
+msgid "icon"
+msgstr "图标"
+
+#: apptools/models.py:123
+msgid "Image Button"
+msgstr "图片按钮"
+
+#: runtime/templates/goflow/monitor.html:6
+msgid "Workflow Monitor"
+msgstr "流程监控"
+
+#: runtime/templates/goflow/monitor.html:10
+msgid "Instances"
+msgstr "实例"
+
+#: runtime/templates/goflow/monitor.html:12
+#: runtime/templates/goflow/monitor.html:22
+msgid "Total"
+msgstr "总计"
+
+#: runtime/templates/goflow/monitor.html:13
+msgid "Running"
+msgstr "运行中"
+
+#: runtime/templates/goflow/monitor.html:14
+#: runtime/templates/goflow/monitor.html:23
+msgid "Active"
+msgstr "活动"
+
+#: runtime/templates/goflow/monitor.html:15
+msgid "Complete"
+msgstr "完成"
+
+#: runtime/templates/goflow/monitor.html:20
+#: runtime/templates/goflow/monitor.html:41
+msgid "Workitems"
+msgstr "工作项"
+
+#: runtime/templates/goflow/monitor.html:24
+msgid "Inactive"
+msgstr "未激活"
+
+#: runtime/templates/goflow/monitor.html:25
+msgid "Blocked"
+msgstr "阻塞"
+
+#: runtime/templates/goflow/monitor.html:26
+msgid "Fallout"
+msgstr "异常"
+
+#: runtime/templates/goflow/monitor.html:31
+msgid "SLA"
+msgstr "服务级别协议"
+
+#: runtime/templates/goflow/monitor.html:33
+msgid "Warned"
+msgstr "已预警"
+
+#: runtime/templates/goflow/monitor.html:34
+msgid "Breached"
+msgstr "已超时"
+
+#: runtime/templates/goflow/monitor.html:39
+msgid "Top Processes"
+msgstr "热门流程"
+
+#: runtime/templates/goflow/monitor.html:41
+msgid "Process"
+msgstr "流程"
+
+#: runtime/templates/goflow/monitor.html:48
+msgid "No data"
+msgstr "无数据"
+
+#: runtime/templates/goflow/monitor.html:54
+msgid "Recent Audit Events"
+msgstr "最近审计事件"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Time"
+msgstr "时间"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Action"
+msgstr "动作"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Actor"
+msgstr "执行人"
+
+#: runtime/templates/goflow/monitor.html:64
+msgid "No events"
+msgstr "无事件"
+
+#: runtime/templates/goflow/monitor.html:70
+msgid "Recent Fallout"
+msgstr "最近异常"
+
+#: runtime/templates/goflow/monitor.html:72
+msgid "Workitem"
+msgstr "工作项"
+
+#: runtime/templates/goflow/monitor.html:72
+#: workflow/templates/goflow/workflow_designer.html:583
+msgid "Activity"
+msgstr "活动"
+
+#: runtime/templates/goflow/monitor.html:72
+msgid "Updated"
+msgstr "更新时间"
+
+#: runtime/templates/goflow/monitor.html:80
+msgid "No fallout"
+msgstr "无异常"
+
+#: runtime/templates/goflow/sample_task_form.html:9
+msgid "Sample Task"
+msgstr "示例任务"
+
+#: runtime/templates/goflow/sample_task_form.html:10
+msgid "Request #123"
+msgstr "申请 #123"
+
+#: runtime/templates/goflow/sample_task_form.html:12
+msgid "Urgent"
+msgstr "紧急"
+
+#: runtime/templates/goflow/sample_task_form.html:13
+msgid "Needs review"
+msgstr "需要审核"
+
+#: runtime/templates/goflow/sample_task_form.html:21
+msgid "Comment"
+msgstr "评论"
+
+#: runtime/templates/goflow/sample_task_form.html:24
+msgid "Approve"
+msgstr "批准"
+
+#: runtime/templates/goflow/sample_task_form.html:25
+msgid "Reject"
+msgstr "拒绝"
+
+#: workflow/templates/goflow/workflow_designer.html:6
+#: workflow/templates/goflow/workflow_designer.html:176
+msgid "Workflow Designer"
+msgstr "流程设计器"
+
+#: workflow/templates/goflow/workflow_designer.html:181
+#: workflow/templates/goflow/workflow_designer.html:394
+msgid "Status"
+msgstr "状态"
+
+#: workflow/templates/goflow/workflow_designer.html:181
+msgid "idle"
+msgstr "空闲"
+
+#: workflow/templates/goflow/workflow_designer.html:188
+msgid "Process Settings"
+msgstr "流程设置"
+
+#: workflow/templates/goflow/workflow_designer.html:191
+msgid "Begin Activity"
+msgstr "开始活动"
+
+#: workflow/templates/goflow/workflow_designer.html:195
+msgid "End Activity"
+msgstr "结束活动"
+
+#: workflow/templates/goflow/workflow_designer.html:200
+msgid "Save"
+msgstr "保存"
+
+#: workflow/templates/goflow/workflow_designer.html:201
+msgid "Reload"
+msgstr "重新加载"
+
+#: workflow/templates/goflow/workflow_designer.html:202
+msgid "Undo"
+msgstr "撤销"
+
+#: workflow/templates/goflow/workflow_designer.html:203
+msgid "Redo"
+msgstr "重做"
+
+#: workflow/templates/goflow/workflow_designer.html:204
+msgid "Delete Selected"
+msgstr "删除所选"
+
+#: workflow/templates/goflow/workflow_designer.html:205
+msgid "Shortcuts"
+msgstr "快捷键"
+
+#: workflow/templates/goflow/workflow_designer.html:209
+msgid "Ctrl/Cmd+S Save"
+msgstr "Ctrl/Cmd+S 保存"
+
+#: workflow/templates/goflow/workflow_designer.html:210
+msgid "Ctrl/Cmd+R Reload"
+msgstr "Ctrl/Cmd+R 重新加载"
+
+#: workflow/templates/goflow/workflow_designer.html:211
+msgid "Ctrl/Cmd+Z Undo"
+msgstr "Ctrl/Cmd+Z 撤销"
+
+#: workflow/templates/goflow/workflow_designer.html:212
+msgid "Del Delete"
+msgstr "Del 删除"
+
+#: workflow/templates/goflow/workflow_designer.html:218
+msgid "Activities"
+msgstr "活动"
+
+#: workflow/templates/goflow/workflow_designer.html:221
+msgid "Title"
+msgstr "标题"
+
+#: workflow/templates/goflow/workflow_designer.html:222
+msgid "Start"
+msgstr "开始"
+
+#: workflow/templates/goflow/workflow_designer.html:225
+msgid "Kind"
+msgstr "类型"
+
+#: workflow/templates/goflow/workflow_designer.html:235
+msgid "Node Type"
+msgstr "节点类型"
+
+#: workflow/templates/goflow/workflow_designer.html:248
+msgid "Form Template"
+msgstr "表单模板"
+
+#: workflow/templates/goflow/workflow_designer.html:254
+msgid "Form Class"
+msgstr "表单类"
+
+#: workflow/templates/goflow/workflow_designer.html:261
+msgid "Autostart"
+msgstr "自动启动"
+
+#: workflow/templates/goflow/workflow_designer.html:268
+msgid "Autofinish"
+msgstr "自动完成"
+
+#: workflow/templates/goflow/workflow_designer.html:275
+msgid "Add Activity"
+msgstr "新增活动"
+
+#: workflow/templates/goflow/workflow_designer.html:277
+msgid "Transitions"
+msgstr "流转"
+
+#: workflow/templates/goflow/workflow_designer.html:280
+msgid "From"
+msgstr "从"
+
+#: workflow/templates/goflow/workflow_designer.html:284
+msgid "To"
+msgstr "到"
+
+#: workflow/templates/goflow/workflow_designer.html:290
+msgid "Name"
+msgstr "名称"
+
+#: workflow/templates/goflow/workflow_designer.html:294
+msgid "Condition"
+msgstr "条件"
+
+#: workflow/templates/goflow/workflow_designer.html:307
+msgid "Add Transition"
+msgstr "新增流转"
+
+#: workflow/templates/goflow/workflow_designer.html:311
+msgid "Canvas"
+msgstr "画布"
+
+#: workflow/templates/goflow/workflow_designer.html:320
+msgid "Keyboard Shortcuts"
+msgstr "键盘快捷键"
+
+#: workflow/templates/goflow/workflow_designer.html:331
+msgid "Close"
+msgstr "关闭"
+
+#: workflow/templates/goflow/workflow_designer.html:389
+msgid "Validation errors"
+msgstr "校验错误"
+
+#: workflow/templates/goflow/workflow_designer.html:483
+msgid "Rename activity"
+msgstr "重命名活动"
+
+#: workflow/templates/goflow/workflow_designer.html:494
+msgid "Transition condition or name"
+msgstr "流转条件或名称"
+
+#: workflow/templates/goflow/workflow_designer.html:525
+msgid "loading"
+msgstr "加载中"
+
+#: workflow/templates/goflow/workflow_designer.html:573
+msgid "Reloaded"
+msgstr "已重新加载"
+
+#: workflow/templates/goflow/workflow_designer.html:574
+msgid "ready"
+msgstr "就绪"
+
+#: workflow/templates/goflow/workflow_designer.html:577
+msgid "Reload failed"
+msgstr "重新加载失败"
+
+#: workflow/templates/goflow/workflow_designer.html:578
+#: workflow/templates/goflow/workflow_designer.html:757
+msgid "error"
+msgstr "错误"
+
+#: workflow/templates/goflow/workflow_designer.html:697
+msgid "saving"
+msgstr "保存中"
+
+#: workflow/templates/goflow/workflow_designer.html:744
+#: workflow/templates/goflow/workflow_designer.html:756
+msgid "Save failed"
+msgstr "保存失败"
+
+#: workflow/templates/goflow/workflow_designer.html:747
+msgid "validation error"
+msgstr "校验错误"
+
+#: workflow/templates/goflow/workflow_designer.html:751
+msgid "Saved"
+msgstr "已保存"
+
+#: workflow/templates/goflow/workflow_designer.html:752
+msgid "saved"
+msgstr "已保存"
+
+#: workflow/templates/goflow/workflow_designer.html:207
+msgid ""
+"Drag nodes to reposition. Box select for multi-select. Save to persist "
+"layout."
+msgstr "拖拽节点可重新定位；框选可多选；保存后将持久化布局。"
+
+#: workflow/templates/goflow/workflow_designer.html:291
+msgid "approve"
+msgstr "批准"
+
+#: workflow/templates/goflow/workflow_designer.html:306
+msgid ""
+"Condition DSL: eq:VALUE, ne:VALUE, in:A,B,C, timeout:3d (or safe expression)."
+msgstr "条件 DSL：eq:VALUE、ne:VALUE、in:A,B,C、timeout:3d（或安全表达式）。"
+
+#: workflow/templates/goflow/workflow_designer.html:322
+msgid "Ctrl/Cmd + S: Save"
+msgstr "Ctrl/Cmd + S：保存"
+
+#: workflow/templates/goflow/workflow_designer.html:323
+msgid "Ctrl/Cmd + R: Reload"
+msgstr "Ctrl/Cmd + R：重新加载"
+
+#: workflow/templates/goflow/workflow_designer.html:324
+msgid "Ctrl/Cmd + Z: Undo"
+msgstr "Ctrl/Cmd + Z：撤销"
+
+#: workflow/templates/goflow/workflow_designer.html:325
+msgid "Ctrl/Cmd + Y: Redo"
+msgstr "Ctrl/Cmd + Y：重做"
+
+#: workflow/templates/goflow/workflow_designer.html:326
+msgid "Delete/Backspace: Delete selected"
+msgstr "Delete/Backspace：删除所选"
+
+#: workflow/templates/goflow/workflow_designer.html:327
+msgid "Double-click node: Rename"
+msgstr "双击节点：重命名"
+
+#: workflow/templates/goflow/workflow_designer.html:328
+msgid "Click edge: Edit label/condition"
+msgstr "点击连线：编辑标签/条件"
+
+#: workflow/views.py:131 workflow/views.py:305
+msgid "Forbidden"
+msgstr "禁止访问"
+
+#: workflow/views.py:155
+msgid "At least one activity is required."
+msgstr "至少需要一个活动。"
+
+#: workflow/views.py:163
+msgid "Untitled"
+msgstr "未命名"
+
+#: workflow/views.py:165
+msgid "Every activity must have a title."
+msgstr "每个活动都必须有标题。"
+
+#: workflow/views.py:167
+msgid "Activity titles must be 100 characters or fewer."
+msgstr "活动标题必须不超过 100 个字符。"
+
+#: workflow/views.py:173
+#, python-format
+msgid "Activity kind must be one of: %(choices)s."
+msgstr "活动类型必须是以下之一：%(choices)s。"
+
+#: workflow/views.py:179
+#, python-format
+msgid "Activity node type must be one of: %(choices)s."
+msgstr "活动节点类型必须是以下之一：%(choices)s。"
+
+#: workflow/views.py:190
+#, python-format
+msgid "Activity \"%(title)s\": gateway nodes must use kind=dummy."
+msgstr "活动 \"%(title)s\"：gateway 节点必须使用 kind=dummy。"
+
+#: workflow/views.py:194
+#, python-format
+msgid ""
+"Activity \"%(title)s\": gateway nodes cannot bind form_template or "
+"form_class."
+msgstr "活动 \"%(title)s\"：gateway 节点不能绑定 form_template 或 form_class。"
+
+#: workflow/views.py:199
+#, python-format
+msgid "Activity \"%(title)s\": %(node_type)s nodes should enable autostart."
+msgstr "活动 \"%(title)s\"：%(node_type)s 节点建议启用 autostart。"
+
+#: workflow/views.py:205
+#, python-format
+msgid "Activity \"%(title)s\": script nodes should enable autofinish."
+msgstr "活动 \"%(title)s\"：script 节点建议启用 autofinish。"
+
+#: workflow/views.py:210
+#, python-format
+msgid "Activity \"%(title)s\": notification nodes should not use form_class."
+msgstr "活动 \"%(title)s\"：notification 节点不应使用 form_class。"
+
+#: workflow/views.py:216
+msgid "Activity titles must be unique."
+msgstr "活动标题必须唯一。"
+
+#: workflow/views.py:220
+msgid "Begin activity must exist in the workflow."
+msgstr "开始活动必须存在于流程中。"
+
+#: workflow/views.py:222
+msgid "End activity must exist in the workflow."
+msgstr "结束活动必须存在于流程中。"
+
+#: workflow/views.py:224
+msgid "Begin activity is required."
+msgstr "必须设置开始活动。"
+
+#: workflow/views.py:226
+msgid "End activity is required."
+msgstr "必须设置结束活动。"
+
+#: workflow/views.py:228
+msgid "Begin and End activities must be different."
+msgstr "开始活动和结束活动必须不同。"
+
+#: workflow/views.py:232
+msgid "At least one transition is required."
+msgstr "至少需要一条流转。"
+
+#: workflow/views.py:243
+msgid "Transitions must connect valid activities."
+msgstr "流转必须连接有效活动。"
+
+#: workflow/views.py:245
+msgid "Transitions cannot point to the same activity."
+msgstr "流转不能指向同一活动。"
+
+#: workflow/views.py:247
+msgid "Transitions must have a name or condition."
+msgstr "流转必须有名称或条件。"
+
+#: workflow/views.py:251
+msgid "Duplicate transitions are not allowed."
+msgstr "不允许重复流转。"
+
+#: workflow/views.py:267
+msgid "All activities must be connected by at least one transition."
+msgstr "所有活动至少需要一条流转连接。"
+
+#: workflow/views.py:270
+msgid "Begin activity cannot have incoming transitions."
+msgstr "开始活动不能有入向流转。"
+
+#: workflow/views.py:272
+msgid "Begin activity must have at least one outgoing transition."
+msgstr "开始活动至少需要一条出向流转。"
+
+#: workflow/views.py:274
+msgid "End activity cannot have outgoing transitions."
+msgstr "结束活动不能有出向流转。"
+
+#: workflow/views.py:276
+msgid "End activity must have at least one incoming transition."
+msgstr "结束活动至少需要一条入向流转。"
+
+#: workflow/views.py:279
+msgid "Only one default (empty) transition is allowed per activity."
+msgstr "每个活动只允许一条默认（空）流转。"
+
+#: workflow/views.py:298
+msgid "All activities must be reachable from Begin."
+msgstr "所有活动都必须可从 Begin 到达。"

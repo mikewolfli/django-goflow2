@@ -1,0 +1,809 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-27 23:44+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: apptools/forms.py:21 apptools/forms.py:46
+#: runtime/templates/goflow/sample_task_form.html:11
+msgid "Priority"
+msgstr "Приоритет"
+
+#: apptools/forms.py:22
+msgid "normal"
+msgstr "обычный"
+
+#: apptools/forms.py:22
+msgid "urgent"
+msgstr "срочный"
+
+#: apptools/forms.py:22
+msgid "emergency"
+msgstr "экстренный"
+
+#: apptools/forms.py:67 apptools/forms.py:88
+msgid "Init"
+msgstr "Инициализация"
+
+#: apptools/forms.py:70
+#, python-format
+msgid ""
+"\n"
+"Activity: [%s]"
+msgstr ""
+
+#: apptools/forms.py:75
+#, python-format
+msgid ""
+"\n"
+" button clicked: [%s]"
+msgstr ""
+
+#: apptools/forms.py:89
+#, python-format
+msgid ""
+"\n"
+"%s start instance"
+msgstr ""
+
+#: apptools/forms.py:118
+msgid "(select a content-type)"
+msgstr "(выберите тип контента)"
+
+#: apptools/forms.py:119
+msgid "content type"
+msgstr "тип контента"
+
+#: apptools/forms.py:120
+msgid ""
+"clone all instances of the selected content type and push them in the test "
+"process of the application"
+msgstr ""
+
+#: apptools/models.py:24
+msgid "history"
+msgstr "история"
+
+#: apptools/models.py:25
+msgid "comment"
+msgstr "комментарий"
+
+#: apptools/models.py:28
+#, python-format
+msgid "simulation model %s"
+msgstr "модель симуляции %s"
+
+#: apptools/models.py:32
+msgid "Simulation object"
+msgstr "Объект симуляции"
+
+#: apptools/models.py:38
+msgid "category"
+msgstr "категория"
+
+#: apptools/models.py:39
+msgid "file"
+msgstr "файл"
+
+#: apptools/models.py:62
+msgid "Image"
+msgstr "Изображение"
+
+#: apptools/models.py:71
+msgid "catagory"
+msgstr "категория"
+
+#: apptools/models.py:93
+msgid "Icon"
+msgstr "Иконка"
+
+#: apptools/models.py:101
+msgid "action"
+msgstr "действие"
+
+#: apptools/models.py:102
+msgid "label"
+msgstr "метка"
+
+#: apptools/models.py:103
+msgid "icon"
+msgstr "иконка"
+
+#: apptools/models.py:123
+msgid "Image Button"
+msgstr "Кнопка изображения"
+
+#: apptools/templates/admin/apptools/icon/change_list.html:11
+#: apptools/templates/admin/workflow/transition/change_list.html:17
+#: workflow/templates/admin/workflow/application/change_list.html:16
+#, python-format
+msgid "Add %(name)s"
+msgstr "Добавить %(name)s"
+
+#: apptools/templates/admin/workflow/application/change_form.html:17
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:17
+#: apptools/templates/admin/workflow/transition/change_list.html:8
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:12
+#: workflow/templates/admin/workflow/application/change_form.html:17
+#: workflow/templates/admin/workflow/application/change_list.html:8
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:17
+#: workflow/templates/goflow/base.html:52
+msgid "Home"
+msgstr "Главная"
+
+#: apptools/templates/admin/workflow/application/change_form.html:20
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:20
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:14
+#: runtime/templates/admin/index.html:33
+#: workflow/templates/admin/workflow/application/change_form.html:20
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:20
+msgid "Add"
+msgstr "Добавить"
+
+#: apptools/templates/admin/workflow/application/change_form.html:27
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:27
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:20
+#: workflow/templates/admin/workflow/application/change_form.html:27
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:27
+msgid "History"
+msgstr "История"
+
+#: apptools/templates/admin/workflow/application/change_form.html:28
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:28
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:21
+#: workflow/templates/admin/workflow/application/change_form.html:28
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:28
+msgid "View on site"
+msgstr "Открыть на сайте"
+
+#: apptools/templates/admin/workflow/application/change_form.html:39
+#: apptools/templates/admin/workflow/pushapplication/change_form.html:39
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:31
+#: workflow/templates/admin/workflow/application/change_form.html:39
+#: workflow/templates/admin/workflow/pushapplication/change_form.html:39
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Please correct the error below."
+msgstr[1] "Please correct the errors below."
+
+#: apptools/templates/admin/workflow/transition/change_list.html:27
+#: workflow/templates/admin/workflow/application/change_list.html:33
+msgid "Filter"
+msgstr "Фильтр"
+
+#: apptools/views.py:96
+msgid "the save method of the form must accept parameters user and data"
+msgstr "метод save формы должен принимать параметры user и data"
+
+#: apptools/views.py:98
+#, python-format
+msgid "forme save error: %s"
+msgstr "ошибка сохранения формы: %s"
+
+#: apptools/views.py:511
+msgid "<h1>Update Icons from Images</h1>"
+msgstr "<h1>Обновить иконки из изображений</h1>"
+
+#: apptools/views.py:515
+#, python-format
+msgid "<br> %s added "
+msgstr "<br> добавлено %s "
+
+#: apptools/views.py:516
+msgid "<hr><p><b><a href=../>return</a></b>"
+msgstr "<hr><p><b><a href=../>назад</a></b>"
+
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:49
+msgid "Ordering"
+msgstr "Сортировка"
+
+#: graphics2/templates/admin/graphics2/processimage/change_form.html:52
+msgid "Order:"
+msgstr "Порядок:"
+
+#: runtime/templates/admin/index.html:13
+msgid "Django administration"
+msgstr "Администрирование Django"
+
+#: runtime/templates/admin/index.html:22
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr "Модели, доступные в приложении %(name)s."
+
+#: runtime/templates/admin/index.html:23
+#, python-format
+msgid "%(name)s"
+msgstr "%(name)s"
+
+#: runtime/templates/admin/index.html:39
+msgid "Change"
+msgstr "Изменить"
+
+#: runtime/templates/admin/index.html:49
+msgid "You don't have permission to edit anything."
+msgstr "У вас нет прав на редактирование."
+
+#: runtime/templates/admin/index.html:57
+msgid "Workflows"
+msgstr "Рабочие процессы"
+
+#: runtime/templates/admin/index.html:76
+msgid "Recent Actions"
+msgstr "Последние действия"
+
+#: runtime/templates/admin/index.html:77
+msgid "My Actions"
+msgstr "Мои действия"
+
+#: runtime/templates/admin/index.html:81
+msgid "None available"
+msgstr "Недоступно"
+
+#: runtime/templates/goflow/monitor.html:6
+msgid "Workflow Monitor"
+msgstr "Мониторинг workflow"
+
+#: runtime/templates/goflow/monitor.html:10
+msgid "Instances"
+msgstr "Экземпляры"
+
+#: runtime/templates/goflow/monitor.html:12
+#: runtime/templates/goflow/monitor.html:22
+msgid "Total"
+msgstr "Всего"
+
+#: runtime/templates/goflow/monitor.html:13
+msgid "Running"
+msgstr "Выполняется"
+
+#: runtime/templates/goflow/monitor.html:14
+#: runtime/templates/goflow/monitor.html:23
+msgid "Active"
+msgstr "Активно"
+
+#: runtime/templates/goflow/monitor.html:15
+msgid "Complete"
+msgstr "Завершено"
+
+#: runtime/templates/goflow/monitor.html:20
+#: runtime/templates/goflow/monitor.html:41
+msgid "Workitems"
+msgstr "Рабочие элементы"
+
+#: runtime/templates/goflow/monitor.html:24
+msgid "Inactive"
+msgstr "Неактивно"
+
+#: runtime/templates/goflow/monitor.html:25
+msgid "Blocked"
+msgstr "Заблокировано"
+
+#: runtime/templates/goflow/monitor.html:26
+msgid "Fallout"
+msgstr "Сбой"
+
+#: runtime/templates/goflow/monitor.html:31
+msgid "SLA"
+msgstr "Соглашение об уровне сервиса"
+
+#: runtime/templates/goflow/monitor.html:33
+msgid "Warned"
+msgstr "Предупреждено"
+
+#: runtime/templates/goflow/monitor.html:34
+msgid "Breached"
+msgstr "Нарушено"
+
+#: runtime/templates/goflow/monitor.html:39
+msgid "Top Processes"
+msgstr "Топ процессов"
+
+#: runtime/templates/goflow/monitor.html:41
+msgid "Process"
+msgstr "Процесс"
+
+#: runtime/templates/goflow/monitor.html:48
+msgid "No data"
+msgstr "Нет данных"
+
+#: runtime/templates/goflow/monitor.html:54
+msgid "Recent Audit Events"
+msgstr "Последние события аудита"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Time"
+msgstr "Время"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Action"
+msgstr "Действие"
+
+#: runtime/templates/goflow/monitor.html:56
+msgid "Actor"
+msgstr "Исполнитель"
+
+#: runtime/templates/goflow/monitor.html:64
+msgid "No events"
+msgstr "Нет событий"
+
+#: runtime/templates/goflow/monitor.html:70
+msgid "Recent Fallout"
+msgstr "Последние сбои"
+
+#: runtime/templates/goflow/monitor.html:72
+msgid "Workitem"
+msgstr "Рабочий элемент"
+
+#: runtime/templates/goflow/monitor.html:72
+#: workflow/templates/goflow/workflow_designer.html:583
+msgid "Activity"
+msgstr "Активность"
+
+#: runtime/templates/goflow/monitor.html:72
+msgid "Updated"
+msgstr "Обновлено"
+
+#: runtime/templates/goflow/monitor.html:80
+msgid "No fallout"
+msgstr "Нет сбоев"
+
+#: runtime/templates/goflow/sample_task_form.html:9
+msgid "Sample Task"
+msgstr "Пример задачи"
+
+#: runtime/templates/goflow/sample_task_form.html:10
+msgid "Request #123"
+msgstr "Заявка #123"
+
+#: runtime/templates/goflow/sample_task_form.html:12
+msgid "Urgent"
+msgstr "Срочно"
+
+#: runtime/templates/goflow/sample_task_form.html:13
+msgid "Needs review"
+msgstr "Требуется проверка"
+
+#: runtime/templates/goflow/sample_task_form.html:21
+msgid "Comment"
+msgstr "Комментарий"
+
+#: runtime/templates/goflow/sample_task_form.html:24
+msgid "Approve"
+msgstr "Одобрить"
+
+#: runtime/templates/goflow/sample_task_form.html:25
+msgid "Reject"
+msgstr "Отклонить"
+
+#: runtime/views.py:83
+#, python-format
+msgid "process %s disabled."
+msgstr "процесс %s отключен."
+
+#: runtime/views.py:98
+msgid "completion page."
+msgstr "страница завершения."
+
+#: workflow/templates/goflow/base.html:37
+msgid "Welcome,"
+msgstr "Добро пожаловать,"
+
+#: workflow/templates/goflow/base.html:40
+msgid "Change password"
+msgstr "Изменить пароль"
+
+#: workflow/templates/goflow/base.html:41
+msgid "Log out"
+msgstr "Выйти"
+
+#: workflow/templates/goflow/base.html:43
+msgid "Log in"
+msgstr "Войти"
+
+#: workflow/templates/goflow/base_site.html:5
+#: workflow/templates/goflow/base_site.html:10
+#: workflow/templates/goflow/login.html:5
+msgid "GoFlow"
+msgstr "GoFlow"
+
+#: workflow/templates/goflow/workflow_designer.html:6
+#: workflow/templates/goflow/workflow_designer.html:176
+msgid "Workflow Designer"
+msgstr "Конструктор workflow"
+
+#: workflow/templates/goflow/workflow_designer.html:181
+#: workflow/templates/goflow/workflow_designer.html:394
+msgid "Status"
+msgstr "Статус"
+
+#: workflow/templates/goflow/workflow_designer.html:181
+msgid "idle"
+msgstr "ожидание"
+
+#: workflow/templates/goflow/workflow_designer.html:188
+msgid "Process Settings"
+msgstr "Настройки процесса"
+
+#: workflow/templates/goflow/workflow_designer.html:191
+msgid "Begin Activity"
+msgstr "Начальная активность"
+
+#: workflow/templates/goflow/workflow_designer.html:195
+msgid "End Activity"
+msgstr "Конечная активность"
+
+#: workflow/templates/goflow/workflow_designer.html:200
+msgid "Save"
+msgstr "Сохранить"
+
+#: workflow/templates/goflow/workflow_designer.html:201
+msgid "Reload"
+msgstr "Обновить"
+
+#: workflow/templates/goflow/workflow_designer.html:202
+msgid "Undo"
+msgstr "Отменить"
+
+#: workflow/templates/goflow/workflow_designer.html:203
+msgid "Redo"
+msgstr "Повторить"
+
+#: workflow/templates/goflow/workflow_designer.html:204
+msgid "Delete Selected"
+msgstr "Удалить выбранное"
+
+#: workflow/templates/goflow/workflow_designer.html:205
+msgid "Shortcuts"
+msgstr "Горячие клавиши"
+
+#: workflow/templates/goflow/workflow_designer.html:207
+msgid ""
+"Drag nodes to reposition. Box select for multi-select. Save to persist "
+"layout."
+msgstr ""
+
+#: workflow/templates/goflow/workflow_designer.html:209
+msgid "Ctrl/Cmd+S Save"
+msgstr "Ctrl/Cmd+S Сохранить"
+
+#: workflow/templates/goflow/workflow_designer.html:210
+msgid "Ctrl/Cmd+R Reload"
+msgstr "Ctrl/Cmd+R Обновить"
+
+#: workflow/templates/goflow/workflow_designer.html:211
+msgid "Ctrl/Cmd+Z Undo"
+msgstr "Ctrl/Cmd+Z Отменить"
+
+#: workflow/templates/goflow/workflow_designer.html:212
+msgid "Del Delete"
+msgstr "Del Удалить"
+
+#: workflow/templates/goflow/workflow_designer.html:218
+msgid "Activities"
+msgstr "Активности"
+
+#: workflow/templates/goflow/workflow_designer.html:221
+msgid "Title"
+msgstr "Название"
+
+#: workflow/templates/goflow/workflow_designer.html:222
+msgid "Start"
+msgstr "Старт"
+
+#: workflow/templates/goflow/workflow_designer.html:225
+msgid "Kind"
+msgstr "Тип"
+
+#: workflow/templates/goflow/workflow_designer.html:235
+msgid "Node Type"
+msgstr "Тип узла"
+
+#: workflow/templates/goflow/workflow_designer.html:245
+msgid ""
+"gateway: use kind=dummy, no form fields; script: usually autostart + "
+"autofinish."
+msgstr ""
+
+#: workflow/templates/goflow/workflow_designer.html:248
+msgid "Form Template"
+msgstr "Шаблон формы"
+
+#: workflow/templates/goflow/workflow_designer.html:254
+msgid "Form Class"
+msgstr "Класс формы"
+
+#: workflow/templates/goflow/workflow_designer.html:261
+msgid "Autostart"
+msgstr "Автозапуск"
+
+#: workflow/templates/goflow/workflow_designer.html:268
+msgid "Autofinish"
+msgstr "Автозавершение"
+
+#: workflow/templates/goflow/workflow_designer.html:275
+msgid "Add Activity"
+msgstr "Добавить активность"
+
+#: workflow/templates/goflow/workflow_designer.html:277
+msgid "Transitions"
+msgstr "Переходы"
+
+#: workflow/templates/goflow/workflow_designer.html:280
+msgid "From"
+msgstr "Откуда"
+
+#: workflow/templates/goflow/workflow_designer.html:284
+msgid "To"
+msgstr "Куда"
+
+#: workflow/templates/goflow/workflow_designer.html:290
+msgid "Name"
+msgstr "Имя"
+
+#: workflow/templates/goflow/workflow_designer.html:291
+msgid "approve"
+msgstr "одобрить"
+
+#: workflow/templates/goflow/workflow_designer.html:294
+msgid "Condition"
+msgstr "Условие"
+
+#: workflow/templates/goflow/workflow_designer.html:306
+msgid ""
+"Condition DSL: eq:VALUE, ne:VALUE, in:A,B,C, timeout:3d (or safe expression)."
+msgstr ""
+
+#: workflow/templates/goflow/workflow_designer.html:307
+msgid "Add Transition"
+msgstr "Добавить переход"
+
+#: workflow/templates/goflow/workflow_designer.html:311
+msgid "Canvas"
+msgstr "Схема"
+
+#: workflow/templates/goflow/workflow_designer.html:320
+msgid "Keyboard Shortcuts"
+msgstr "Сочетания клавиш"
+
+#: workflow/templates/goflow/workflow_designer.html:322
+msgid "Ctrl/Cmd + S: Save"
+msgstr "Ctrl/Cmd + S: Сохранить"
+
+#: workflow/templates/goflow/workflow_designer.html:323
+msgid "Ctrl/Cmd + R: Reload"
+msgstr "Ctrl/Cmd + R: Обновить"
+
+#: workflow/templates/goflow/workflow_designer.html:324
+msgid "Ctrl/Cmd + Z: Undo"
+msgstr "Ctrl/Cmd + Z: Отменить"
+
+#: workflow/templates/goflow/workflow_designer.html:325
+msgid "Ctrl/Cmd + Y: Redo"
+msgstr "Ctrl/Cmd + Y: Повторить"
+
+#: workflow/templates/goflow/workflow_designer.html:326
+msgid "Delete/Backspace: Delete selected"
+msgstr "Delete/Backspace: удалить выбранное"
+
+#: workflow/templates/goflow/workflow_designer.html:327
+msgid "Double-click node: Rename"
+msgstr "Двойной клик по узлу: переименовать"
+
+#: workflow/templates/goflow/workflow_designer.html:328
+msgid "Click edge: Edit label/condition"
+msgstr "Клик по ребру: изменить метку/условие"
+
+#: workflow/templates/goflow/workflow_designer.html:331
+msgid "Close"
+msgstr "Закрыть"
+
+#: workflow/templates/goflow/workflow_designer.html:389
+msgid "Validation errors"
+msgstr "Ошибки валидации"
+
+#: workflow/templates/goflow/workflow_designer.html:483
+msgid "Rename activity"
+msgstr "Переименовать активность"
+
+#: workflow/templates/goflow/workflow_designer.html:494
+msgid "Transition condition or name"
+msgstr "Условие или имя перехода"
+
+#: workflow/templates/goflow/workflow_designer.html:525
+msgid "loading"
+msgstr "загрузка"
+
+#: workflow/templates/goflow/workflow_designer.html:573
+msgid "Reloaded"
+msgstr "Обновлено"
+
+#: workflow/templates/goflow/workflow_designer.html:574
+msgid "ready"
+msgstr "готово"
+
+#: workflow/templates/goflow/workflow_designer.html:577
+msgid "Reload failed"
+msgstr "Ошибка обновления"
+
+#: workflow/templates/goflow/workflow_designer.html:578
+#: workflow/templates/goflow/workflow_designer.html:757
+msgid "error"
+msgstr "ошибка"
+
+#: workflow/templates/goflow/workflow_designer.html:697
+msgid "saving"
+msgstr "сохранение"
+
+#: workflow/templates/goflow/workflow_designer.html:744
+#: workflow/templates/goflow/workflow_designer.html:756
+msgid "Save failed"
+msgstr "Ошибка сохранения"
+
+#: workflow/templates/goflow/workflow_designer.html:747
+msgid "validation error"
+msgstr "ошибка валидации"
+
+#: workflow/templates/goflow/workflow_designer.html:751
+msgid "Saved"
+msgstr "Сохранено"
+
+#: workflow/templates/goflow/workflow_designer.html:752
+msgid "saved"
+msgstr "сохранено"
+
+#: workflow/views.py:75
+msgid "user is not active"
+msgstr "пользователь не активен"
+
+#: workflow/views.py:77
+msgid "authentication failed"
+msgstr "ошибка аутентификации"
+
+#: workflow/views.py:84
+msgid "user page."
+msgstr "страница пользователя."
+
+#: workflow/views.py:131 workflow/views.py:305
+msgid "Forbidden"
+msgstr "Доступ запрещён"
+
+#: workflow/views.py:155
+msgid "At least one activity is required."
+msgstr "Требуется как минимум одна активность."
+
+#: workflow/views.py:163
+msgid "Untitled"
+msgstr "Без названия"
+
+#: workflow/views.py:165
+msgid "Every activity must have a title."
+msgstr "Каждая активность должна иметь название."
+
+#: workflow/views.py:167
+msgid "Activity titles must be 100 characters or fewer."
+msgstr "Название активности должно содержать не более 100 символов."
+
+#: workflow/views.py:173
+#, python-format
+msgid "Activity kind must be one of: %(choices)s."
+msgstr "Тип активности должен быть одним из: %(choices)s."
+
+#: workflow/views.py:179
+#, python-format
+msgid "Activity node type must be one of: %(choices)s."
+msgstr "Тип узла активности должен быть одним из: %(choices)s."
+
+#: workflow/views.py:190
+#, python-format
+msgid "Activity \"%(title)s\": gateway nodes must use kind=dummy."
+msgstr "Активность \"%(title)s\": узлы gateway должны использовать kind=dummy."
+
+#: workflow/views.py:194
+#, python-format
+msgid ""
+"Activity \"%(title)s\": gateway nodes cannot bind form_template or "
+"form_class."
+msgstr ""
+
+#: workflow/views.py:199
+#, python-format
+msgid "Activity \"%(title)s\": %(node_type)s nodes should enable autostart."
+msgstr "Активность \"%(title)s\": для узлов %(node_type)s рекомендуется включить autostart."
+
+#: workflow/views.py:205
+#, python-format
+msgid "Activity \"%(title)s\": script nodes should enable autofinish."
+msgstr "Активность \"%(title)s\": для узлов script рекомендуется включить autofinish."
+
+#: workflow/views.py:210
+#, python-format
+msgid "Activity \"%(title)s\": notification nodes should not use form_class."
+msgstr "Активность \"%(title)s\": узлы notification не должны использовать form_class."
+
+#: workflow/views.py:216
+msgid "Activity titles must be unique."
+msgstr "Названия активностей должны быть уникальными."
+
+#: workflow/views.py:220
+msgid "Begin activity must exist in the workflow."
+msgstr "Начальная активность должна существовать в workflow."
+
+#: workflow/views.py:222
+msgid "End activity must exist in the workflow."
+msgstr "Конечная активность должна существовать в workflow."
+
+#: workflow/views.py:224
+msgid "Begin activity is required."
+msgstr "Начальная активность обязательна."
+
+#: workflow/views.py:226
+msgid "End activity is required."
+msgstr "Конечная активность обязательна."
+
+#: workflow/views.py:228
+msgid "Begin and End activities must be different."
+msgstr "Начальная и конечная активности должны отличаться."
+
+#: workflow/views.py:232
+msgid "At least one transition is required."
+msgstr "Требуется как минимум один переход."
+
+#: workflow/views.py:243
+msgid "Transitions must connect valid activities."
+msgstr "Переходы должны соединять корректные активности."
+
+#: workflow/views.py:245
+msgid "Transitions cannot point to the same activity."
+msgstr "Переходы не могут указывать на одну и ту же активность."
+
+#: workflow/views.py:247
+msgid "Transitions must have a name or condition."
+msgstr "Переходы должны иметь имя или условие."
+
+#: workflow/views.py:251
+msgid "Duplicate transitions are not allowed."
+msgstr "Дублирующиеся переходы не допускаются."
+
+#: workflow/views.py:267
+msgid "All activities must be connected by at least one transition."
+msgstr "Все активности должны быть связаны хотя бы одним переходом."
+
+#: workflow/views.py:270
+msgid "Begin activity cannot have incoming transitions."
+msgstr "У начальной активности не может быть входящих переходов."
+
+#: workflow/views.py:272
+msgid "Begin activity must have at least one outgoing transition."
+msgstr "У начальной активности должен быть хотя бы один исходящий переход."
+
+#: workflow/views.py:274
+msgid "End activity cannot have outgoing transitions."
+msgstr "У конечной активности не может быть исходящих переходов."
+
+#: workflow/views.py:276
+msgid "End activity must have at least one incoming transition."
+msgstr "У конечной активности должен быть хотя бы один входящий переход."
+
+#: workflow/views.py:279
+msgid "Only one default (empty) transition is allowed per activity."
+msgstr "Для каждой активности допускается только один переход по умолчанию (пустой)."
+
+#: workflow/views.py:298
+msgid "All activities must be reachable from Begin."
+msgstr "Все активности должны быть достижимы от Begin."

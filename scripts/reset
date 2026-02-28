@@ -1,5 +1,5 @@
-#!
-rm leavedemo/sqlite.db3
+#!/bin/sh
+rm -f leavedemo/sqlite.db3
 python leavedemo/manage.py migrate
 python scripts/leave_process_builder.py
 #python leavedemo/manage.py runserver

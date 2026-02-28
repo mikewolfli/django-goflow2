@@ -189,9 +189,12 @@ LANGUAGES = (
     ('zh-hans', _('Simplified Chinese')),
     ('zh-hant', _('Traditional Chinese')),
     ('ja', _('Japanese')),
+    ('ko', _('Korean')),
     ('de', _('German')),
     ('es', _('Spanish')),
     ('it', _('Italian')),
+    ('pt', _('Portuguese')),
+    ('ru', _('Russian')),
 )
 
 NINJA_SIMPLE_JWT = {

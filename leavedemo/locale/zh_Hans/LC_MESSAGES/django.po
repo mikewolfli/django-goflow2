@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-11 14:54+0800\n"
+"POT-Creation-Date: 2026-02-27 23:44+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,50 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: .\leave\templates\leave.html:12
-msgid "Log in"
-msgstr ""
-
-#: .\settings.py:81
+#: settings.py:99
 msgid "English"
 msgstr "英语"
 
-#: .\settings.py:82
-msgid "Simple-Chinese"
+#: settings.py:100
+msgid "French"
+msgstr "法语"
+
+#: settings.py:101
+msgid "Simplified Chinese"
 msgstr "简体中文"
+
+#: settings.py:102
+msgid "Traditional Chinese"
+msgstr "繁体中文"
+
+#: settings.py:103
+msgid "Japanese"
+msgstr "日语"
+
+#: settings.py:104
+msgid "Korean"
+msgstr "韩语"
+
+#: settings.py:105
+msgid "German"
+msgstr "德语"
+
+#: settings.py:106
+msgid "Spanish"
+msgstr "西班牙语"
+
+#: settings.py:107
+msgid "Italian"
+msgstr "意大利语"
+
+#: settings.py:108
+msgid "Portuguese"
+msgstr "葡萄牙语"
+
+#: settings.py:109
+msgid "Russian"
+msgstr "俄语"
+
+#: templates/leave.html:12
+msgid "Log in"
+msgstr "登录"

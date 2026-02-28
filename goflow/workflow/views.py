@@ -128,13 +128,20 @@ def cron(request=None):
 
 def workflow_designer(request, process_id):
     if not request.user.is_authenticated or not request.user.is_staff:
-        return HttpResponseForbidden("Forbidden")
+        return HttpResponseForbidden(gettext("Forbidden"))
     process = Process.objects.get(id=process_id)
     return render(request, "goflow/workflow_designer.html", {"process": process})
 
 
 def _validate_workflow_payload(payload):
     errors = []
+
+    def _as_bool(value):
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, str):
+            return value.strip().lower() in ('1', 'true', 'yes', 'on')
+        return bool(value)
 
     activities = payload.get('activities', [])
     transitions = payload.get('transitions', [])
@@ -145,31 +152,110 @@ def _validate_workflow_payload(payload):
 
     active_activities = [a for a in activities if a.get('client_id') not in deleted_activity_ids]
     if not active_activities:
-        errors.append('At least one activity is required.')
+        errors.append(gettext('At least one activity is required.'))
 
-    titles = [a.get('title', '').strip() for a in active_activities]
+    valid_kinds = {value for value, _ in Activity.KIND_CHOICES}
+    valid_node_types = {value for value, _ in Activity.NODE_TYPE_CHOICES}
+
+    titles = []
+    for activity in active_activities:
+        title = (activity.get('title') or '').strip()
+        display_title = title or gettext('Untitled')
+        if not title:
+            errors.append(gettext('Every activity must have a title.'))
+        elif len(title) > 100:
+            errors.append(gettext('Activity titles must be 100 characters or fewer.'))
+        else:
+            titles.append(title)
+
+        kind = activity.get('kind') or 'standard'
+        if kind not in valid_kinds:
+            errors.append(gettext('Activity kind must be one of: %(choices)s.') % {
+                'choices': ', '.join(sorted(valid_kinds))
+            })
+
+        node_type = activity.get('node_type') or 'standard'
+        if node_type not in valid_node_types:
+            errors.append(gettext('Activity node type must be one of: %(choices)s.') % {
+                'choices': ', '.join(sorted(valid_node_types))
+            })
+
+        form_template = (activity.get('form_template') or '').strip()
+        form_class = (activity.get('form_class') or '').strip()
+        autostart = _as_bool(activity.get('autostart', False))
+        autofinish = _as_bool(activity.get('autofinish', True))
+
+        if node_type == 'gateway':
+            if kind != 'dummy':
+                errors.append(gettext('Activity "%(title)s": gateway nodes must use kind=dummy.') % {
+                    'title': display_title
+                })
+            if form_template or form_class:
+                errors.append(gettext('Activity "%(title)s": gateway nodes cannot bind form_template or form_class.') % {
+                    'title': display_title
+                })
+
+        if node_type in ('service', 'script') and not autostart:
+            errors.append(gettext('Activity "%(title)s": %(node_type)s nodes should enable autostart.') % {
+                'title': display_title,
+                'node_type': node_type,
+            })
+
+        if node_type == 'script' and not autofinish:
+            errors.append(gettext('Activity "%(title)s": script nodes should enable autofinish.') % {
+                'title': display_title
+            })
+
+        if node_type == 'notification' and form_class:
+            errors.append(gettext('Activity "%(title)s": notification nodes should not use form_class.') % {
+                'title': display_title
+            })
+
     titles = [t for t in titles if t]
     if len(set(titles)) != len(titles):
-        errors.append('Activity titles must be unique.')
+        errors.append(gettext('Activity titles must be unique.'))
 
     activity_ids = {str(a.get('client_id')) for a in active_activities}
     if begin_id and str(begin_id) not in activity_ids:
-        errors.append('Begin activity must exist in the workflow.')
+        errors.append(gettext('Begin activity must exist in the workflow.'))
     if end_id and str(end_id) not in activity_ids:
-        errors.append('End activity must exist in the workflow.')
+        errors.append(gettext('End activity must exist in the workflow.'))
     if not begin_id:
-        errors.append('Begin activity is required.')
+        errors.append(gettext('Begin activity is required.'))
     if not end_id:
-        errors.append('End activity is required.')
+        errors.append(gettext('End activity is required.'))
+    if begin_id and end_id and str(begin_id) == str(end_id):
+        errors.append(gettext('Begin and End activities must be different.'))
 
     active_transitions = [t for t in transitions if t.get('client_id') not in deleted_transition_ids]
+    if not active_transitions:
+        errors.append(gettext('At least one transition is required.'))
+    incoming = {str(a.get('client_id')): 0 for a in active_activities}
+    outgoing = {str(a.get('client_id')): 0 for a in active_activities}
+    transition_keys = set()
+    outgoing_blank_conditions = {}
     for transition in active_transitions:
         input_id = str(transition.get('input_id') or '')
         output_id = str(transition.get('output_id') or '')
+        condition = (transition.get('condition') or '').strip()
+        name = (transition.get('name') or '').strip()
         if input_id not in activity_ids or output_id not in activity_ids:
-            errors.append('Transitions must connect valid activities.')
+            errors.append(gettext('Transitions must connect valid activities.'))
         if input_id and output_id and input_id == output_id:
-            errors.append('Transitions cannot point to the same activity.')
+            errors.append(gettext('Transitions cannot point to the same activity.'))
+        if not condition and not name:
+            errors.append(gettext('Transitions must have a name or condition.'))
+        if input_id and output_id:
+            key = (input_id, output_id, condition, name)
+            if key in transition_keys:
+                errors.append(gettext('Duplicate transitions are not allowed.'))
+            transition_keys.add(key)
+        if input_id and not condition:
+            outgoing_blank_conditions[input_id] = outgoing_blank_conditions.get(input_id, 0) + 1
+        if input_id in outgoing:
+            outgoing[input_id] += 1
+        if output_id in incoming:
+            incoming[output_id] += 1
 
     # Identify isolated nodes (no incoming or outgoing transitions).
     connected = set()
@@ -178,14 +264,45 @@ def _validate_workflow_payload(payload):
         connected.add(str(transition.get('output_id')))
     isolated = [a for a in active_activities if str(a.get('client_id')) not in connected]
     if isolated:
-        errors.append('All activities must be connected by at least one transition.')
+        errors.append(gettext('All activities must be connected by at least one transition.'))
+
+    if begin_id and incoming.get(str(begin_id), 0) > 0:
+        errors.append(gettext('Begin activity cannot have incoming transitions.'))
+    if begin_id and outgoing.get(str(begin_id), 0) == 0:
+        errors.append(gettext('Begin activity must have at least one outgoing transition.'))
+    if end_id and outgoing.get(str(end_id), 0) > 0:
+        errors.append(gettext('End activity cannot have outgoing transitions.'))
+    if end_id and incoming.get(str(end_id), 0) == 0:
+        errors.append(gettext('End activity must have at least one incoming transition.'))
+
+    if any(count > 1 for count in outgoing_blank_conditions.values()):
+        errors.append(gettext('Only one default (empty) transition is allowed per activity.'))
+
+    # Reachability from begin.
+    if begin_id:
+        adjacency = {}
+        for transition in active_transitions:
+            adjacency.setdefault(str(transition.get('input_id')), set()).add(str(transition.get('output_id')))
+        visited = set()
+        stack = [str(begin_id)]
+        while stack:
+            current = stack.pop()
+            if current in visited:
+                continue
+            visited.add(current)
+            for nxt in adjacency.get(current, []):
+                if nxt not in visited:
+                    stack.append(nxt)
+        unreachable = [a for a in active_activities if str(a.get('client_id')) not in visited]
+        if unreachable:
+            errors.append(gettext('All activities must be reachable from Begin.'))
 
     return errors
 
 
 def workflow_graph(request, process_id):
     if not request.user.is_authenticated or not request.user.is_staff:
-        return HttpResponseForbidden("Forbidden")
+        return HttpResponseForbidden(gettext("Forbidden"))
     process = Process.objects.get(id=process_id)
 
     layout = WorkflowLayout.objects.filter(process=process).first()
@@ -200,8 +317,11 @@ def workflow_graph(request, process_id):
                     "id": activity.id,
                     "title": activity.title,
                     "kind": activity.kind,
+                    "node_type": activity.node_type,
                     "autostart": activity.autostart,
                     "autofinish": activity.autofinish,
+                    "form_template": activity.form_template,
+                    "form_class": activity.form_class,
                     "sla_duration": activity.sla_duration,
                     "sla_warn": activity.sla_warn,
                     "position": position,
@@ -259,8 +379,11 @@ def workflow_graph(request, process_id):
         defaults = {
             "title": item.get("title", "Activity"),
             "kind": item.get("kind", "standard"),
+            "node_type": item.get("node_type", "standard"),
             "autostart": bool(item.get("autostart", False)),
             "autofinish": bool(item.get("autofinish", True)),
+            "form_template": item.get("form_template") or None,
+            "form_class": item.get("form_class") or None,
         }
         if item_id:
             activity = Activity.objects.get(id=item_id, process=process)
